@@ -1,0 +1,420 @@
+---
+version: 0.71
+date:    Sun Jan 3 12:25:00 AEST 2010
+changes:
+- Set file encoding to UTF-8 in LoadFile/DumpFile (RT#25434) by Olivier Mengué
+- We shouldn't have to care about 5.8.0. Since it's causing CPAN Testers
+  failures, bump the minimum Perl to 5.8.1
+
+---
+version: 0.70
+date:    Tue Aug 11 02:52:10 AEST 2009
+changes:
+- Updated Module::Install dependency to 0.91
+- Bumping dependency to 5.8.0 but I think it's only in the test suite.
+  However, I can't prove it. So if anyone wants 5.6 compatibility back
+  you need to fix or rewrite the test suite.
+
+---
+version: 0.69_02
+date:    Mon Aug 10 22:37:37 AEST 2009
+changes:
+- Developer $VERSION now has eval correction
+
+---
+version: 0.69_01
+date:    Sun Jul  9 02:01:12 AEST 2009
+changes:
+- Added $VERSION to all modules
+- Removed the use of use base
+- Imported into the svn.ali.as repo
+
+---
+version: 0.68
+date:    Thu Dec  4 01:00:44 PST 2008
+changes:
+- Used update Test::Base to ensure Filter::Util::Call
+
+---
+version: 0.67
+date:    Mon Dec  1 02:34:21 PST 2008
+changes:
+- Add YAML::Any
+- Move ysh to YAML::Shell
+- Add doc section explaining YAML::Old
+
+---
+version: 0.66
+date:    Thu Sep 27 01:37:16 PDT 2007
+changes:
+- Blessed code refs with LoadCode=0 still get blessed. rafl++
+
+---
+version: 0.65
+date:    Thu Jun 21 17:37:32 PDT 2007
+changes:
+- \z is really \0
+- Speed up regexp loading. audreyt++
+
+---
+version: 0.64
+date:    Thu Jun 21 14:31:20 PDT 2007
+changes:
+- Better support for loading regexps. audreyt++
+
+---
+version: 0.63
+date:    Wed Jun 20 16:03:22 PDT 2007
+changes:
+- Don't emit nodes blessed into '' in the new tag scheme, and improve semantics
+  of loading such nodes.
+- New support for dumping/loading regexps.
+
+---
+version: 0.62
+date:    Mon Jul  3 15:41:20 PDT 2006
+changes:
+- Patch from rgs for Catalyst users
+
+---
+version: 0.61
+date:    Sun Jul  2 15:25:08 CDT 2006
+changes:
+- New CGI.pm made test fail.
+
+---
+version: 0.60
+date:    Fri Jun 30 21:55:55 CDT 2006
+changes:
+- Changed object tag format in non backwards compatible way
+- Removed support for folded scalar emission
+- Added new tests
+- Sync with YAML::Syck
+
+---
+version: 0.58
+date:    Tue Feb 14 12:42:34 PST 2006
+changes:
+- Fixed bug reported by Slaven Rezic on 5.8.0
+- Fixed a ysh bug reported on rt. 17589
+
+---
+version: 0.57
+date:    Wed Feb  1 23:06:25 PST 2006
+changes:
+- Add obligatory '1;' to end of each module.
+
+---
+version: 0.56
+date:    Mon Jan 30 10:26:33 PST 2006
+change:
+- Add Module::Install::TestBase support
+
+---
+version: 0.55
+date:    Sun Jan 29 19:03:35 PST 2006
+change:
+- Load YAML::Node because Module::Build expects it to be loaded.
+  We can undo this when Module::Build starts loading it for itself.
+
+---
+version: 0.54
+date:    Sun Jan 29 17:28:46 PST 2006
+change:
+- Remove dependency on Class::Spiffy (and/or Spiffy).
+
+---
+version: 0.53
+date:    Thu Jan 19 06:03:17 PST 2006
+change:
+- Depend on Class::Spiffy instead of Spiffy. No source filtering.
+
+---
+version: 0.52
+date:    Wed Jan 18 14:25:24 PST 2006
+change:
+- Error in Spiffy-0.26 causing problems. Require 0.27
+
+---
+version: 0.51
+date:    Sat Jan 14 17:09:09 GMT 2006
+change:
+- Tests pass on win32 and cygwin
+- Don't gpg sign the distribution tarball
+
+---
+version: 0.50
+date:    Sun Dec 25 11:09:18 PST 2005
+changes:
+- Major refactoring of YAML.pm
+- Completely OO with same old functional UI
+- Support the $YAML::Stringify option which most be on for objects to get
+  stringified. Otherwise dump the object.
+- Can dump overloaded objects now.
+- Completely refactor test suite using Test::Base
+- Create Test::YAML
+- Make test framework compatible with YAML::Syck - Test-Base-0.45
+- Reviewed all rt bugs. fixed many
+- Reviewed all emailed bugs. Fixed many.
+- Helped audrey complete YAML::Syck and worked on interoperability issues
+- Test well known yaml docs like svk and META.yml
+- Eliminate unsafe string evals
+- Can use with autouse. Spiffy-0.25
+- Support YAML::Marshall to help classes that want to do their own marshalling
+- Make objects tags configurable
+- -M option for ysh to test other implementations like YAML::Syck
+
+---
+version: 0.39
+date:    Tue Apr 12 15:28:40 PDT 2005
+changes:
+- Need newer Test::More or tests hang.
+
+---
+version: 0.38
+date:    Thu Mar 31 01:43:21 PST 2005
+changes:
+- Deleted Spiffy -XXX artifact :(
+
+---
+version: 0.37
+date:    Thu Mar 31 01:56:24 CST 2005
+changes:
+- All the edge cases with hash key dumping (commas, [], {}, etc)
+  should now be covered
+
+---
+version: 0.36
+date:    Sun Jan 30 21:00:28 PST 2005
+changes:
+- Slight changes to the way things are dumped.
+- Fixed bugs dumping "foo\nbar" for svk acceptance
+
+---
+version: 0.32
+date:    Sat May 11 19:54:52 EDT 2002
+changes: Moved error handling into YAML::Error
+
+---
+version: 0.32
+date:    Mon May  6 13:42:44 EDT 2002
+changes: Enabled UseAliases=0 to mean skip Dump checking of alias nodes.
+
+---
+version: 0.32
+date:    Mon May  6 13:42:44 EDT 2002
+changes: Changed Defaults. Indent=2. CompressSeries=1.
+
+---
+version: 0.32
+date:    Mon May  6 13:42:44 EDT 2002
+changes: Deprecated Store() in favor of Dump()
+
+---
+version: 0.32
+date:    Mon Apr 22 00:57:21 EDT 2002
+changes: Refactored test suite
+
+---
+version: 0.32
+date:    Mon Apr 22 00:57:21 EDT 2002
+changes: Added key list to SortKeys
+
+---
+version: 0.32
+date:    Mon Apr 22 00:57:21 EDT 2002
+changes: Added ForceBlock option
+
+---
+version: 0.32
+date:    Sat Feb 16 17:56:27 PST 2002
+changes: CONTROL-D can be used to terminate ysh. Ryan King will be happy.
+
+---
+version: 0.32
+date:    Sun Feb 10 22:38:32 PST 2002
+change:  Added the ability to direct STDIN to the ysh. 
+
+---
+version: 0.27
+date:    Tue Jan 15 01:46:18 PST 2002
+change:  Make '-' chomp all trailing newlines
+
+---
+version: 0.27
+date:    Tue Jan 15 01:46:18 PST 2002
+change:  Change folded indicator from '^' to ']'.
+
+---
+version: 0.27
+date:    Mon Jan 14 20:30:21 PST 2002
+change:  YAC-010 Allow a map as a sequence entry to be collapsed to one line.
+
+---
+version: 0.27
+date:    Mon Jan 14 16:52:27 PST 2002
+change:  >
+  Changed the nextline scalar indicators. '^' means folded, and escaping
+  ('\') can be applied to folded or blocks. Chomping is now '-'.
+
+---
+version: 0.27
+date:    Mon Jan 14 16:52:27 PST 2002
+change:  >
+    YAC-013. Generic indentation. This change was big, ugly, hard and it
+    really made my brain hurt. But look. It works! :)
+
+---
+version: 0.27
+date:    Mon Jan 14 16:52:27 PST 2002
+change:  >
+ YAC-012. Added ability to put comments anywhere, at any
+ indentation level.
+ 
+---
+version: 0.27
+date:    Fri Jan 11 16:04:31 PST 2002
+change:  Added $YAML::UseBlock and $YAML::UseFold
+
+---
+version: 0.27
+date:    Fri Jan 11 16:04:31 PST 2002
+change:  Changed $YAML::PerlCode to $YAML::UseCode
+
+---
+version: 0.27
+date:    Fri Jan 11 16:04:31 PST 2002
+change:  Added $YAML::Indent config option
+
+---
+version: 0.27
+date:    Thu Jan 10 15:50:06 PST 2002
+change:  >
+ YAC-012. Handled all Throwaway Issues. Blank lines and comments can be
+ used anywhere, and they will work appropriately.
+ 
+---
+version: 0.27
+date:    Thu Jan 10 11:46:05 PST 2002
+change:  Converted Changes file (this file) to use YAML
+
+---
+version: 0.27
+date:    Thu Jan 10 11:36:48 PST 2002
+change:  >
+ YAC-016. Support "assumed header" (--- #YAML:1.0) if no header. 
+
+---
+version: 0.27  
+date:    Thu Jan 10 11:36:48 PST 2002
+change:  Added $YAML::UseBlock option
+
+---
+version: 0.27  
+date:    Thu Jan 10 03:26:02 PST 2002
+change:  YAC-015. Support Top Level Inline nodes
+
+---
+version: 0.27  
+date:    Thu Jan 10 01:38:52 PST 2002
+change:  >
+ Added testing for Store to test suite. (Now there's no excuse not to
+ create lot's of new tests. :)
+
+---
+version: 0.26  
+date:    Wed Jan  9 21:13:45 PST 2002
+change:  Detect implicit scalars more correctly
+
+---
+version: 0.26  
+date:    Wed Jan  9 21:13:45 PST 2002
+change:  Refactor test suite
+
+---
+version: 0.26  
+date:    Wed Jan  9 21:13:45 PST 2002
+change:  Proofed documentation
+
+---
+version: 0.26  
+date:    Wed Jan  9 21:13:45 PST 2002
+change:  Fix ysh doc. Document flags in the pod.
+
+---
+version: 0.26  
+date:    Wed Jan  9 21:13:45 PST 2002
+change:  Move test code out of YAML.pm and into testlib
+
+---
+version: 0.26  
+date:    Wed Jan  9 21:13:45 PST 2002
+change:  Change directives to use #
+
+---
+version: 0.26  
+date:    Wed Jan  9 21:13:45 PST 2002
+change:  Parse regexes
+
+---
+version: 0.26  
+date:    Wed Jan  9 21:13:45 PST 2002
+change:  YAC-017. Change !perl/ syntax
+
+---
+version: 0.26  
+date:    Wed Jan  9 21:13:45 PST 2002
+change:  Emit regexes
+
+---
+version: 0.26  
+date:    Wed Jan  9 21:13:45 PST 2002
+change:  support 'ysh -v' and 'ysh -V' and 'ysh -h'
+
+---
+version: 0.26  
+date:    Wed Jan  9 21:13:45 PST 2002
+change:  Support blessed globs
+
+---
+version: 0.26  
+date:    Wed Jan  9 21:13:45 PST 2002
+change:  Make ysh installable
+
+---
+version: 0.26  
+date:    Wed Jan  9 21:13:45 PST 2002
+change:  Parse CODE leaves
+---
+version: 0.26  
+date:    Wed Jan  9 21:13:45 PST 2002
+change:  Support blessed scalars
+
+---
+version: 0.26  
+date:    Wed Jan  9 21:13:45 PST 2002
+change:  Test warnings as well as errors
+
+---
+version: 0.26  
+date:    Wed Jan  9 21:13:45 PST 2002
+change:  Use B::Deparse to serialize code
+
+---
+version: 0.26  
+date:    Wed Jan  9 21:13:45 PST 2002
+change:  Change 'implicit' to 'simple'
+
+---
+version: 0.25  
+date:    Wed Dec 19 02:34:38 PST 2001
+change:  Initial module shipped to CPAN
+
+---
+version: 0.01  
+date:    Mon Oct 15 19:18:49 2001
+change:  original version; created by h2xs 1.19
+
+
+
+# The End (Or is it the beginning?)

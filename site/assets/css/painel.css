@@ -1,0 +1,45 @@
+.error-form {
+  color: #e7505a;
+  border-color: #e73d4a !important;
+}
+ul.errors{
+  list-style: none;
+  color: #e7505a;
+}
+ul.erros{
+  padding-left: 0px;
+}
+ul.erros > li{
+ list-style: none;
+ color: #e7505a;
+}
+.page-header.navbar .page-logo .logo-default{
+  margin-top: 10px;
+}
+.opcoes-header{
+  width: 70px;
+}
+.opcoes-tbody{
+  padding-left: 15px !important;
+  width: 85px;
+  text-align: center;
+}
+.control-label .required, .form-group .required{
+  color: #333;
+  font-size: 14px;
+  height: 34px;
+  padding: 6px 12px;
+}
+.login .content .form-actions {
+  border-bottom: none;
+}
+.form-actions{
+  background-color: #f5f5f5 !important;
+  border-top: 1px solid #e7ecf1 !important;;
+}
+.btn-cadastro{
+  padding-bottom: 15px;
+}
+.jstree-default .jstree-wholerow-clicked{
+  background: #e1e1e1 !important;
+}

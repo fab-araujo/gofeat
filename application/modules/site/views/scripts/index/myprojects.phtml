@@ -1,0 +1,221 @@
+<div class="">
+    <h3>My Projects</h3>
+    <?
+    if (count($this->vo)) {
+        $dbProj = new Db_ProjProject();
+        $oLast = $dbProj->fetchRow(NULL, 'id desc');
+        $n = strlen($oLast->id);
+        ?>
+        <table class="table table-bordered table-striped dataTable">
+            <thead>
+            <tr>
+                <th>Project ID</th>
+                <th>Project Name</th>
+                <th>Project File</th>
+                <th>Project Status</th>
+                <th>Options</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?
+            $dbSeq = new Db_ProjSeq();
+            $dbShare = new Db_ProjShared();
+            foreach ($this->vo as $oProject) {
+                $nReads = count($dbSeq->fetchAll('id_proj = ' . $oProject->id));
+                $nReadsDone = count($dbSeq->fetchAll('id_proj = ' . $oProject->id . ' and id_status >= 3'));
+                if ($nReads) {
+                    $nP = round(($nReadsDone * 100) / $nReads);
+                }
+
+                ?>
+                <tr>
+                    <th scope="row">
+                        <?= str_pad($oProject->id, $n, "0", STR_PAD_LEFT); ?>
+                    </th>
+                    <td>
+                        <?= $oProject->name ?>
+                        <?
+                        if ($oProject->id_user == Plugin_Auth::getInstance()->getIdentity()->id) {
+                            $voSharings = $dbShare->fetchAll('id_project = ' . $oProject->id);
+                            if (count($voSharings) > 0) {
+                                ?>
+                                <p>
+                                    <?
+                                    foreach ($voSharings as $oSharing) {
+                                        ?>
+                                        <span class="label label-info"> Shared with <?= $oSharing->name ?>
+                                            (<?= $oSharing->email ?>)
+                            <a href="<?= $this->baseUrl('/index/deletesharing/id/') ?><?= $oSharing->id_project ?>/email/<?= $oSharing->email ?>"
+                               class="deletesharing" data-toggle="tooltip" title="Remove sharing.">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </a></span><br>
+                                        <?
+                                    }
+                                    ?>
+                                </p>
+                                <?
+                            }
+                            ?>
+
+                            <?
+                        } else {
+                            ?>
+                            <p>
+                                <span class="label label-info"> Owned by <?= $oProject->findParentRow('Db_ProjUser')->fname ?> <?= $oProject->findParentRow('Db_ProjUser')->lname ?>
+                                    (<?= $oProject->findParentRow('Db_ProjUser')->email ?>)
+                            </span>
+                            </p>
+
+                            <?
+                        }
+                        ?>
+
+                    </td>
+                    <td><?= $oProject->file_real ?></td>
+                    <td>
+                        <?
+                        if($oProject->id_status == 3){
+                            echo $nReadsDone ? 'Blast finished' . ' (' . $nReadsDone . '/' . $nReads . ')' : 'Not started';
+                        }else{
+                            echo $nReadsDone ? 'Blast started' . ' (' . $nReadsDone . '/' . $nReads . ')' : 'Not started';
+                        } ?>
+                        <?
+                        if ($oProject->id_status) {
+                            ?>
+                            <div class="clearfix"></div>
+                            <hr>
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-info" role="progressbar"
+                                     aria-valuenow="<?= $nP ?>" aria-valuemin="0" aria-valuemax="100"
+                                     style="width: <?= $nP ?>%" data-toggle="tooltip"
+                                     title="<?= $nReadsDone ?>/<?= $nReads ?>">
+                                    <span class="sr-only"><?= $nP ?>% Complete</span>
+                                </div>
+                            </div>
+                            <?
+                        }
+                        ?>
+                    </td>
+                    <td class="text-center">
+
+                        <?
+                        if(Plugin_Auth::getInstance()->getIdentity()){
+                            if ($oProject->id_user == Plugin_Auth::getInstance()->getIdentity()->id) {
+                                ?>
+                                <a href="#" data-toggle="modal" data-target="#modalShare<?= $oProject->id ?>"
+                                   class="btn btn-info btn-sm" data-toggle="tooltip" title="Share project.">
+                                    <span class="glyphicon glyphicon glyphicon-share-alt"></span>
+                                </a>
+                                <?
+                            } else {
+                                ?>
+                                <a href="<?= $this->baseUrl('/index/deletesharing/id/') ?><?= $oProject->id ?>"
+                                   class="btn btn-danger btn-sm deletesharing" data-toggle="tooltip"
+                                   title="Remove sharing.">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </a>
+                                <?
+                            }
+                        }
+
+                        ?>
+
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="modalShare<?= $oProject->id ?>" tabindex="-1" role="dialog"
+                             aria-labelledby="modalShare<?= $oProject->id ?>">
+                            <div class="modal-dialog" role="document">
+                                <form class="form-validate" method="post">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span></button>
+                                            <h4 class="modal-title" id="myModalLabel">Share project
+                                                "<?= $oProject->name ?>"</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group text-left">
+                                                <label for="name">Name</label>
+                                                <input type="text" class="form-control required" id="name" name="name"
+                                                       placeholder="Name">
+                                            </div>
+                                            <div class="form-group text-left">
+                                                <label for="email">Email address</label>
+                                                <input type="email" class="form-control email required" id="email"
+                                                       name="email" placeholder="Email">
+                                            </div>
+                                            <div class="form-group text-left">
+                                                <label for="message">Message</label>
+                                                <textarea class="form-control" name="message" id="message"
+                                                          placeholder="Message"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <input type="hidden" name="id_project" value="<?= $oProject->id ?>">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close
+                                            </button>
+                                            <button type="submit" class="btn btn-primary">Send invitation</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+
+                        <?
+                        if (!$oProject->id_status) {
+                            ?>
+                            <a href="<?= $this->baseUrl('/index/executeproject/id/') ?><?= $oProject->id ?>"
+                               class="btn btn-primary btn-sm loading" data-toggle="tooltip" title="Execute project.">
+                                <span class="glyphicon glyphicon-play-circle"></span>
+                            </a>
+                            <?
+                            //}else if($oProject->id_status==3){
+                        } else if ($oProject->id_status) {
+                            ?>
+                            <a href="<?= $this->baseUrl('/index/viewprojectp/key/'.Plugin_Util::encrypt($oProject->id)) ?>"
+                               class="btn btn-success btn-sm" data-toggle="tooltip" title="View results.">
+                                <span class="glyphicon glyphicon-th-list"></span>
+                            </a>
+                            <?
+                        }
+                        ?>
+
+                        <?
+                        if ($oProject->id_user == Plugin_Auth::getInstance()->getIdentity()->id) {
+                            ?>
+                            <a href="<?= $this->baseUrl('/index/deleteproject/id/') ?><?= $oProject->id ?>"
+                               class="btn btn-danger btn-sm delete" data-toggle="tooltip" title="Delete project.">
+                                <span class="glyphicon glyphicon-minus"></span>
+                            </a>
+                            <?
+                        }
+                        ?>
+
+
+                    </td>
+                </tr>
+                <?
+
+            }
+            ?>
+
+            </tbody>
+        </table>
+        <?
+    } else {
+        ?>
+        <h6>You have no projects.</h6>
+        <?
+    }
+    ?>
+
+</div>
+<script>
+    var dataTabele = $('.dataTable').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+    });
+</script>

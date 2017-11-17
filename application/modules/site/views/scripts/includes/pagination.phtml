@@ -1,0 +1,42 @@
+<?php if ($this->pageCount){
+    ?>
+    <nav aria-label="Page navigation paginationControl ">
+        <ul class="pagination pull-right">
+
+            <li>
+                <?php if (isset($this->previous)){ ?>
+                    <a href="<?php echo $this->url(array('page' => $this->previous)); ?>?key=<?=$_GET['key']?><?=$_GET['blast_result']?"&blast_result=".$_GET['blast_result']:""?><?=$_GET['go_result']?"&go_result=".$_GET['go_result']:""?>" aria-label="Previous">
+                        <span aria-hidden="true">Previous</span>
+                    </a>
+
+                <?} else { ?>
+                    <span aria-hidden="true">Previous</span>
+                <?php } ?>
+            </li>
+            <?php foreach ($this->pagesInRange as $page){ ?>
+            <li class="<?=$page == $this->current?"active":''?>">
+                <!-- Numbered page links -->
+
+                    <a href="<?php echo $this->url(array('page' => $page)); ?>?key=<?=$_GET['key']?><?=$_GET['blast_result']?"&blast_result=".$_GET['blast_result']:""?><?=$_GET['go_result']?"&go_result=".$_GET['go_result']:""?>">
+                        <?php echo $page; ?>
+                    </a>
+
+            </li>
+            <?php } ?>
+            <li>
+                <!-- Next page link -->
+                <?php if (isset($this->next)){ ?>
+                    <a href="<?php echo $this->url(array('page' => $this->next)); ?>?key=<?=$_GET['key']?><?=$_GET['blast_result']?"&blast_result=".$_GET['blast_result']:""?><?=$_GET['go_result']?"&go_result=".$_GET['go_result']:""?>" aria-label="Next">
+                        <span aria-hidden="true">Next</span>
+
+                    </a>
+
+                <?php } else { ?>
+                    <span aria-hidden="true">Next</span>
+                <?php } ?>
+
+            </li>
+        </ul>
+    </nav>
+    <?
+} ?>

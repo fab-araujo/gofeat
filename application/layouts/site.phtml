@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link rel="icon" href="<?=$this->baseUrl('/site/assets/icon/favicon.ico')?>">
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="<?=$this->baseUrl('/site/assets/icon/apple-touch-icon-57x57.png')?>" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="<?=$this->baseUrl('/site/assets/icon/apple-touch-icon-114x114.png')?>" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="<?=$this->baseUrl('/site/assets/icon/apple-touch-icon-72x72.png')?>" />
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="<?=$this->baseUrl('/site/assets/icon/apple-touch-icon-144x144.png')?>" />
+    <link rel="apple-touch-icon-precomposed" sizes="60x60" href="<?=$this->baseUrl('/site/assets/icon/apple-touch-icon-60x60.png')?>" />
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="<?=$this->baseUrl('/site/assets/icon/apple-touch-icon-120x120.png')?>" />
+    <link rel="apple-touch-icon-precomposed" sizes="76x76" href="<?=$this->baseUrl('/site/assets/icon/apple-touch-icon-76x76.png')?>" />
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="<?=$this->baseUrl('/site/assets/icon/apple-touch-icon-152x152.png')?>" />
+    <link rel="icon" type="image/png" href="<?=$this->baseUrl('/site/assets/icon/favicon-196x196.png')?>" sizes="196x196" />
+    <link rel="icon" type="image/png" href="<?=$this->baseUrl('/site/assets/icon/favicon-96x96.png')?>" sizes="96x96" />
+    <link rel="icon" type="image/png" href="<?=$this->baseUrl('/site/assets/icon/favicon-32x32.png')?>" sizes="32x32" />
+    <link rel="icon" type="image/png" href="<?=$this->baseUrl('/site/assets/icon/favicon-16x16.png')?>" sizes="16x16" />
+    <link rel="icon" type="image/png" href="<?=$this->baseUrl('/site/assets/icon/favicon-128.png')?>" sizes="128x128" />
+    <meta name="application-name" content="&nbsp;"/>
+    <meta name="msapplication-TileColor" content="#FFFFFF" />
+    <meta name="msapplication-TileImage" content="<?=$this->baseUrl('/site/assets/icon/mstile-144x144.png')?>" />
+    <meta name="msapplication-square70x70logo" content="<?=$this->baseUrl('/site/assets/icon/mstile-70x70.png')?>" />
+    <meta name="msapplication-square150x150logo" content="<?=$this->baseUrl('/site/assets/icon/mstile-150x150.png')?>" />
+    <meta name="msapplication-wide310x150logo" content="<?=$this->baseUrl('/site/assets/icon/mstile-310x150.png')?>" />
+    <meta name="msapplication-square310x310logo" content="<?=$this->baseUrl('/site/assets/icon/mstile-310x310.png')?>" />
+
+    <?
+    $dbSeo = new Db_ConfSeo();
+    $dbGeral = new Db_ConfGeral();
+    $url = str_replace('www.','',"http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
+    $oSeo = $dbSeo->fetchRow('url = "'.$url.'"');
+    if($oSeo->id){
+        ?>
+        <title><?=$oSeo->titulo?></title>
+        <meta name="description" content="<?=$oSeo->descricao?>" />
+        <meta name="keywords" content="<?=$oSeo->meta?>"/>
+        <?
+    }else{
+        ?>
+        <title><?=$dbGeral->find(1)->current()->valor?></title>
+        <meta name="description" content="<?=$dbGeral->find(3)->current()->valor?>" />
+        <meta name="keywords" content="<?=$dbGeral->find(2)->current()->valor?>"/>
+        <?
+    }
+    ?>
+    <?=$dbGeral->find(4)->current()->valor?>
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+    <!-- Resources -->
+    <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+    <script src="https://www.amcharts.com/lib/3/pie.js"></script>
+    <script src="https://www.amcharts.com/lib/3/serial.js"></script>
+    <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+    <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+    <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+
+    <script src="//cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+    <link href="//cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/buttons/1.2.4/css/buttons.dataTables.min.css" rel="stylesheet">
+
+    <script src="https://cdn.datatables.net/buttons/1.2.4/js/dataTables.buttons.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.2.4/js/buttons.flash.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.24/build/pdfmake.min.js"></script>
+    <script src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.24/build/vfs_fonts.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.2.4/js/buttons.html5.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.2.4/js/buttons.print.min.js"></script>
+
+    <!--<link rel="stylesheet" href="<?/*=$this->baseUrl('/site/assets/js/treant-js-master/Treant.css')*/?>" type="text/css"/>
+    <script src="<?/*=$this->baseUrl('/site/assets/js/treant-js-master/Treant.js')*/?>"></script>
+    <script src="<?/*=$this->baseUrl('/site/assets/js/treant-js-master/vendor/raphael.js')*/?>"></script>
+    <script type="text/javascript" src="<?/*=$this->baseUrl('/site/assets/js/jquery-ui-1.10.2.custom.js')*/?>"></script>
+    <script type="text/javascript" src="<?/*=$this->baseUrl('/site/assets/js/primitives.latest.js?3705')*/?>">"></script>
+    <link rel="stylesheet" href="<?/*=$this->baseUrl('/site/assets/js/jquery-ui-1.10.2.custom.css')*/?>" />-->
+
+
+    <style>
+        .input-sm {
+            height: 30px !important;
+            padding: 5px 10px !important;
+            font-size: 12px !important;
+            line-height: 1.5 !important;
+            border-radius: 3px !important;
+        }
+        .btn-group-sm>.btn, .btn-sm {
+            padding: 5px 10px !important;
+            font-size: 12px !important;
+            line-height: 1.5 !important;
+            border-radius: 3px !important;
+            min-width: 0px !important;;
+            height: 30px !important;;
+        }
+    </style>
+
+    <!-- Bootstrap core CSS -->
+    <link href="<?=$this->baseUrl('/site/bootstrap/css/bootstrap.min.css')?>" rel="stylesheet">
+    <!-- Bootstrap theme -->
+    <link href="<?=$this->baseUrl('/site/bootstrap/css/bootstrap-theme.min.css')?>" rel="stylesheet">
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="<?=$this->baseUrl('/site/bootstrap/css/ie10-viewport-bug-workaround.css')?>" rel="stylesheet">
+    <link href="<?=$this->baseUrl('/site/assets/js/jQCloud-2.0.3/dist/jqcloud.css')?>" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="<?=$this->baseUrl('/site/assets/css/site.css')?>" rel="stylesheet">
+
+
+    <script src="<?=$this->baseUrl('/site/bootstrap/js/ie10-viewport-bug-workaround.js')?>"></script>
+    <script src="<?=$this->baseUrl('/site/assets/js/jquery.bxslider/jquery.bxslider.js')?>"></script>
+    <link href="<?=$this->baseUrl('/site/assets/js/jquery.bxslider/jquery.bxslider.css')?>" rel="stylesheet">
+    <script src="<?=$this->baseUrl('/site/assets/js/bootzard-bootstrap-wizard-template/assets/js/jquery.backstretch.min.js')?>"></script>
+    <script src="<?=$this->baseUrl('/site/assets/js/bootzard-bootstrap-wizard-template/assets/js/retina-1.1.0.min.js')?>"></script>
+    <script src="<?=$this->baseUrl('/site/assets/js/bootzard-bootstrap-wizard-template/assets/js/scripts.js')?>"></script>
+    <script src="<?=$this->baseUrl('/site/bootstrap/js/bootstrap.min.js')?>"></script>
+    <script src="<?=$this->baseUrl('/site/assets/js/jQCloud-2.0.3/dist/jqcloud.js')?>"></script>
+
+    <script src="<?=$this->baseUrl('/site/assets/js/site.js?cache='.date('YmdHis'))?>"></script>
+</head>
+
+<body>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="<?=$this->baseUrl('/')?>">
+                    <img src="<?=$this->baseUrl('/site/assets/img/gofeat.png')?>" class="img-responsive" style="">
+                </a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="<?=$this->bHome?'active':''?>"><a href="<?=$this->baseUrl('/')?>">Home</a></li>
+                    <li class="<?=$this->bAbout?'active':''?>"><a href="<?=$this->baseUrl('/index/about')?>">About</a></li>
+                    <!--<li class="<?/*=$this->bNewProject?'active':''*/?>"><a href="<?/*=$this->baseUrl('/index/newproject')*/?>">New project</a></li>-->
+                    <li class="<?=$this->bContact?'active':''?>"><a href="<?=$this->baseUrl('/index/contact')?>">Contact</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                  
+                    <?
+                    if(!Plugin_Auth::getInstance()->getIdentity()){
+                        ?>
+                        <li class="">
+                        <form class="form-inline" style="margin-top: 5px;" method="post" action="<?=$this->baseUrl('/index/login')?>">
+                          <div class="form-group">
+                            <label for="email" style="color: white; font-size: 14px;">Email: </label>
+                            <input type="email" class="form-control input-sm" id="email" name="email" placeholder="jane.doe@example.com">
+                          </div>
+                          <div class="form-group">
+                            <label for="pwd" style="color: white; font-size: 14px;">Password: </label>
+                            <input type="password" class="form-control input-sm" id="pwd" name="pwd" placeholder="Password">
+                          </div>
+                          <button type="submit" class="btn btn-primary btn-sm" style="margin-top: 0px;">Login</button>
+                        </form>
+                            <a href="<?=$this->baseUrl('/index/requestpassword')?>" style="padding: 0; font-size: 12px; padding-top: 3px;">Forgot your password?</a>
+                        </li>
+                        <?
+                    }else{
+                        ?>
+                        <li>
+                        <a style="color: white">Hello, <?=Plugin_Auth::getInstance()->getIdentity()->fname?> <?=Plugin_Auth::getInstance()->getIdentity()->lname?></a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Options <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="<?=$this->baseUrl('/index/myprojects')?>">My Projects</a></li>
+                                <li><a href="<?=$this->baseUrl('/index/logout')?>">Log out</a></li>
+                            </ul>
+                        </li>
+                        <?
+
+                    }
+                    ?>
+                    
+                  
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </nav>
+
+    <div class="container" role="main">
+        <div class="row">
+            <div class="col-xs-12">
+                <h5 class="pull-right" style="padding-bottom: 15px">
+                    Do you have a question or need help? <a href="<?=$this->baseUrl('/index/contact')?>">Talk to us!</a>
+                </h5>
+            </div>
+        </div>
+    </div> <!-- /container -->
+
+    <div class="container" role="main">
+        <div class="row">
+            <div class="col-xs-12">
+                <?php
+                if ($this->messages) {
+                    echo $this->partial('includes/FlashMessenger.phtml', 'site', array('mensagem' => $this->messages));
+                }
+                ?>
+                <?= $this->layout()->content ?>
+            </div>
+        </div>
+    </div> <!-- /container -->
+
+    <!-- Small modal -->
+    <div class="modal fade modal-loading" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <img src="https://media.giphy.com/media/eUJ8iF3efEna8/giphy.gif" class="img-responsive center-block">
+            </div>
+        </div>
+    </div>
+<!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    
+
+    
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+
+
+
+</body>
+</html>

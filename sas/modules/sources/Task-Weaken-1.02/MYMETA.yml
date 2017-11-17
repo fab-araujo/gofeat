@@ -1,0 +1,25 @@
+---
+abstract: 'Ensure that a platform has weaken support'
+author:
+  - 'Adam Kennedy <adamk@cpan.org>, L<http://ali.as/>'
+build_requires:
+  ExtUtils::MakeMaker: '0'
+configure_requires:
+  ExtUtils::MakeMaker: '0'
+dynamic_config: 0
+generated_by: 'Module::Install version 0.68, CPAN::Meta::Converter version 2.150010'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: '1.4'
+name: Task-Weaken
+no_index:
+  directory:
+    - inc
+    - t
+requires:
+  File::Spec: '0.80'
+  Scalar::Util: '1.14'
+  Test::More: '0.42'
+version: '1.02'
+x_serialization_backend: 'CPAN::Meta::YAML version 0.018'

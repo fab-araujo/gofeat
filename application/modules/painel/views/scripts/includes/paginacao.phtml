@@ -1,0 +1,38 @@
+<div class="pagination">
+    <!-- Link para a primeira página -->
+    <?php if (isset($this->previous)): ?>
+        <a title="Primeira Página" href="<?php echo $this->url(array('pagina' => $this->first)); ?>"><img border="0" title="Primeiro" alt="" src="/imagens/paginacao/primeiro.gif"></a>|
+    <?php else: ?>
+        <a class="current" title="Primeira Página" href="#"><img border="0" title="Primeiro" alt="" src="/imagens/paginacao/primeiro_inativo.gif"></a>|
+    <?php endif; ?>
+
+    <!-- Link para a página anterior -->
+    <?php if (isset($this->previous)): ?>
+        <a title="Página Anterior" href="<?php echo $this->url(array('pagina' => $this->previous)); ?>"><img border="0" title="Primeiro" alt="" src="/imagens/paginacao/anterior.gif"></a>|
+    <?php else: ?>
+        <a  class="current" title="Página Anterior" href="#"><img border="0" title="Primeiro" alt="" src="/imagens/paginacao/anterior_inativo.gif"></a>|
+    <?php endif; ?>
+
+    <!-- Links numerados -->
+    <?php foreach ($this->pagesInRange as $page): ?>
+        <?php if ($page != $this->current): ?>
+            <a title="<?php echo $page; ?>" href="<?php echo $this->url(array('pagina' => $page)); ?>"><?php echo $page; ?></a>|
+        <?php else: ?>
+            <a class="current" title="<?php echo $page; ?>" href="<?php echo $this->url(array('pagina' => $page)); ?>"><?php echo $page; ?></a>|
+        <?php endif; ?>
+    <?php endforeach; ?>
+
+    <!-- Link para a Próxima página -->
+    <?php if (isset($this->next)): ?>
+        <a title="Próxima Página" href="<?php echo $this->url(array('pagina' => $this->next)); ?>"><img border="0" title="Proxima" alt="" src="/imagens/paginacao/proximo.gif"></a>|
+    <?php else: ?>
+        <a class="current" title="Próxima Página" href="#"><img border="0" title="Proxima" alt="" src="/imagens/paginacao/proximo_inativo.gif"></a>|
+    <?php endif; ?>
+
+    <!-- Última página -->
+    <?php if (isset($this->next)): ?>
+        <a title="Última Página" href="<?php echo $this->url(array('pagina' => $this->last)); ?>"><img border="0" title="Ultimo" alt="" src="/imagens/paginacao/ultimo.gif"></a>
+    <?php else: ?>
+        <a class="current" title="Última Página" href="#"><img border="0" title="Ultimo" alt="" src="/imagens/paginacao/ultimo_inativo.gif"></a>
+        <?php endif; ?>
+</div>

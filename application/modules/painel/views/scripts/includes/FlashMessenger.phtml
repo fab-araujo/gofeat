@@ -1,0 +1,31 @@
+<?php if ($this->mensagem): ?>
+    <?php foreach ($this->mensagem as $tipo => $vMensagem) {
+        ?>
+        <?php
+        switch ($vMensagem[0]) {
+
+            case "sucesso":
+                ?>
+                <script>
+                    swal("Sucesso!", "<?= $vMensagem[1] ?>", "success")
+                </script>
+
+                <?php break; ?>
+            <?php case "alerta": ?>
+                <script>
+                    swal("Alerta!", "<?= $vMensagem[1] ?>", "warning")
+                </script>
+                <?php break; ?>
+            <?php case "erro": ?>
+                <script>
+                    swal("Erro!", "<?= $vMensagem[1] ?>", "error")
+                </script>
+                <?php break; ?>
+            <?php default: ?>
+                <script>
+                    swal("Erro!", "<?= $vMensagem[1] ?>", "error")
+                </script>
+                <?php break; ?>
+        <?php } ?>
+    <?php } ?>
+<?php endif; ?>

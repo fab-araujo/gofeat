@@ -1,0 +1,30 @@
+--- #YAML:1.0
+name:               HTML-Parser
+version:            3.64
+abstract:           HTML parser class
+author:
+    - Gisle Aas <gisle@activestate.com>
+license:            perl
+distribution_type:  module
+configure_requires:
+    ExtUtils::MakeMaker:  0
+build_requires:
+    ExtUtils::MakeMaker:  0
+    Test::More:           0
+requires:
+    HTML::Tagset:  3
+    perl:          5.006
+    XSLoader:      0
+resources:
+    MailingList:  mailto:libwww@perl.org
+    repository:   http://gitorious.org/projects/perl-html-parser
+no_index:
+    directory:
+        - t
+        - inc
+generated_by:       ExtUtils::MakeMaker version 6.55_02
+meta-spec:
+    url:      http://module-build.sourceforge.net/META-spec-v1.4.html
+    version:  1.4
+recommends:
+    HTTP::Headers:  0

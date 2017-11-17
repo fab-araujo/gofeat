@@ -1,0 +1,210 @@
+<!--<div class="">
+    <h1>Home</h1>
+    <p class="lead">
+        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi gravida libero nec velit. Morbi scelerisque
+        luctus velit. Etiam dui sem, fermentum vitae, sagittis id, malesuada in, quam. Proin mattis lacinia justo.
+        Vestibulum facilisis auctor urna. Aliquam in lorem sit amet leo accumsan
+    </p>
+</div>-->
+<link rel="stylesheet"
+      href="<?= $this->baseUrl('/site/assets/js/bootzard-bootstrap-wizard-template/assets/font-awesome/css/font-awesome.min.css') ?>">
+<link rel="stylesheet"
+      href="<?= $this->baseUrl('/site/assets/js/bootzard-bootstrap-wizard-template/assets/css/form-elements.css') ?>">
+<link rel="stylesheet"
+      href="<?= $this->baseUrl('/site/assets/js/bootzard-bootstrap-wizard-template/assets/css/style.css') ?>">
+<div class="row">
+    <div class="col-xs-12">
+        <div class="well">
+            <h4 class="text-center">
+                <i>
+                    <b>
+                        Click <a
+                                href="<?= $this->baseUrl('/index/gotoproject/key/eHF4OVo5VFJwbEVqOXJiQWltYlZ5QT09') ?>">here</a>
+                        to view a test result for <i>Drosophila melanogaster</i> .
+                    </b>
+                </i>
+            </h4>
+
+        </div>
+        <h3 class="text-center" style="padding-bottom: 15px">
+            Do you have a project access key? Click <a href="#" data-toggle="modal" data-target="#modalkey">here</a> to
+            check its status.</h3>
+
+
+    </div>
+</div>
+<div class="row text-center">
+    <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 form-box" style="border: solid 1px black;
+    border-radius: 5px;">
+        <form role="form" action="" method="post" class="f1" enctype="multipart/form-data">
+
+            <h3>Create a New Project</h3>
+            <p>Fill in the form to create a new project</p>
+            <div class="f1-steps">
+                <div class="f1-progress">
+                    <div class="f1-progress-line" data-now-value="16.66" data-number-of-steps="3"
+                         style="width: 16.66%;"></div>
+                </div>
+                <div class="f1-step active">
+                    <div class="f1-step-icon"><i class="fa fa-file"></i></div>
+                    <p>about</p>
+                </div>
+                <div class="f1-step">
+                    <div class="f1-step-icon"><i class="fa fa-cloud-upload"></i></div>
+                    <p>upload</p>
+                </div>
+                <div class="f1-step">
+                    <div class="f1-step-icon"><i class="fa fa-cogs"></i></div>
+                    <p>details</p>
+                </div>
+            </div>
+
+            <fieldset>
+                <div class="f1-buttons">
+                    <button type="button" class="btn btn-next">Next</button>
+                </div>
+                <h4>Project details:</h4>
+                <h6>
+                    Project name
+                </h6>
+                <div class="form-group">
+                    <label class="sr-only" for="name">Project name</label>
+                    <input type="text" name="name" placeholder="Project name" class="f1-first-name form-control"
+                           id="name">
+                </div>
+                <?
+                if (!Plugin_Auth::getInstance()->getIdentity()) {
+                    ?>
+                    <h6>
+                        Send results to
+                    </h6>
+
+                    <div class="form-group">
+                        <label class="sr-only" for="name">Email</label>
+                        <input type="text" name="email" placeholder="Email" class="skip-validation form-control"
+                               id="name">
+                    </div>
+                    <?
+                }
+                ?>
+
+            </fieldset>
+
+            <fieldset>
+                <div class="f1-buttons">
+                    <button type="button" class="btn btn-previous">Previous</button>
+                    <button type="button" class="btn btn-next next-step-2">Next</button>
+                </div>
+                <h4>Select file for analysis:</h4>
+                <div class="form-group text-center">
+                    <label class="btn btn-default btn-file" id="file-label">
+                        <i class="fa fa-upload"></i><br>
+                        Browse file <input class="form-control" name="file" type="file" id="file-select"
+                                           style="display: none;">
+                    </label>
+                    <p>
+                    <h3>
+                        <span class="label label-default" id="file-name" style="background-color: #f35b3f"></span>
+                    </h3>
+                    </p>
+
+                </div>
+                <h4>Or paste the sequences in the box bellow:</h4>
+                <div class="form-group text-center">
+                    <label class="sr-only" for="sequences" id="textarea-label">Sequences</label></label>
+                    <textarea class="form-control" rows="6" name="sequences" id="sequences"></textarea>
+
+                </div>
+                <h6>* Fasta or multi-fasta formats (nucleotide or aminoacid) allowed.</h6>
+            </fieldset>
+
+            <fieldset>
+                <div class="f1-buttons">
+                    <button type="button" class="btn btn-previous" id="btn-previous">Previous</button>
+                    <button type="submit" class="btn btn-submit loading" id="btn-submit">Submit</button>
+                </div>
+                <h4>Details:</h4>
+                <h6>
+                    Blast expectation value (e-value)
+                </h6>
+                <div class="form-group">
+                    <label class="sr-only" for="evalue">Blast expectation value (e-value)</label>
+                    <select class="form-control" name="evalue" id="evalue">
+                        <option value="1e-200">1e-200</option>
+                        <option value="1e-100">1e-100</option>
+                        <option value="1e-50">1e-50</option>
+                        <option value="1e-10">1e-10</option>
+                        <option value="1e-5">1e-5</option>
+                        <option value="1e-4">1e-4</option>
+                        <option value="1e-3">1e-3</option>
+                        <option value="1e-2">1e-2</option>
+                        <option value="1e-1">1e-1</option>
+                        <option value="10" selected>10</option>
+                        <option value="100">100</option>
+                        <option value="1000">1000</option>
+                    </select>
+                </div>
+
+
+            </fieldset>
+            <?
+            if (!Plugin_Auth::getInstance()->getIdentity()) {
+                ?>
+                <div class="well well-sm">
+                    <p>
+                        <i>
+                            <b>
+                                You are not logged in. You can still create a project but you will not be able to share
+                                it or
+                                save it to your personnal account. Click <a
+                                        href="<?= $this->baseUrl('/index/login') ?>">here</a> and create an account.
+                            </b>
+                        </i>
+                    </p>
+
+                </div>
+                <?
+            }
+            ?>
+
+        </form>
+
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="modalkey" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Project status</h4>
+            </div>
+            <form method="get" action="<?= $this->baseUrl('/index/gotoproject/') ?>">
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for="key">Access key</label>
+                        <input type="text" class="form-control" id="key" name="key" placeholder="Access key">
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Check result</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(document).on('change', ':file', function () {
+            var input = $(this),
+                numFiles = input.get(0).files ? input.get(0).files.length : 1,
+                label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+            input.trigger('fileselect', [numFiles, label]);
+            $('#file-name').html(label);
+            $('#file-name').css('display', 'block !important');
+        });
+    });
+</script>

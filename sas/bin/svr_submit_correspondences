@@ -1,0 +1,8 @@
+#!/bin/sh
+dir=`dirname $0`
+dir=`cd $dir/..; pwd`
+export SAS_HOME=$dir
+export DYLD_FALLBACK_LIBRARY_PATH=$dir/lib
+export PATH=${PATH}:$dir/bin
+export PERL5LIB=$dir/lib:$dir/modules/lib
+perl $dir/plbin/svr_submit_correspondences.pl "$@"

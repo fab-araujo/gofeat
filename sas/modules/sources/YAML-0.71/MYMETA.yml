@@ -1,0 +1,28 @@
+---
+abstract: "YAML Ain't Markup Language (tm)"
+author:
+  - 'Ingy d\xF6t Net <ingy@cpan.org>'
+build_requires:
+  ExtUtils::MakeMaker: '0'
+configure_requires:
+  ExtUtils::MakeMaker: '0'
+dynamic_config: 0
+generated_by: 'Module::Install version 0.91, CPAN::Meta::Converter version 2.150010'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: '1.4'
+name: YAML
+no_index:
+  directory:
+    - inc
+    - t
+requires:
+  ExtUtils::MakeMaker: '6.42'
+  Filter::Util::Call: '0'
+resources:
+  ChangeLog: http://fisheye2.atlassian.com/changelog/cpan/trunk/YAML
+  license: http://dev.perl.org/licenses/
+  repository: http://svn.ali.as/cpan/trunk/YAML
+version: '0.71'
+x_serialization_backend: 'CPAN::Meta::YAML version 0.018'

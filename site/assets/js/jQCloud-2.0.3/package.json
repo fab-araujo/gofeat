@@ -1,0 +1,56 @@
+{
+  "name": "jqcloud2",
+  "version": "2.0.3",
+  "homepage": "https://github.com/mistic100/jQCloud",
+  "description": "jQuery plugin for drawing neat word clouds that actually look like clouds",
+  "authors": [
+    {
+      "name": "Luca Ongaro",
+      "homepage": "http://www.lucaongaro.eu"
+    },
+    {
+      "name": "Daniel White",
+      "homepage": "http://www.developerdan.com"
+    },
+    {
+      "name": "Damien \"Mistic\" Sorel",
+      "email": "contact@git.strangeplanet.fr",
+      "homepage": "http://www.strangeplanet.fr"
+    }
+  ],
+  "main": "dist/jqcloud.js",
+  "dependencies": {
+    "jquery": ">= 1.9.0"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.0",
+    "grunt-contrib-concat": "^1.0.0",
+    "grunt-contrib-cssmin": "^1.0.0",
+    "grunt-contrib-jshint": "^1.0.0",
+    "grunt-contrib-qunit": "^0.7.0",
+    "grunt-contrib-sass": "^1.0.0",
+    "grunt-contrib-uglify": "^1.0.0",
+    "grunt-scss-lint": "^0.3.8",
+    "grunt-wrap": "^0.3.0",
+    "jit-grunt": "^0.10.0",
+    "qunitjs": "^1.23.0",
+    "time-grunt": "^1.3.0"
+  },
+  "keywords": [
+    "cloud",
+    "jquery",
+    "keyword",
+    "tag"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mistic100/jQCloud.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mistic100/jQCloud/issues"
+  },
+  "scripts": {
+    "test": "grunt test"
+  }
+}

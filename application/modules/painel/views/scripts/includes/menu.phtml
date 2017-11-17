@@ -1,0 +1,77 @@
+<!-- BEGIN SIDEBAR -->
+<div class="page-sidebar-wrapper">
+    <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+    <!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+    <div class="page-sidebar navbar-collapse collapse">
+        <!-- BEGIN SIDEBAR MENU -->
+        <!-- DOC: Apply "page-sidebar-menu-light" class right after "page-sidebar-menu" to enable light sidebar menu style(without borders) -->
+        <!-- DOC: Apply "page-sidebar-menu-hover-submenu" class right after "page-sidebar-menu" to enable hoverable(hover vs accordion) sub menu mode -->
+        <!-- DOC: Apply "page-sidebar-menu-closed" class right after "page-sidebar-menu" to collapse("page-sidebar-closed" class must be applied to the body element) the sidebar sub menu mode -->
+        <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+        <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
+        <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+        <ul class="page-sidebar-menu " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
+            <li class="start <?= ($this->bInicio ? 'active' : '') ?> ">
+                <a href="/painel">
+                    <i class="icon-home"></i>
+                    <span class="title">Início</span>
+                </a>
+            </li>
+
+            <li class="<?= ($this->bUsu ? 'active' : '') ?>">
+
+                <a href="javascript:;">
+                    <i class="icon-user"></i>
+                    <span class="title">Usuários</span>
+                    <span class="arrow "></span>
+                </a>
+                <ul class="sub-menu">
+                    <li>
+
+                        <a href="<?= $this->permissao('/painel/aclusuario') ?>">
+
+                            <i class="icon-user"></i>
+                            Usuários</a>
+                    </li>
+
+                    <li>
+
+                        <a href="<?= $this->permissao('/painel/aclgrupo') ?>">
+                            <i class="icon-users"></i>
+                            Grupos</a>
+                    </li>
+
+                </ul>
+            </li>
+
+            <li class="<?= ($this->bConfig ? 'active' : '') ?>">
+
+                <a href="javascript:;">
+                    <i class="icon-settings"></i>
+                    <span class="title">Permissões</span>
+                    <span class="arrow "></span>
+                </a>
+                <ul class="sub-menu">
+                    <li>
+                        <a href="<?= $this->permissao('/painel/aclpermissao/pagina') ?>">
+                            <i class="icon-doc"></i>
+                            Páginas</a>
+                    </li>
+                    <li>
+                        <a href="<?= $this->permissao('/painel/aclpermissao/permissaogrupo') ?>">
+                            <i class="icon-lock"></i>
+                            Permissões de grupos</a>
+                    </li>
+                    <li>
+                        <a href="<?= $this->permissao('/painel/acllog/') ?>">
+                            <i class="icon-docs"></i>
+                            Logs do sistema</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <!-- END SIDEBAR MENU -->
+    </div>
+</div>
+
+<!-- END SIDEBAR -->

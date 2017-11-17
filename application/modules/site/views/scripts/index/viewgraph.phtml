@@ -1,0 +1,166 @@
+<?
+$vOnt = explode(" - ", $this->sOnt);
+?>
+<script>
+    $(function () {
+        var src = $('#results').find('img').attr('src');
+
+        $.ajax({
+            method: "POST",
+            url: "<?=$this->baseUrl('/index/ajaxchart')?>",
+            data: {term: "<?=$vOnt[0]?>"}
+        }).done(function (msg) {
+            $('#results').find('img').attr('src', msg);
+            //$('#results').find('img').addClass('img-responsive');
+            //$('#results').find('img').addClass('center-block');
+
+            $('#results').find('area').each(function () {
+                if ($(this).attr('type') == "term") {
+                    var src = $(this).attr('href');
+                    $(this).attr('href', "http://www.ebi.ac.uk/QuickGO-Old/" + src);
+                    $(this).attr('target', '_blank');
+                }
+
+            })
+
+            $('#child-terms').find('a').each(function () {
+                var src = $(this).attr('href');
+                $(this).attr('href', "http://www.ebi.ac.uk/QuickGO-Old/" + src);
+                $(this).attr('target', '_blank');
+
+            })
+
+            $('#child-terms').find('img').each(function () {
+                $(this).remove()
+
+            })
+        });
+
+    })
+</script>
+</div></div></div>
+
+<div class="container-fluid" role="main">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="">
+                <h3>Graphs for project "<?= $this->oProject->name ?>"</h3>
+                <?
+                if (count($this->voSeq) > 0) {
+
+                    ?>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Ancestor chart - <?= $this->sOnt ?></h3>
+                        </div>
+                        <div class="panel-body" id="">
+
+                            <div id="byontologies" class="text-center" style="padding: 15px">
+                                <?
+
+                                $url = "http://www.ebi.ac.uk/QuickGO-Old/GMultiTerm?embed=html&format=chart&id=" . $vOnt[0] . "&chart_key=true&chart_ids=true&chart_slim=true&chart_showChildren=false";
+
+                                //$img = file_get_contents();
+
+
+                                $client = new Zend_Http_Client($url);
+                                $response = $client->request();
+                                $output = ($response->getBody());
+
+                                echo $output;
+
+                                /*$xml = simplexml_load_string($img);
+
+                                $body = $xml->body;
+
+                                var_dump($body->asXML());*/
+
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Child terms - <?= $this->sOnt ?></h3>
+                        </div>
+                        <div class="panel-body" id="child-terms">
+                            <div id="" class="" style="padding: 15px">
+                                <?
+                                $vOnt = explode(" - ", $this->sOnt);
+                                $img = file_get_contents("http://www.ebi.ac.uk/QuickGO-Old/GTerm?id=" . $vOnt[0] . "&format=mini");
+                                $xml = simplexml_load_string($img);
+                                $body = $xml->body;
+                                echo($body->asXML());
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><?= count($this->voSeq) ?> result(s) - <?= $this->sOnt ?></h3>
+                        </div>
+                        <div class="panel-body" id="">
+                            <table class="table table-bordered table-striped dataTable">
+                                <thead>
+                                <tr>
+                                    <th>Locus tag</th>
+                                    <th>Hits</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?
+                                $dbBlast = new Db_BlastResult();
+                                foreach ($this->voSeq as $oSeq) {
+                                    ?>
+                                    <tr>
+                                        <td>
+                                            <?= str_replace(">", "", $oSeq->title) ?>
+                                        </td>
+                                        <td>
+                                            <?
+                                            $oBlast = $dbBlast->fetchRow('id_seq = '.$oSeq->id_seq);
+                                            $voGo = $oBlast->findDependentRowset('Db_BlastGo');
+                                            if (count($voGo) > 0) {
+                                                foreach ($voGo as $index => $oGo) {
+                                                    $text = explode('[', $oGo->text);
+                                                    $text = trim($text[0]);
+                                                    if ($index > 0) {
+                                                        ?>
+                                                        <hr style="margin-top: 5px; margin-bottom: 5px;">
+                                                        <?
+                                                    }
+                                                    ?>
+                                                    <a href="<?= $this->baseUrl('/index/viewgraph/id/' . $oGo->term . '/key/' . Plugin_Util::encrypt($this->oProject->id)) ?>">
+                                                        <?= $oGo->term ?> - <?= $text ?>
+                                                    </a>
+
+                                                    <?
+                                                }
+                                            } else {
+                                                ?>
+                                                -
+                                                <?
+                                            }
+                                            ?>
+
+
+
+                                        </td>
+                                    </tr>
+                                <? } ?>
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+                    </div>
+                    <?
+
+                }
+                ?>
+
+            </div>

@@ -1,0 +1,39 @@
+#!/usr/local/bin/perl -w
+
+use strict;
+use Test::Harness;
+$Test::Harness::verbose = shift
+  if defined $ARGV[0] and $ARGV[0] =~ /^\d+$/ || $ARGV[0] eq "-v";
+
+# make sure we are in the "t" directory
+unless (-d "base") {
+    chdir "t" or die "Can't chdir: $!";
+
+    # fix all relative library locations
+    foreach (@INC) {
+	$_ = "../$_" unless m,^([a-z]:)?[/\\],i;
+    }
+}
+
+unshift(@INC, "../blib/lib", "../blib/arch");
+
+my @tests;
+if (@ARGV) {
+    for (@ARGV) {
+	if (-d $_) {
+	    push(@tests, <$_/*.t>);
+	}
+        else {
+            $_ .= ".t" unless /\.t$/;
+	    push(@tests, $_);
+	}
+    }
+}
+else {
+    @tests = (<base/*.t>, <html/*.t>, <robot/*.t>, <local/*.t>);
+    push(@tests,  <live/*.t>) if -f "live/ENABLED";
+    push(@tests, <net/*.t>) if -f "net/config.pl";
+    @tests = grep !/jigsaw/, @tests;  # service is not reliable any more
+}
+
+runtests @tests;

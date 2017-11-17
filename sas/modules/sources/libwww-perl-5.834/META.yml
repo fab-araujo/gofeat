@@ -1,0 +1,37 @@
+--- #YAML:1.0
+name:               libwww-perl
+version:            5.834
+abstract:           The World-Wide Web library for Perl
+author:
+    - Gisle Aas <gisle@activestate.com>
+license:            perl
+distribution_type:  module
+configure_requires:
+    ExtUtils::MakeMaker:  0
+requires:
+    Compress::Raw::Zlib:  0
+    Digest::MD5:          0
+    HTML::Parser:         3.33
+    HTML::Tagset:         0
+    IO::Compress::Deflate:  0
+    IO::Compress::Gzip:   0
+    IO::Uncompress::Gunzip:  0
+    IO::Uncompress::Inflate:  0
+    IO::Uncompress::RawInflate:  0
+    MIME::Base64:         2.1
+    Net::FTP:             2.58
+    perl:                 5.006
+    URI:                  1.10
+resources:
+    MailingList:  mailto:libwww@perl.org
+    repository:   http://gitorious.org/projects/libwww-perl
+no_index:
+    directory:
+        - t
+        - inc
+generated_by:       ExtUtils::MakeMaker version 6.4801
+meta-spec:
+    url:      http://module-build.sourceforge.net/META-spec-v1.4.html
+    version:  1.4
+recommends:
+    Crypt::SSLeay:  0

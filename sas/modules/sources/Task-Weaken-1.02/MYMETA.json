@@ -1,0 +1,44 @@
+{
+   "abstract" : "Ensure that a platform has weaken support",
+   "author" : [
+      "Adam Kennedy <adamk@cpan.org>, L<http://ali.as/>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Module::Install version 0.68, CPAN::Meta::Converter version 2.150010",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "Task-Weaken",
+   "no_index" : {
+      "directory" : [
+         "inc",
+         "t"
+      ]
+   },
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "File::Spec" : "0.80",
+            "Scalar::Util" : "1.14",
+            "Test::More" : "0.42"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "version" : "1.02",
+   "x_serialization_backend" : "JSON::PP version 2.94"
+}

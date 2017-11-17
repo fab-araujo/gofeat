@@ -1,0 +1,51 @@
+<link rel="stylesheet" href="<?=$this->baseUrl('/site/assets/js/bootzard-bootstrap-wizard-template/assets/font-awesome/css/font-awesome.min.css')?>">
+<link rel="stylesheet" href="<?=$this->baseUrl('/site/assets/js/bootzard-bootstrap-wizard-template/assets/css/form-elements.css')?>">
+<link rel="stylesheet" href="<?=$this->baseUrl('/site/assets/js/bootzard-bootstrap-wizard-template/assets/css/style.css')?>">
+<div class="row">
+    <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 form-box" style="border: solid 1px black;
+    border-radius: 5px;">
+        <form role="form" action="" method="post" class="f1" enctype="multipart/form-data">
+            <h3>Contact</h3>
+            <p>If you have a question or need help, please talk to us. Fill the form bellow and we will contact you as soon as possible.</p>
+            <fieldset>
+                <div class="form-group">
+                    <label class="sr-only" for="name">Name</label>
+                    <input type="text" name="name" placeholder="Name" class="form-control" id="name">
+                </div>
+                <div class="form-group">
+                    <label class="sr-only" for="org">Organization</label>
+                    <input type="text" name="org" placeholder="Organization" class="form-control" id="org">
+                </div>
+                <div class="form-group">
+                    <label class="sr-only" for="email">Email</label>
+                    <input type="text" name="email" placeholder="Email" class="form-control" id="email">
+                </div>
+                <div class="form-group">
+                    <label class="sr-only" for="subject">Subject</label>
+                    <input type="text" name="subject" placeholder="Subject" class="form-control" id="subject">
+                </div>
+
+                <div class="form-group text-center">
+                    <label class="sr-only" for="message" id="textarea-label">Message</label></label>
+                    <textarea class="form-control" rows="6" name="message" id="message" placeholder="Message"></textarea>
+                </div>
+                <div class="f1-buttons">
+                    <button type="submit" class="btn btn-submit">Send</button>
+                </div>
+            </fieldset>
+
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready( function() {
+        $('.f1').submit(function(){
+
+            if(!$('#message').val()){
+                $('#message').addClass('input-error');
+            }
+        })
+
+    });
+
+</script>

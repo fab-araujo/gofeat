@@ -1,0 +1,30 @@
+---
+abstract: 'HTML parser class'
+author:
+  - 'Gisle Aas <gisle@activestate.com>'
+build_requires:
+  ExtUtils::MakeMaker: '0'
+configure_requires:
+  ExtUtils::MakeMaker: '0'
+dynamic_config: 0
+generated_by: 'ExtUtils::MakeMaker version 6.55_02, CPAN::Meta::Converter version 2.150010'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: '1.4'
+name: HTML-Parser
+no_index:
+  directory:
+    - t
+    - inc
+recommends:
+  HTTP::Headers: '0'
+requires:
+  HTML::Tagset: '3'
+  XSLoader: '0'
+  perl: '5.006'
+resources:
+  MailingList: mailto:libwww@perl.org
+  repository: http://gitorious.org/projects/perl-html-parser
+version: '3.64'
+x_serialization_backend: 'CPAN::Meta::YAML version 0.018'

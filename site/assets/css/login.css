@@ -1,0 +1,18 @@
+.login .content .form-actions {
+  border-bottom: none;
+}
+.error-form {
+  color: #e7505a;
+  border-color: #e73d4a !important;
+}
+ul.errors{
+  list-style: none;
+  color: #e7505a;
+}
+ul.erros{
+  padding-left: 0px;
+}
+ul.erros > li{
+  list-style: none;
+  color: #e7505a;
+}

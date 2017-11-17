@@ -1,0 +1,32 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet blue-hoki box">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-cogs"></i><?= $this->titulo ?>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <?php
+                foreach ($this->form as $element) {
+                    $tipo = $element->getType();
+                    $name = $element->getName();
+                    if ($tipo != 'Zend_Form_Element_Submit' && $this->oRegistro->$name) {
+                        ?>
+                        <div class="row static-info">
+                            <div class="col-md-5 name">
+                                <?= $element->getLabel() ?>:
+                            </div>
+                            <div class="col-md-7 value">
+                                <?= $this->oRegistro->$name; ?>
+                            </div>
+                        </div>
+                        <?php
+                    }
+                }
+                ?>
+
+            </div>
+        </div>
+    </div>
+</div>

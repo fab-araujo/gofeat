@@ -1,0 +1,15 @@
+#!/bin/sh
+dir=`dirname $0`
+dir=`cd $dir; pwd`
+	echo "Build YAML-0.71"
+	(cd $dir/sources/YAML-0.71;  perl Makefile.PL PREFIX=$dir LIB=$dir/lib; make; make install)
+	echo "Build URI-1.53"
+	(cd $dir/sources/URI-1.53;  perl Makefile.PL PREFIX=$dir LIB=$dir/lib; make; make install)
+	echo "Build HTML-Tagset-3.03"
+	(cd $dir/sources/HTML-Tagset-3.03;  perl Makefile.PL PREFIX=$dir LIB=$dir/lib; make; make install)
+	echo "Build HTML-Parser-3.64"
+	(cd $dir/sources/HTML-Parser-3.64; echo no | perl Makefile.PL PREFIX=$dir LIB=$dir/lib; make; make install)
+	echo "Build libwww-perl-5.834"
+	(cd $dir/sources/libwww-perl-5.834;  perl Makefile.PL PREFIX=$dir LIB=$dir/lib; make; make install)
+	echo "Build Task-Weaken-1.02"
+	(cd $dir/sources/Task-Weaken-1.02;  perl Makefile.PL PREFIX=$dir LIB=$dir/lib; make; make install)

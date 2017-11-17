@@ -1,0 +1,116 @@
+<?
+$dbB = new Db_BlastResult();
+$dbS = new Db_ProjSeq();
+?>
+<?
+$paginator = $this->voSeq;
+if (count($paginator) > 0) {
+    echo "#;Locus tag;Length;Product;Completeness;Gene onthology;Protein databases;Genome annotation databases;Family and domain databases;Crossreferences;\n";
+    ?>
+    <?
+    if (count($paginator) > 0) {
+        foreach ($paginator as $index => $oSeq) {
+            if (1) {
+                $vTitle = explode(' ', $oSeq->title);
+                $title = $vTitle[0];
+                $title = str_replace('>', '', $title);
+                $oBlast = $dbB->fetchRow('id_seq = ' . $oSeq->id);
+
+                echo str_pad($index + 1, strlen(count($voSeq)), "0", STR_PAD_LEFT) . ";";
+
+                $vJson = json_decode($oBlast->json_hit, true);
+
+                $hsp = $vJson['Hit_hsps']['Hsp'];
+
+                if ($hsp[0]) {
+                    $vJson['Hit_hsps']['Hsp'] = $hsp[0];
+                }
+
+                $hitLen = $vJson['Hit_hsps']['Hsp']['Hsp_identity'];
+                $hitLen *= 3;
+
+                echo $title . ";";
+
+                if ($oBlast->id) {
+                    echo $hitLen . ";";
+                    echo ($oBlast->uniprot_def ? $oBlast->uniprot_def : $oBlast->Hit_def) . ";";
+                    if ($oSeq->type == 'protein') {
+                        $hitLen /= 3;
+                        $hitLen = floor($hitLen);
+                    }
+                    echo number_format((($hitLen * 100) / strlen($oSeq->seq)), 2) . "%" . " [" . $hitLen . "/" . strlen($oSeq->seq) . "];";
+
+                    $voGo = $oBlast->findDependentRowset('Db_BlastGo');
+                    if (count($voGo) > 0) {
+                        foreach ($voGo as $index => $oGo) {
+                            if($index>0){
+                                echo "|";
+                            }
+                            $text = explode('[', $oGo->text);
+                            $text = trim($text[0]);
+                            echo $oGo->term." - ".$text;
+                        }
+                    }
+                    echo ";";
+                    if ($oBlast->uniprot_id) {
+                        echo "Uniprot (".$oBlast->uniprot_id.")";
+                        echo "|Interpro (".$oBlast->uniprot_id.")";
+                    }
+                    echo ";";
+                    if ($oBlast->kegg_id) {
+                        $vKegg = explode(":", $oBlast->kegg_id);
+                        echo "KEGG (".$oBlast->kegg_id.")";
+                        echo "|KEGG GM (".$oBlast->kegg_id.")";
+                        if ($oBlast->kegg_ec) {
+                            $vKegec = explode("<", $oBlast->kegg_ec);
+                            $oBlast->kegg_ec = $vKegec[0];
+                            if ($oBlast->kegg_ec) {
+                                echo "|KEGG EC (".$oBlast->kegg_ec.")";
+                            }
+                        }
+                    }
+                    echo ";";
+                    $voInterpro = $oBlast->findDependentRowset('Db_BlastInterpro');
+                    if (count($voInterpro) > 0) {
+                        foreach ($voInterpro as $index=>$oInterpro) {
+                            if($index>0) {
+                                echo "|";
+                            }
+                            echo "Interpro (".$oInterpro->id_interpro.")";
+                        }
+                    }
+                    $voPfam = $oBlast->findDependentRowset('Db_BlastPfam');
+                    if (count($voPfam) > 0) {
+                        foreach ($voPfam as $index=>$oPfam) {
+                            echo "|";
+                            echo "Pfam (".$oPfam->id_pfam.")";
+                        }
+                    }
+                    echo ";";
+                    if ($oBlast->gi_id) {
+                        echo "NCBI (".$oBlast->gi_id.")";
+                        if($oBlast->embl_id){
+                            echo "|";
+                        }
+
+                    }
+                    if($oBlast->embl_id){
+                        echo "EMBL (".$oBlast->embl_id.")";
+                    }
+                    echo ";";
+
+                } else if ($oSeq->id_status == 4) {
+                    echo "Blast error;";
+                } else {
+                    echo "Blast running;";
+                }
+
+
+                echo "\n";
+
+            }
+
+        }
+    }
+}
+?>

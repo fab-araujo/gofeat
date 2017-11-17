@@ -1,0 +1,460 @@
+<?
+$dbB = new Db_BlastResult();
+$dbS = new Db_ProjSeq();
+$dbInterpro = new Db_BlastInterpro();
+$dbPfam = new Db_BlastInterpro();
+?>
+<style>
+    .modal-body {
+        word-wrap: break-word;
+        white-space: normal;
+    }
+
+    table > tr > th {
+        word-wrap: break-word;
+        word-break: break-all;
+        white-space: normal;
+    }
+
+    .span-bigger span{
+        font-size: 13px;
+    }
+
+</style>
+</div></div></div>
+<?
+$paginator = $this->paginator;
+?>
+<div class="container-fluid" role="main">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="">
+                <h3>Results for project "<?= $this->oProject->name ?>" - <?=$paginator->getTotalItemCount();?> result(s)</h3>
+                <form class="form-inline" method="get" action="/gofeat/index/viewprojectp/key/<?= Plugin_Util::encrypt($this->oProject->id) ?>">
+                    <div class="well well-sm ">
+                        <input type="hidden" name="key" value="<?= Plugin_Util::encrypt($this->oProject->id) ?>">
+                        <div class="form-group" style="width: calc(100% - 80px);">
+                            <label for="exampleInputName2">* Search:</label>
+                            <input type="text" value="<?= $_GET['query'] ?>" class="form-control" id="" name="query"
+                                   placeholder="Use ; to search more than one term..." size=""
+                                   style="width: calc(100% - 650px);">
+                            | <label for="">Blast result:</label>
+                            <select class="form-control" name="blast_result">
+                                <option value="">All</option>
+                                <option value="hit_only" <?=$_GET['blast_result']=='hit_only'?"selected":""?>>Matches only</option>
+                                <option value="error_only" <?=$_GET['blast_result']=="error_only"?"selected":""?>>Error only</option>
+                            </select>
+                            | <label for="">Gene ontology result:</label>
+                            <select class="form-control" name="go_result">
+                                <option value="">All</option>
+                                <option value="hit_only" <?=$_GET['go_result']=='hit_only'?"selected":""?>>Matches only</option>
+                                <option value="null_results" <?=$_GET['go_result']=="null_results"?"selected":""?>>No matches only</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary pull-right">Search</button>
+                    </div>
+                    <h6 style="padding-bottom: 15px">
+                        * Search in "Locus tag", "Product" and "Gene onthology".
+                        <button type="submit" name="export" value="true" class="btn btn-success btn-sm pull-right">
+                            Export ALL to CSV
+                        </button>
+                        <button type="submit" name="exportcurrent" value="true" class="btn btn-success btn-sm pull-right" style="margin-right: 15px">
+                            Export CURRENT to CSV
+                        </button>
+
+                        <a class="btn btn-info btn-sm pull-right"
+                           href="<?= $this->baseUrl('/index/viewchart/key/' . Plugin_Util::encrypt($this->oProject->id)) ?>"
+                           style="margin-right: 15px">Charts</a>
+                    </h6>
+
+                </form>
+                <p class="span-bigger pull-right">
+                    <span class="label label-success">Protein databases</span> |
+                    <span class="label label-warning">Genome annotation databases</span> |
+                    <span class="label label-info">Family and domain databases</span> |
+                    <span class="label label-primary">Crossreferences</span>
+                </p>
+
+                <?
+
+                if (count($paginator) > 0) {
+                    ?>
+                    <table class="table table-bordered table-hover ">
+                        <thead>
+                        <tr class="active">
+                            <th class="">
+                                ID
+                            </th>
+                            <th class="">
+                                Locus tag
+                            </th>
+                            <th class="">
+                                Length
+                            </th>
+                            <th class="">
+                                Product
+                            </th>
+                            <th class="">
+                                Completeness
+                            </th>
+                            <th class="">
+                                Gene onthology
+                            </th>
+                            <th class="">
+                                Database integration
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?
+
+
+                        if (count($paginator) > 0) {
+
+                        }
+
+                        foreach ($paginator as $index => $oSeq) {
+                            if (1) {
+                                $vTitle = explode(' ', $oSeq->title);
+                                $title = $vTitle[0];
+                                $title = str_replace('>', '', $title);
+                                $oBlast = $dbB->fetchRow('id_seq = ' . $oSeq->id);
+                                ?>
+
+                                <tr class="<?= $oBlast->id ? 'success' : ($oSeq->id_status == 4 ? "danger" : 'warning') ?>">
+                                    <td>
+                                        <p>
+                                            <?= str_pad($index + 1, strlen(count($voSeq)), "0", STR_PAD_LEFT); ?>
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <?
+                                        $vJson = json_decode($oBlast->json_hit, true);
+
+                                        $hsp = $vJson['Hit_hsps']['Hsp'];
+
+                                        if ($hsp[0]) {
+                                            $vJson['Hit_hsps']['Hsp'] = $hsp[0];
+                                        }
+
+                                        $hitLen = $vJson['Hit_hsps']['Hsp']['Hsp_identity'];
+                                        $hitLen *= 3;
+
+                                        ?>
+                                        <p>
+                                            <?
+                                            if (is_array($vJson)) {
+                                                ?>
+                                                <a href="#" class="" data-toggle="modal"
+                                                   data-target="#modalDetail<?= $index ?>">
+                                                    <?= $title ?>
+                                                </a>
+                                                <?
+
+                                            } else {
+                                                ?>
+                                                <a href="<?= $this->baseUrl('/index/viewseq/key/' . Plugin_Util::encrypt($oSeq->id)) ?>" target="_blank">
+                                                    <?= $title ?>
+                                                </a>
+
+                                                <?
+                                            }
+                                            ?>
+
+                                        </p>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="modalDetail<?= $index ?>" tabindex="-1"
+                                             role="dialog"
+                                             aria-labelledby="myModalLabel">
+                                            <div class="modal-dialog modal-lg" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span></button>
+                                                        <h4 class="modal-title" id="myModalLabel">Blast details
+                                                            - <?= $title ?></h4>
+                                                    </div>
+                                                    <div class="modal-body">
+
+                                                        <table class="table table-striped"
+                                                               style="table-layout: fixed; word-wrap: break-word;">
+                                                            <?
+                                                            if (is_array($vJson)) {
+                                                                foreach ($vJson as $blast_index => $result) {
+                                                                    if (is_array($result)) {
+                                                                        foreach ($result as $blast_index2 => $result2) {
+                                                                            if (is_array($result2)) {
+                                                                                foreach ($result2 as $blast_index3 => $result3) {
+                                                                                    ?>
+                                                                                    <tr>
+                                                                                        <td>
+                                                                                            <b><?= $blast_index3 ?>
+                                                                                                : </b>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <?= $result3 ?>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    <?
+
+                                                                                }
+                                                                            } else {
+                                                                                ?>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <b><?= $blast_index2 ?>: </b>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <?= $result2 ?>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <?
+                                                                            }
+
+                                                                        }
+                                                                    } else {
+                                                                        ?>
+                                                                        <tr>
+                                                                            <td>
+                                                                                <b><?= $blast_index ?>: </b>
+                                                                            </td>
+                                                                            <td>
+                                                                                <?= $result ?>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <?
+                                                                    }
+
+                                                                }
+                                                            }
+
+                                                            ?>
+                                                        </table>
+
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default"
+                                                                data-dismiss="modal">Close
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <?
+                                    if ($oBlast->id) {
+                                        ?>
+                                        <td>
+                                            <p>
+                                                <?= $hitLen ?>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                <?= $oBlast->uniprot_def ? $oBlast->uniprot_def : $oBlast->Hit_def ?>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                <?
+                                                if ($oSeq->type == 'protein') {
+                                                    $hitLen /= 3;
+                                                    $hitLen = floor($hitLen);
+                                                }
+                                                ?>
+                                                <?= number_format((($hitLen * 100) / strlen($oSeq->seq)), 2) ?>%
+                                                [<?= $hitLen ?>
+                                                /<?= strlen($oSeq->seq) ?>]
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <?
+                                            $voGo = $oBlast->findDependentRowset('Db_BlastGo');
+                                            if (count($voGo) > 0) {
+                                                foreach ($voGo as $index => $oGo) {
+                                                    $text = explode('[', $oGo->text);
+                                                    $text = trim($text[0]);
+                                                    if ($index > 0) {
+                                                        ?>
+                                                        <hr style="margin-top: 5px; margin-bottom: 5px;">
+                                                        <?
+                                                    }
+                                                    ?>
+                                                    <a href="<?= $this->baseUrl('/index/viewgraph/id/' . $oGo->term . '/key/' . Plugin_Util::encrypt($this->oProject->id)) ?>">
+                                                        <?= $oGo->term ?> - <?= $text ?>
+                                                    </a>
+                                                    <!--<a href="http://www.ebi.ac.uk/QuickGO-Old/GTerm?id=<?/*= $oGo->term */ ?>"
+                                                       target='_blank'>[<?/*= $oGo->term */ ?>] <?/*= $text */ ?></a>-->
+
+                                                    <?
+                                                }
+                                            } else {
+                                                ?>
+                                                -
+                                                <?
+                                            }
+                                            ?>
+                                        </td>
+                                        <td>
+
+                                            <p class="span-bigger">
+                                                <?
+                                                if ($oBlast->uniprot_id) {
+                                                    ?>
+                                                    <a href="http://www.uniprot.org/uniprot/<?= $oBlast->uniprot_id ?>"
+                                                       target='_blank'><span class="label label-success">Uniprot (<?= $oBlast->uniprot_id ?>)</span></a>
+                                                    <?
+                                                }
+                                                ?>
+                                                <?
+                                                if ($oBlast->uniprot_id) {
+                                                    ?>
+                                                    <a href="http://www.ebi.ac.uk/interpro/protein/<?= $oBlast->uniprot_id ?>"
+                                                       target='_blank'><span class="label label-success">Interpro (<?= $oBlast->uniprot_id ?>)</span></a>
+                                                    <?
+                                                }
+                                                ?>
+
+                                            </p>
+                                            <p class="span-bigger">
+                                                <?
+                                                if ($oBlast->kegg_id) {
+                                                    $vKegg = explode(":", $oBlast->kegg_id);
+
+                                                    ?>
+                                                    <a href="http://www.genome.jp/dbget-bin/www_bget?<?= $oBlast->kegg_id ?>"
+                                                       target='_blank'><span class="label label-warning">KEGG (<?= $oBlast->kegg_id ?>)</span></a>
+                                                    <a href="http://www.genome.jp/kegg-bin/show_genomemap?ORG=<?= $vKegg[0] ?>&ACCESSION=<?= $vKegg[1] ?>"
+                                                       target='_blank'><span class="label label-warning">KEGG GM (<?= $oBlast->kegg_id ?>)</span></a>
+                                                    <?
+                                                    //$pKegg = file_get_contents("http://www.kegg.jp/dbget-bin/www_bget?".$oBlast->kegg_id);
+                                                    //$vPKegg = explode("[EC:",$pKegg);
+                                                    if ($oBlast->kegg_ec) {
+                                                        $vKegec = explode("<", $oBlast->kegg_ec);
+                                                        $oBlast->kegg_ec = $vKegec[0];
+                                                        if($oBlast->kegg_ec){
+                                                            ?>
+                                                            <a href="http://www.kegg.jp/dbget-bin/www_bget?ec:<?= $oBlast->kegg_ec ?>"
+                                                               target='_blank'><span class="label label-warning">KEGG EC (<?= $oBlast->kegg_ec ?>)</span></a>
+
+                                                            <?
+                                                        }
+
+                                                    }
+
+                                                }
+
+                                                ?>
+                                            </p>
+
+                                            <?
+                                            $voInterpro = $oBlast->findDependentRowset('Db_BlastInterpro');
+                                            if(count($voInterpro)>0){
+                                                ?>
+                                                <p class="span-bigger">
+                                                    <?
+                                                    foreach($voInterpro as $oInterpro){
+                                                        ?>
+                                                        <a href="http://www.ebi.ac.uk/interpro/entry/<?= $oInterpro->id_interpro ?>"
+                                                           target='_blank'><span class="label label-info">Interpro (<?= $oInterpro->id_interpro ?>)</span></a>
+                                                        <?
+                                                    }
+                                                    ?>
+                                                </p>
+                                                <?
+                                            }
+                                            ?>
+
+                                            <?
+                                            $voPfam = $oBlast->findDependentRowset('Db_BlastPfam');
+                                            if(count($voPfam)>0){
+                                                ?>
+                                                <p class="span-bigger">
+                                                    <?
+                                                    foreach($voPfam as $oPfam){
+                                                        ?>
+                                                        <a href="http://pfam.xfam.org/family/<?= $oPfam->id_pfam ?>"
+                                                           target='_blank'><span class="label label-info">Pfam (<?= $oPfam->id_pfam ?>)</span></a>
+                                                        <?
+                                                    }
+                                                    ?>
+                                                </p>
+                                                <?
+                                            }
+                                            ?>
+
+                                            <p class="span-bigger">
+                                                <?
+                                                if ($oBlast->gi_id) {
+                                                    ?>
+
+                                                    <a href="https://www.ncbi.nlm.nih.gov/protein/<?= $oBlast->gi_id ?>"
+                                                       target="_blank"><span class="label label-primary">NCBI (<?= $oBlast->gi_id ?>)</span></a>
+
+                                                    <?
+                                                }
+                                                ?>
+
+                                                <?
+                                                if ($oBlast->embl_id) {
+                                                    ?>
+                                                    <a href="http://www.ebi.ac.uk/ena/data/view/<?= $oBlast->embl_id ?>"
+                                                       target='_blank'><span class="label label-primary">EMBL (<?= $oBlast->embl_id ?>)</span></a>
+                                                    <?
+                                                }
+                                                ?>
+                                            </p>
+                                        </td>
+                                        <?
+                                    } else if ($oSeq->id_status == 4) {
+                                        ?>
+                                        <td colspan="5">
+                                            Blast error<?=strlen($oSeq->seq)>=130957?" [sequence is too long]":''?>.
+                                        </td>
+
+                                        <?
+
+                                    } else {
+                                        ?>
+                                        <td colspan="5">
+                                            Blast still running.
+                                        </td>
+
+                                        <?
+                                    }
+                                    ?>
+
+                                </tr>
+                                <?
+
+                            }
+
+                        }
+                        ?>
+                        </tbody>
+                    </table>
+                    <?php echo $this->paginationControl($paginator,
+                        'Sliding',
+                        'includes/pagination.phtml'); ?>
+                    <?
+                } else {
+                    ?>
+                    <div class="alert alert-danger" role="alert">
+                        <h5>There are no results that match your search.</h5>
+                    </div>
+
+                    <?
+                }
+                ?>
+
+
+            </div>
+            <script>
+                var dataTabele = $('.dataTable').DataTable({
+                    dom: 'Bfrtip',
+                    buttons: [
+                        'copy', 'csv', 'excel', 'pdf', 'print'
+                    ]
+                });
+            </script>
