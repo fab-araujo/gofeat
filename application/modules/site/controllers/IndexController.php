@@ -826,10 +826,14 @@ class IndexController extends Zend_Controller_Action
         $term = $this->_data['term'];
         $url = "http://www.ebi.ac.uk/QuickGO/services/ontology/go/terms/" . $term . "/chart";
 
+        echo $url;exit;
+
         if (!($term && file_exists($_SERVER['DOCUMENT_ROOT'] . Zend_Registry::get('baseurl') . '/data/' . str_replace(":", "", $term) . '.png'))) {
             $client = new Zend_Http_Client($url);
             $response = $client->request();
             $output = ($response->getBody());
+
+            echo base64_decode($output);exit;
 
             file_put_contents($_SERVER['DOCUMENT_ROOT'] . Zend_Registry::get('baseurl') . '/data/' . str_replace(":", "", $term) . '.png', base64_decode($output));
         }

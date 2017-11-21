@@ -28,7 +28,11 @@ $paginator = $this->paginator;
 <div class="container-fluid" role="main">
     <div class="row">
         <div class="col-xs-12">
-            <div class="">
+            <sul class="">
+                <a href="#" onclick="window.history.back()" class="btn btn-warning">
+                    <span class="glyphicon glyphicon-chevron-left"></span> Back
+                </a>
+
                 <h3>Results for project "<?= $this->oProject->name ?>" - <?=$paginator->getTotalItemCount();?> result(s)</h3>
                 <form class="form-inline" method="get" action="/gofeat/index/viewprojectp/key/<?= Plugin_Util::encrypt($this->oProject->id) ?>">
                     <div class="well well-sm ">

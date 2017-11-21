@@ -284,6 +284,7 @@ asort($vBPF);*/
             ?>
         ];
 
+
         $.fn.dataTable.ext.search.push(
             function( settings, row, index, rowObj ) {
                 var jqueryTabela = $(settings.nTable);
@@ -293,16 +294,8 @@ asort($vBPF);*/
                 var min = jqueryTabela.attr('data-min');
                 var max = jqueryTabela.attr('data-max');
 
-                if (min === undefined) {
-                   //min = 0;
-                }
-                if (max === undefined) {
-                   //max = 999;
-                }
-                min = parseInt( min, 10 );
-                max = parseInt( max, 10 );
-
                 var retorno = true;
+
 
                 if(min && max){
                     if(row[2]>=min && row[3]<=max){
@@ -326,17 +319,26 @@ asort($vBPF);*/
                     }
                 }
 
+                if(retorno){
+                    table.row(index).child.show();
+                    //rowObj.child.show();
+                }else{
+                    table.row(index).child.hide();
+                    //rowObj.child.hide();
+                }
 
-
-                return retorno;
+                return true;
             }
         );
+
+
 
         $('.dataTableFull').DataTable({
             dom: 'Bfrtip',
             buttons: [
                 'copy', 'csv', 'excel', 'pdf', 'print'
             ],
+            "bRetrieve":true,
             initComplete: function () {
                 var table = this.api();
                 this.api().columns().every(function (index) {
@@ -347,44 +349,119 @@ asort($vBPF);*/
                             var val = $.fn.dataTable.util.escapeRegex(
                                 $(this).val()
                             );
+
                             var coluna = $(this);
+
                             var jqueryTabela = ($(this).parent().parent().parent().parent());
+
+                            //alert(val);
+                            /*column
+                                .search(val ? '^' + val + '$' : '', true, false)
+                                .draw();*/
+                            var dataProvider = [];
+                            var ontology = [];
+                            var hits = [];
+                            var rows = [];
+
+
 
                             table.column(0).data().each(function (d, j) {
                                 var ont = $(d).html();
                                 var rowObj = table.row(j);
                                 var row = (table.row(j).data());
 
+                                //console.log(table.tables(0));
+
                                 if(coluna.hasClass('col2')){
                                     jqueryTabela.attr('data-min',val);
+                                    /*if(row[2]>=val){
+                                        ont = ont.split("-");
+                                        ont = ont[0];
+                                        ont = ont.trim();
+                                        ontology.push(ont);
+                                        hits.push(row[1]);
+                                        $(rowObj.node()).show();
 
+                                    }else{
+                                        $(rowObj.node()).hide();
+                                    }*/
                                 }
+
                                 if(coluna.hasClass('col3')){
                                     jqueryTabela.attr('data-max',val);
-
+                                    /*if(row[3]<=val){
+                                        ont = ont.split("-");
+                                        ont = ont[0];
+                                        ont = ont.trim();
+                                        ontology.push(ont);
+                                        hits.push(row[1]);
+                                        rows.push(row);
+                                        $(rowObj.node()).show();
+                                    }else{
+                                        $(rowObj.node()).hide();
+                                    }*/
                                 }
+
+
+                                var min = jqueryTabela.attr('data-min');
+                                var max = jqueryTabela.attr('data-max');
+
+                                if(min && max){
+                                    if(row[2]>=min && row[3]<=max){
+                                        ont = ont.split("-");
+                                        ont = ont[0];
+                                        ont = ont.trim();
+                                        ontology.push(ont);
+                                        hits.push(row[1]);
+                                        rows.push(row);
+                                        $(rowObj.node()).show();
+                                    }else{
+                                        $(rowObj.node()).hide();
+                                    }
+                                }else if(min){
+                                    if(row[2]>=min){
+                                        ont = ont.split("-");
+                                        ont = ont[0];
+                                        ont = ont.trim();
+                                        ontology.push(ont);
+                                        hits.push(row[1]);
+                                        rows.push(row);
+                                        //$(rowObj.node()).show();
+                                        rowObj.child.show();
+                                    }else{
+                                        rowObj.child.hide();
+                                    }
+                                        //$(rowObj.node()).hide();
+
+                                }else if(max){
+                                    if(row[3]<=max){
+                                        ont = ont.split("-");
+                                        ont = ont[0];
+                                        ont = ont.trim();
+                                        ontology.push(ont);
+                                        hits.push(row[1]);
+                                        rows.push(row);
+                                        $(rowObj.node()).show();
+                                    }else{
+                                        $(rowObj.node()).hide();
+                                    }
+                                }
+
+
                             })
 
+                            //table.clear().draw();
+                            //table.rows.add(rows); // Add new data
+                            //table.draw(); // Redraw the DataTable
 
-
-
-                            column.draw();
-                            var dataProvider = [];
-                            var ontology = [];
-                            var hits = [];
-
-                            table.column(0, {search: 'applied'}).data().each(function (d, j) {
-                                var ont = $(d).html();
-                                ont = ont.split("-");
-                                ont = ont[0];
-                                ont = ont.trim();
-                                ontology.push(ont);
-                            })
+                            /*
 
                             table.column(1, {search: 'applied'}).data().each(function (d, j) {
                                 var hit = d;
                                 hits.push(d);
                             })
+
+                            */
 
                             for (var i = 0; i < ontology.length; i++) {
                                 dataProvider.push({
@@ -401,20 +478,24 @@ asort($vBPF);*/
                             eval($(this).parent().parent().parent().parent().attr('id')).validateData();
 
 
+                            table.draw();
+
+
                         });
 
-                    column.data().unique().sort(function (a, b) {
+                        column.data().unique().sort(function (a, b) {
                         return a - b;
                     }).each(function (d, j) {
                         select.append('<option value="' + d + '">' + d + '</option>')
                     });
                 });
+
             }
         });
 
         $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
             var target = $(e.target).attr("href") // activated tab
-            console.log(target);
+
             if(target=='#profile'){
                 $("#cloud_molecular_function").jQCloud(cloudMF);
             }
@@ -427,6 +508,8 @@ asort($vBPF);*/
 
 
         })
+
+
     });
 
 </script>

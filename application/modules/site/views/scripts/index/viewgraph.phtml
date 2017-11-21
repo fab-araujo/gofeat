@@ -44,6 +44,9 @@ $vOnt = explode(" - ", $this->sOnt);
     <div class="row">
         <div class="col-xs-12">
             <div class="">
+                <a href="#" onclick="window.history.back()" class="btn btn-warning">
+                    <span class="glyphicon glyphicon-chevron-left"></span> Back
+                </a>
                 <h3>Graphs for project "<?= $this->oProject->name ?>"</h3>
                 <?
                 if (count($this->voSeq) > 0) {
