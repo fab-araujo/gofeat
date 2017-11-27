@@ -27,8 +27,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $front->addModuleDirectory(APPLICATION_PATH . '/modules');
         $front->setControllerDirectory(
                 array(
-                    'site' => APPLICATION_PATH . '/modules/site/controllers',
-                    'painel' => APPLICATION_PATH . '/modules/painel/controllers'
+                    'site' => APPLICATION_PATH . '/modules/site/controllers'
                 )
         );
 
@@ -36,15 +35,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 
         //If set to 'true', the ErrorController won't be activated
         $front->throwExceptions(true);
-
-        Zend_Registry::set('CLIENTE', 'PADRÃO');
-
-        Zend_Registry::set('lblCadastro', 'Cadastrar');
-        Zend_Registry::set('lblEdicao', 'Alterar');
-        Zend_Registry::set('lblExclusao', 'Excluir');
-        Zend_Registry::set('msgSucesso', 'Operação efetuada com sucesso!');
-        Zend_Registry::set('msgErro', 'A operação não pode ser processada!');
-        Zend_Registry::set('logo', '/site/assets/img/logo.jpg');
 
 
     }

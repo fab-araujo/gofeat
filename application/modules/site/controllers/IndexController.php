@@ -1666,6 +1666,125 @@ class IndexController extends Zend_Controller_Action
         }
     }
 
+    public function updatekbAction(){
+        $file = "/home/fabricio/Downloads/uniprot_sprot.fasta";
+        $handle = fopen($file, "r");
+        if ($handle) {
+            $dbGenus = new Db_OrgGenus();
+            $dbOrg = new Db_OrgOrg();
+            $genus = '';
+            while (($line = fgets($handle)) !== false) {
+                $lineAux = $line;
+                if(strpos($line, ">")===0){
 
+                    $vAux = explode("OS=",$line);
+                    $line = $vAux[1];
+                    $vAux = explode("GN=",$line);
+                    $line = $vAux[0];
+                    $vAux = explode("(",$line);
+                    $line = $vAux[0];
+                    $og = trim($line);
+
+                    $url = "https://www.ebi.ac.uk/ena/data/taxonomy/v1/taxon/scientific-name/".urlencode($og);
+                    $json = $this->get_data_from_url($url);
+                    $vObj = json_decode($json, TRUE);
+                    if(count($vObj)>1){
+                        echo $lineAux." tem mais de uma entrada <br>";
+                    }
+                    else if(count($vObj)==1){
+                        $vOrg = $vObj[0];
+                        $taxId = $vOrg['taxId'];
+                        //verifica se já existe no banco
+                        $oOrg = $dbOrg->fetchRow('taxId = '.$taxId);
+                        if(!$oOrg->id){
+                            //não existe
+                            $url = "https://www.ebi.ac.uk/ena/data/view/Taxon:".$taxId."&display=xml";
+                            $xml = $this->get_data_from_url($url);
+                            $arquivo_xml = simplexml_load_string($xml);
+                            $vXml = $this->object2array($arquivo_xml);
+                            foreach ($vXml['taxon']['lineage']["taxon"] as $vTaxon){
+                                if($vTaxon["@attributes"]['rank']=='genus'){
+                                    $vGenus['taxId'] = $vTaxon["@attributes"]['taxId'];
+                                    $vGenus['genus'] = $vTaxon["@attributes"]['scientificName'];
+                                    $genus = $vGenus['genus'];
+                                    $oGenus = $dbGenus->fetchRow('taxId = '.$vGenus['taxId']);
+                                    if(!$oGenus->id){
+                                        $id_genus = $dbGenus->save($vGenus);
+                                    }else{
+                                        $id_genus = $oGenus->id;
+                                    }
+                                    break;
+                                }
+                            }
+
+                            $vOrgDb['id_genus'] = $id_genus;
+                            $vOrgDb['taxId'] = $taxId;
+                            $vOrgDb['name'] = $vOrg['scientificName'];
+                            $dbOrg->save($vOrgDb);
+                        }else{
+                            $oGenus = $oOrg->findParentRow('Db_OrgGenus');
+                            $genus = $oGenus->genus;
+
+                        }
+
+
+
+                    }
+                    else{
+                        echo $lineAux." não tem entrada <br>";
+                    }
+                }
+                $txt = $lineAux;
+                file_put_contents("/home/fabricio/genus/".$genus, $txt, FILE_APPEND);
+
+            }
+
+            fclose($handle);
+        }
+        exit;
+    }
+
+    function get_data_from_url($url){
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13');
+
+        $xmlstr = curl_exec($ch);
+        curl_close($ch);
+
+        return $xmlstr;
+    }
+
+    function object2array($object) { return @json_decode(@json_encode($object),1); }
+
+    public function sshAction(){
+        $connection = ssh2_connect('200.239.92.130', 23);
+        ssh2_auth_password($connection, 'fabricio', 'rommellindo');
+        ssh2_scp_send($connection, '/home/fabricio/Dropbox/b4d/www/gofeat/tmp.fasta', '/work/fabricio/tmp.fasta', 0777);
+        //$stream = ssh2_exec($connection, 'diamond blastp -d /work/uniprot/uniprotdb -q tmp.fasta -o tmp.xml -f 5 -k 1 -p 4');
+        $stream = ssh2_exec($connection, 'diamond blastp -d /work/fabricio/uniprot_sprot -q /work/fabricio/tmp.fasta -o /work/fabricio/tmp.xml -f 5 -k 1 -p 4');
+        $errorStream = ssh2_fetch_stream($stream, SSH2_STREAM_STDERR);
+
+        // Enable blocking for both streams
+        stream_set_blocking($errorStream, true);
+        stream_set_blocking($stream, true);
+
+        stream_get_contents($stream);
+        stream_get_contents($errorStream);
+
+        // Close the streams
+        fclose($errorStream);
+        fclose($stream);
+
+        ssh2_scp_recv($connection, '/work/fabricio/tmp.xml', '/home/fabricio/Dropbox/b4d/www/gofeat/tmp.xml');
+
+        $stream = ssh2_exec($connection, 'rm /work/fabricio/tmp.fasta');
+        $stream = ssh2_exec($connection, 'rm /work/fabricio/tmp.xml');
+        exit;
+
+
+    }
 }
 

@@ -1,6 +1,6 @@
 <?php
 
-class Painel_DbController extends Zend_Controller_Action {
+class DbController extends Zend_Controller_Action {
 
     protected $_data;
     protected $_user;
