@@ -1,12 +1,12 @@
 # This Makefile is for the LWP extension to perl.
 #
 # It was generated automatically by MakeMaker version
-# 7.3 (Revision: 73000) from the contents of
+# 6.98 (Revision: 69800) from the contents of
 # Makefile.PL. Don't edit this file, edit Makefile.PL instead.
 #
 #       ANY CHANGES MADE HERE WILL BE LOST!
 #
-#   MakeMaker ARGV: (q[PREFIX=/home/fabricio/Downloads/sas/modules], q[LIB=/home/fabricio/Downloads/sas/modules/lib])
+#   MakeMaker ARGV: (q[PREFIX=/home/fabricio/sas/modules], q[LIB=/home/fabricio/sas/modules/lib])
 #
 
 #   MakeMaker Parameters:
@@ -18,10 +18,10 @@
 #     DISTNAME => q[libwww-perl]
 #     EXE_FILES => []
 #     LICENSE => q[perl]
-#     META_MERGE => { recommends=>{ Crypt::SSLeay=>q[0] }, resources=>{ MailingList=>q[mailto:libwww@perl.org], repository=>q[http://gitorious.org/projects/libwww-perl] } }
+#     META_MERGE => { recommends=>{ Crypt::SSLeay=>q[0] }, resources=>{ repository=>q[http://gitorious.org/projects/libwww-perl], MailingList=>q[mailto:libwww@perl.org] } }
 #     MIN_PERL_VERSION => q[5.006]
 #     NAME => q[LWP]
-#     PREREQ_PM => { Compress::Raw::Zlib=>q[0], Digest::MD5=>q[0], HTML::Parser=>q[3.33], HTML::Tagset=>q[0], IO::Compress::Deflate=>q[0], IO::Compress::Gzip=>q[0], IO::Uncompress::Gunzip=>q[0], IO::Uncompress::Inflate=>q[0], IO::Uncompress::RawInflate=>q[0], MIME::Base64=>q[2.1], Net::FTP=>q[2.58], URI=>q[1.10] }
+#     PREREQ_PM => { HTML::Parser=>q[3.33], IO::Compress::Deflate=>q[0], IO::Uncompress::RawInflate=>q[0], IO::Compress::Gzip=>q[0], Net::FTP=>q[2.58], MIME::Base64=>q[2.1], Compress::Raw::Zlib=>q[0], URI=>q[1.10], IO::Uncompress::Inflate=>q[0], IO::Uncompress::Gunzip=>q[0], Digest::MD5=>q[0], HTML::Tagset=>q[0] }
 #     TEST_REQUIRES => {  }
 #     VERSION_FROM => q[lib/LWP.pm]
 #     clean => { FILES=>q[] }
@@ -31,29 +31,29 @@
 
 # --- MakeMaker const_config section:
 
-# These definitions are from config.sh (via /usr/lib/x86_64-linux-gnu/perl/5.22/Config.pm).
+# These definitions are from config.sh (via /usr/lib/x86_64-linux-gnu/perl/5.20/Config.pm).
 # They may have been overridden via Makefile.PL or on the command line.
 AR = ar
-CC = x86_64-linux-gnu-gcc
+CC = cc
 CCCDLFLAGS = -fPIC
 CCDLFLAGS = -Wl,-E
 DLEXT = so
 DLSRC = dl_dlopen.xs
 EXE_EXT = 
 FULL_AR = /usr/bin/ar
-LD = x86_64-linux-gnu-gcc
-LDDLFLAGS = -shared -L/usr/local/lib -fstack-protector-strong
-LDFLAGS =  -fstack-protector-strong -L/usr/local/lib
-LIBC = libc-2.23.so
+LD = cc
+LDDLFLAGS = -shared -L/usr/local/lib -fstack-protector
+LDFLAGS =  -fstack-protector -L/usr/local/lib
+LIBC = libc-2.19.so
 LIB_EXT = .a
 OBJ_EXT = .o
 OSNAME = linux
-OSVERS = 3.16.0
+OSVERS = 3.16.0-4-amd64
 RANLIB = :
-SITELIBEXP = /usr/local/share/perl/5.22.1
-SITEARCHEXP = /usr/local/lib/x86_64-linux-gnu/perl/5.22.1
+SITELIBEXP = /usr/local/share/perl/5.20.2
+SITEARCHEXP = /usr/local/lib/x86_64-linux-gnu/perl/5.20.2
 SO = so
-VENDORARCHEXP = /usr/lib/x86_64-linux-gnu/perl5/5.22
+VENDORARCHEXP = /usr/lib/x86_64-linux-gnu/perl5/5.20
 VENDORLIBEXP = /usr/share/perl5
 
 
@@ -80,21 +80,21 @@ MAN1EXT = 1p
 MAN3EXT = 3pm
 INSTALLDIRS = site
 DESTDIR = 
-PREFIX = /home/fabricio/Downloads/sas/modules
+PREFIX = /home/fabricio/sas/modules
 PERLPREFIX = $(PREFIX)
 SITEPREFIX = $(PREFIX)
 VENDORPREFIX = $(PREFIX)
-INSTALLPRIVLIB = /home/fabricio/Downloads/sas/modules/lib
+INSTALLPRIVLIB = /home/fabricio/sas/modules/lib
 DESTINSTALLPRIVLIB = $(DESTDIR)$(INSTALLPRIVLIB)
-INSTALLSITELIB = /home/fabricio/Downloads/sas/modules/lib
+INSTALLSITELIB = /home/fabricio/sas/modules/lib
 DESTINSTALLSITELIB = $(DESTDIR)$(INSTALLSITELIB)
-INSTALLVENDORLIB = /home/fabricio/Downloads/sas/modules/lib
+INSTALLVENDORLIB = /home/fabricio/sas/modules/lib
 DESTINSTALLVENDORLIB = $(DESTDIR)$(INSTALLVENDORLIB)
-INSTALLARCHLIB = /home/fabricio/Downloads/sas/modules/lib/x86_64-linux-gnu-thread-multi
+INSTALLARCHLIB = /home/fabricio/sas/modules/lib/x86_64-linux-gnu-thread-multi
 DESTINSTALLARCHLIB = $(DESTDIR)$(INSTALLARCHLIB)
-INSTALLSITEARCH = /home/fabricio/Downloads/sas/modules/lib/x86_64-linux-gnu-thread-multi
+INSTALLSITEARCH = /home/fabricio/sas/modules/lib/x86_64-linux-gnu-thread-multi
 DESTINSTALLSITEARCH = $(DESTDIR)$(INSTALLSITEARCH)
-INSTALLVENDORARCH = /home/fabricio/Downloads/sas/modules/lib/x86_64-linux-gnu-thread-multi
+INSTALLVENDORARCH = /home/fabricio/sas/modules/lib/x86_64-linux-gnu-thread-multi
 DESTINSTALLVENDORARCH = $(DESTDIR)$(INSTALLVENDORARCH)
 INSTALLBIN = $(PERLPREFIX)/bin
 DESTINSTALLBIN = $(DESTDIR)$(INSTALLBIN)
@@ -120,18 +120,16 @@ INSTALLSITEMAN3DIR = $(SITEPREFIX)/man/man3
 DESTINSTALLSITEMAN3DIR = $(DESTDIR)$(INSTALLSITEMAN3DIR)
 INSTALLVENDORMAN3DIR = $(VENDORPREFIX)/share/man/man3
 DESTINSTALLVENDORMAN3DIR = $(DESTDIR)$(INSTALLVENDORMAN3DIR)
-PERL_LIB = /usr/share/perl/5.22
-PERL_ARCHLIB = /usr/lib/x86_64-linux-gnu/perl/5.22
-PERL_ARCHLIBDEP = /usr/lib/x86_64-linux-gnu/perl/5.22
+PERL_LIB = /usr/share/perl/5.20
+PERL_ARCHLIB = /usr/lib/x86_64-linux-gnu/perl/5.20
 LIBPERL_A = libperl.a
 FIRST_MAKEFILE = Makefile
 MAKEFILE_OLD = Makefile.old
 MAKE_APERL_FILE = Makefile.aperl
 PERLMAINCC = $(CC)
-PERL_INC = /usr/lib/x86_64-linux-gnu/perl/5.22/CORE
-PERL_INCDEP = /usr/lib/x86_64-linux-gnu/perl/5.22/CORE
-PERL = "/usr/bin/perl"
-FULLPERL = "/usr/bin/perl"
+PERL_INC = /usr/lib/x86_64-linux-gnu/perl/5.20/CORE
+PERL = /usr/bin/perl
+FULLPERL = /usr/bin/perl
 ABSPERL = $(PERL)
 PERLRUN = $(PERL)
 FULLPERLRUN = $(FULLPERL)
@@ -144,9 +142,9 @@ PERM_DIR = 755
 PERM_RW = 644
 PERM_RWX = 755
 
-MAKEMAKER   = /usr/local/share/perl/5.22.1/ExtUtils/MakeMaker.pm
-MM_VERSION  = 7.3
-MM_REVISION = 73000
+MAKEMAKER   = /usr/share/perl/5.20/ExtUtils/MakeMaker.pm
+MM_VERSION  = 6.98
+MM_REVISION = 69800
 
 # FULLEXT = Pathname for extension directory (eg Foo/Bar/Oracle).
 # BASEEXT = Basename part of FULLEXT. May be just equal FULLEXT. (eg Oracle)
@@ -204,7 +202,7 @@ MAN3PODS = lib/Bundle/LWP.pm \
 	lwptut.pod
 
 # Where is the Config information that we are using/depend on
-CONFIGDEP = $(PERL_ARCHLIBDEP)$(DFSEP)Config.pm $(PERL_INCDEP)$(DFSEP)config.h
+CONFIGDEP = $(PERL_ARCHLIB)$(DFSEP)Config.pm $(PERL_INC)$(DFSEP)config.h
 
 # Where to build things
 INST_LIBDIR      = $(INST_LIB)
@@ -220,7 +218,6 @@ INST_BOOT        =
 # Extra linker info
 EXPORT_LIST        = 
 PERL_ARCHIVE       = 
-PERL_ARCHIVEDEP    = 
 PERL_ARCHIVE_AFTER = 
 
 
@@ -280,9 +277,120 @@ TO_INST_PM = lib/Bundle/LWP.pm \
 	lwpcook.pod \
 	lwptut.pod
 
+PM_TO_BLIB = lib/Bundle/LWP.pm \
+	blib/lib/Bundle/LWP.pm \
+	lib/File/Listing.pm \
+	blib/lib/File/Listing.pm \
+	lib/HTML/Form.pm \
+	blib/lib/HTML/Form.pm \
+	lib/HTTP/Config.pm \
+	blib/lib/HTTP/Config.pm \
+	lib/HTTP/Cookies.pm \
+	blib/lib/HTTP/Cookies.pm \
+	lib/HTTP/Cookies/Microsoft.pm \
+	blib/lib/HTTP/Cookies/Microsoft.pm \
+	lib/HTTP/Cookies/Netscape.pm \
+	blib/lib/HTTP/Cookies/Netscape.pm \
+	lib/HTTP/Daemon.pm \
+	blib/lib/HTTP/Daemon.pm \
+	lib/HTTP/Date.pm \
+	blib/lib/HTTP/Date.pm \
+	lib/HTTP/Headers.pm \
+	blib/lib/HTTP/Headers.pm \
+	lib/HTTP/Headers/Auth.pm \
+	blib/lib/HTTP/Headers/Auth.pm \
+	lib/HTTP/Headers/ETag.pm \
+	blib/lib/HTTP/Headers/ETag.pm \
+	lib/HTTP/Headers/Util.pm \
+	blib/lib/HTTP/Headers/Util.pm \
+	lib/HTTP/Message.pm \
+	blib/lib/HTTP/Message.pm \
+	lib/HTTP/Negotiate.pm \
+	blib/lib/HTTP/Negotiate.pm \
+	lib/HTTP/Request.pm \
+	blib/lib/HTTP/Request.pm \
+	lib/HTTP/Request/Common.pm \
+	blib/lib/HTTP/Request/Common.pm \
+	lib/HTTP/Response.pm \
+	blib/lib/HTTP/Response.pm \
+	lib/HTTP/Status.pm \
+	blib/lib/HTTP/Status.pm \
+	lib/LWP.pm \
+	blib/lib/LWP.pm \
+	lib/LWP/Authen/Basic.pm \
+	blib/lib/LWP/Authen/Basic.pm \
+	lib/LWP/Authen/Digest.pm \
+	blib/lib/LWP/Authen/Digest.pm \
+	lib/LWP/Authen/Ntlm.pm \
+	blib/lib/LWP/Authen/Ntlm.pm \
+	lib/LWP/ConnCache.pm \
+	blib/lib/LWP/ConnCache.pm \
+	lib/LWP/Debug.pm \
+	blib/lib/LWP/Debug.pm \
+	lib/LWP/DebugFile.pm \
+	blib/lib/LWP/DebugFile.pm \
+	lib/LWP/MediaTypes.pm \
+	blib/lib/LWP/MediaTypes.pm \
+	lib/LWP/MemberMixin.pm \
+	blib/lib/LWP/MemberMixin.pm \
+	lib/LWP/Protocol.pm \
+	blib/lib/LWP/Protocol.pm \
+	lib/LWP/Protocol/GHTTP.pm \
+	blib/lib/LWP/Protocol/GHTTP.pm \
+	lib/LWP/Protocol/cpan.pm \
+	blib/lib/LWP/Protocol/cpan.pm \
+	lib/LWP/Protocol/data.pm \
+	blib/lib/LWP/Protocol/data.pm \
+	lib/LWP/Protocol/file.pm \
+	blib/lib/LWP/Protocol/file.pm \
+	lib/LWP/Protocol/ftp.pm \
+	blib/lib/LWP/Protocol/ftp.pm \
+	lib/LWP/Protocol/gopher.pm \
+	blib/lib/LWP/Protocol/gopher.pm \
+	lib/LWP/Protocol/http.pm \
+	blib/lib/LWP/Protocol/http.pm \
+	lib/LWP/Protocol/http10.pm \
+	blib/lib/LWP/Protocol/http10.pm \
+	lib/LWP/Protocol/https.pm \
+	blib/lib/LWP/Protocol/https.pm \
+	lib/LWP/Protocol/https10.pm \
+	blib/lib/LWP/Protocol/https10.pm \
+	lib/LWP/Protocol/loopback.pm \
+	blib/lib/LWP/Protocol/loopback.pm \
+	lib/LWP/Protocol/mailto.pm \
+	blib/lib/LWP/Protocol/mailto.pm \
+	lib/LWP/Protocol/nntp.pm \
+	blib/lib/LWP/Protocol/nntp.pm \
+	lib/LWP/Protocol/nogo.pm \
+	blib/lib/LWP/Protocol/nogo.pm \
+	lib/LWP/RobotUA.pm \
+	blib/lib/LWP/RobotUA.pm \
+	lib/LWP/Simple.pm \
+	blib/lib/LWP/Simple.pm \
+	lib/LWP/UserAgent.pm \
+	blib/lib/LWP/UserAgent.pm \
+	lib/LWP/media.types \
+	blib/lib/LWP/media.types \
+	lib/Net/HTTP.pm \
+	blib/lib/Net/HTTP.pm \
+	lib/Net/HTTP/Methods.pm \
+	blib/lib/Net/HTTP/Methods.pm \
+	lib/Net/HTTP/NB.pm \
+	blib/lib/Net/HTTP/NB.pm \
+	lib/Net/HTTPS.pm \
+	blib/lib/Net/HTTPS.pm \
+	lib/WWW/RobotRules.pm \
+	blib/lib/WWW/RobotRules.pm \
+	lib/WWW/RobotRules/AnyDBM_File.pm \
+	blib/lib/WWW/RobotRules/AnyDBM_File.pm \
+	lwpcook.pod \
+	$(INST_LIB)/lwpcook.pod \
+	lwptut.pod \
+	$(INST_LIB)/lwptut.pod
+
 
 # --- MakeMaker platform_constants section:
-MM_Unix_VERSION = 7.3
+MM_Unix_VERSION = 6.98
 PERL_MALLOC_DEF = -DPERL_EXTMALLOC_DEF -Dmalloc=Perl_malloc -Dfree=Perl_mfree -Drealloc=Perl_realloc -Dcalloc=Perl_calloc
 
 
@@ -374,15 +482,14 @@ DISTVNAME = libwww-perl-5.834
 PASTHRU = LIB="$(LIB)"\
 	LIBPERL_A="$(LIBPERL_A)"\
 	LINKTYPE="$(LINKTYPE)"\
-	PREFIX="$(PREFIX)"\
-	PASTHRU_DEFINE='$(DEFINE) $(PASTHRU_DEFINE)'\
-	PASTHRU_INC='$(INC) $(PASTHRU_INC)'
+	LD="$(LD)"\
+	PREFIX="$(PREFIX)"
 
 
 # --- MakeMaker special_targets section:
 .SUFFIXES : .xs .c .C .cpp .i .s .cxx .cc $(OBJ_EXT)
 
-.PHONY: all config static dynamic test linkext manifest blibdirs clean realclean disttest distdir pure_all subdirs clean_subdirs makemakerdflt manifypods realclean_subdirs subdirs_dynamic subdirs_pure_nolink subdirs_static subdirs-test_dynamic subdirs-test_static test_dynamic test_static
+.PHONY: all config static dynamic test linkext manifest blibdirs clean realclean disttest distdir
 
 
 
@@ -399,9 +506,8 @@ PASTHRU = LIB="$(LIB)"\
 all :: pure_all manifypods
 	$(NOECHO) $(NOOP)
 
-pure_all :: config pm_to_blib subdirs linkext
-	$(NOECHO) $(NOOP)
 
+pure_all :: config pm_to_blib subdirs linkext
 	$(NOECHO) $(NOOP)
 
 subdirs :: $(MYEXTLIB)
@@ -466,7 +572,7 @@ $(INST_MAN3DIR)$(DFSEP).exists :: Makefile.PL
 
 # --- MakeMaker linkext section:
 
-linkext :: dynamic
+linkext :: $(LINKTYPE)
 	$(NOECHO) $(NOOP)
 
 
@@ -480,7 +586,7 @@ BOOTSTRAP =
 
 # --- MakeMaker dynamic section:
 
-dynamic :: $(FIRST_MAKEFILE) config $(INST_BOOT) $(INST_DYNAMIC)
+dynamic :: $(FIRST_MAKEFILE) $(BOOTSTRAP) $(INST_DYNAMIC)
 	$(NOECHO) $(NOOP)
 
 
@@ -504,7 +610,7 @@ POD2MAN_EXE = $(PERLRUN) "-MExtUtils::Command::MM" -e pod2man "--"
 POD2MAN = $(POD2MAN_EXE)
 
 
-manifypods : pure_all config  \
+manifypods : pure_all  \
 	lib/Bundle/LWP.pm \
 	lib/File/Listing.pm \
 	lib/HTML/Form.pm \
@@ -538,7 +644,7 @@ manifypods : pure_all config  \
 	lib/WWW/RobotRules/AnyDBM_File.pm \
 	lwpcook.pod \
 	lwptut.pod
-	$(NOECHO) $(POD2MAN) --section=3 --perm_rw=$(PERM_RW) -u \
+	$(NOECHO) $(POD2MAN) --section=$(MAN3EXT) --perm_rw=$(PERM_RW) \
 	  lib/Bundle/LWP.pm $(INST_MAN3DIR)/Bundle::LWP.$(MAN3EXT) \
 	  lib/File/Listing.pm $(INST_MAN3DIR)/File::Listing.$(MAN3EXT) \
 	  lib/HTML/Form.pm $(INST_MAN3DIR)/HTML::Form.$(MAN3EXT) \
@@ -621,16 +727,15 @@ clean :: clean_subdirs
 
 
 # --- MakeMaker realclean_subdirs section:
-# so clean is forced to complete before realclean_subdirs runs
-realclean_subdirs : clean
+realclean_subdirs :
 	$(NOECHO) $(NOOP)
 
 
 # --- MakeMaker realclean section:
 # Delete temporary files (via clean) and also delete dist files
-realclean purge :: realclean_subdirs
+realclean purge ::  clean realclean_subdirs
 	- $(RM_F) \
-	  $(FIRST_MAKEFILE) $(MAKEFILE_OLD) 
+	  $(MAKEFILE_OLD) $(FIRST_MAKEFILE) 
 	- $(RM_RF) \
 	  $(DISTVNAME) 
 
@@ -647,7 +752,7 @@ metafile : create_distdir
 	$(NOECHO) $(ECHO) 'configure_requires:' >> META_new.yml
 	$(NOECHO) $(ECHO) '  ExtUtils::MakeMaker: '\''0'\''' >> META_new.yml
 	$(NOECHO) $(ECHO) 'dynamic_config: 1' >> META_new.yml
-	$(NOECHO) $(ECHO) 'generated_by: '\''ExtUtils::MakeMaker version 7.3, CPAN::Meta::Converter version 2.150010'\''' >> META_new.yml
+	$(NOECHO) $(ECHO) 'generated_by: '\''ExtUtils::MakeMaker version 6.98, CPAN::Meta::Converter version 2.142690'\''' >> META_new.yml
 	$(NOECHO) $(ECHO) 'license: perl' >> META_new.yml
 	$(NOECHO) $(ECHO) 'meta-spec:' >> META_new.yml
 	$(NOECHO) $(ECHO) '  url: http://module-build.sourceforge.net/META-spec-v1.4.html' >> META_new.yml
@@ -677,7 +782,6 @@ metafile : create_distdir
 	$(NOECHO) $(ECHO) '  MailingList: mailto:libwww@perl.org' >> META_new.yml
 	$(NOECHO) $(ECHO) '  repository: http://gitorious.org/projects/libwww-perl' >> META_new.yml
 	$(NOECHO) $(ECHO) 'version: '\''5.834'\''' >> META_new.yml
-	$(NOECHO) $(ECHO) 'x_serialization_backend: '\''CPAN::Meta::YAML version 0.018'\''' >> META_new.yml
 	-$(NOECHO) $(MV) META_new.yml $(DISTVNAME)/META.yml
 	$(NOECHO) $(ECHO) Generating META.json
 	$(NOECHO) $(ECHO) '{' > META_new.json
@@ -686,13 +790,13 @@ metafile : create_distdir
 	$(NOECHO) $(ECHO) '      "Gisle Aas <gisle@activestate.com>"' >> META_new.json
 	$(NOECHO) $(ECHO) '   ],' >> META_new.json
 	$(NOECHO) $(ECHO) '   "dynamic_config" : 1,' >> META_new.json
-	$(NOECHO) $(ECHO) '   "generated_by" : "ExtUtils::MakeMaker version 7.3, CPAN::Meta::Converter version 2.150010",' >> META_new.json
+	$(NOECHO) $(ECHO) '   "generated_by" : "ExtUtils::MakeMaker version 6.98, CPAN::Meta::Converter version 2.142690",' >> META_new.json
 	$(NOECHO) $(ECHO) '   "license" : [' >> META_new.json
 	$(NOECHO) $(ECHO) '      "perl_5"' >> META_new.json
 	$(NOECHO) $(ECHO) '   ],' >> META_new.json
 	$(NOECHO) $(ECHO) '   "meta-spec" : {' >> META_new.json
 	$(NOECHO) $(ECHO) '      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",' >> META_new.json
-	$(NOECHO) $(ECHO) '      "version" : 2' >> META_new.json
+	$(NOECHO) $(ECHO) '      "version" : "2"' >> META_new.json
 	$(NOECHO) $(ECHO) '   },' >> META_new.json
 	$(NOECHO) $(ECHO) '   "name" : "libwww-perl",' >> META_new.json
 	$(NOECHO) $(ECHO) '   "no_index" : {' >> META_new.json
@@ -740,8 +844,7 @@ metafile : create_distdir
 	$(NOECHO) $(ECHO) '      },' >> META_new.json
 	$(NOECHO) $(ECHO) '      "x_MailingList" : "mailto:libwww@perl.org"' >> META_new.json
 	$(NOECHO) $(ECHO) '   },' >> META_new.json
-	$(NOECHO) $(ECHO) '   "version" : "5.834",' >> META_new.json
-	$(NOECHO) $(ECHO) '   "x_serialization_backend" : "JSON::PP version 2.94"' >> META_new.json
+	$(NOECHO) $(ECHO) '   "version" : "5.834"' >> META_new.json
 	$(NOECHO) $(ECHO) '}' >> META_new.json
 	-$(NOECHO) $(MV) META_new.json $(DISTVNAME)/META.json
 
@@ -822,36 +925,36 @@ distdir : create_distdir distmeta
 
 # --- MakeMaker dist_test section:
 disttest : distdir
-	cd $(DISTVNAME) && $(ABSPERLRUN) Makefile.PL "PREFIX=/home/fabricio/Downloads/sas/modules" "LIB=/home/fabricio/Downloads/sas/modules/lib"
+	cd $(DISTVNAME) && $(ABSPERLRUN) Makefile.PL "PREFIX=/home/fabricio/sas/modules" "LIB=/home/fabricio/sas/modules/lib"
 	cd $(DISTVNAME) && $(MAKE) $(PASTHRU)
 	cd $(DISTVNAME) && $(MAKE) test $(PASTHRU)
 
 
 
 # --- MakeMaker dist_ci section:
+
 ci :
-	$(ABSPERLRUN) -MExtUtils::Manifest=maniread -e '@all = sort keys %{ maniread() };' \
-	  -e 'print(qq{Executing $(CI) @all\n});' \
-	  -e 'system(qq{$(CI) @all}) == 0 or die $$!;' \
-	  -e 'print(qq{Executing $(RCS_LABEL) ...\n});' \
-	  -e 'system(qq{$(RCS_LABEL) @all}) == 0 or die $$!;' --
+	$(PERLRUN) "-MExtUtils::Manifest=maniread" \
+	  -e "@all = keys %{ maniread() };" \
+	  -e "print(qq{Executing $(CI) @all\n}); system(qq{$(CI) @all});" \
+	  -e "print(qq{Executing $(RCS_LABEL) ...\n}); system(qq{$(RCS_LABEL) @all});"
 
 
 # --- MakeMaker distmeta section:
 distmeta : create_distdir metafile
 	$(NOECHO) cd $(DISTVNAME) && $(ABSPERLRUN) -MExtUtils::Manifest=maniadd -e 'exit unless -e q{META.yml};' \
 	  -e 'eval { maniadd({q{META.yml} => q{Module YAML meta-data (added by MakeMaker)}}) }' \
-	  -e '    or die "Could not add META.yml to MANIFEST: $${'\''@'\''}"' --
+	  -e '    or print "Could not add META.yml to MANIFEST: $$$${'\''@'\''}\n"' --
 	$(NOECHO) cd $(DISTVNAME) && $(ABSPERLRUN) -MExtUtils::Manifest=maniadd -e 'exit unless -f q{META.json};' \
 	  -e 'eval { maniadd({q{META.json} => q{Module JSON meta-data (added by MakeMaker)}}) }' \
-	  -e '    or die "Could not add META.json to MANIFEST: $${'\''@'\''}"' --
+	  -e '    or print "Could not add META.json to MANIFEST: $$$${'\''@'\''}\n"' --
 
 
 
 # --- MakeMaker distsignature section:
-distsignature : distmeta
+distsignature : create_distdir
 	$(NOECHO) cd $(DISTVNAME) && $(ABSPERLRUN) -MExtUtils::Manifest=maniadd -e 'eval { maniadd({q{SIGNATURE} => q{Public-key signature (added by MakeMaker)}}) }' \
-	  -e '    or die "Could not add SIGNATURE to MANIFEST: $${'\''@'\''}"' --
+	  -e '    or print "Could not add SIGNATURE to MANIFEST: $$$${'\''@'\''}\n"' --
 	$(NOECHO) cd $(DISTVNAME) && $(TOUCH) SIGNATURE
 	cd $(DISTVNAME) && cpansign -s
 
@@ -884,89 +987,66 @@ doc__install : doc_site_install
 	$(NOECHO) $(ECHO) INSTALLDIRS not defined, defaulting to INSTALLDIRS=site
 
 pure_perl_install :: all
-	$(NOECHO) $(MOD_INSTALL) \
-		read "$(PERL_ARCHLIB)/auto/$(FULLEXT)/.packlist" \
-		write "$(DESTINSTALLARCHLIB)/auto/$(FULLEXT)/.packlist" \
-		"$(INST_LIB)" "$(DESTINSTALLPRIVLIB)" \
-		"$(INST_ARCHLIB)" "$(DESTINSTALLARCHLIB)" \
-		"$(INST_BIN)" "$(DESTINSTALLBIN)" \
-		"$(INST_SCRIPT)" "$(DESTINSTALLSCRIPT)" \
-		"$(INST_MAN1DIR)" "$(DESTINSTALLMAN1DIR)" \
-		"$(INST_MAN3DIR)" "$(DESTINSTALLMAN3DIR)"
+	$(NOECHO) umask 022; $(MOD_INSTALL) \
+		$(INST_LIB) $(DESTINSTALLPRIVLIB) \
+		$(INST_ARCHLIB) $(DESTINSTALLARCHLIB) \
+		$(INST_BIN) $(DESTINSTALLBIN) \
+		$(INST_SCRIPT) $(DESTINSTALLSCRIPT) \
+		$(INST_MAN1DIR) $(DESTINSTALLMAN1DIR) \
+		$(INST_MAN3DIR) $(DESTINSTALLMAN3DIR)
 	$(NOECHO) $(WARN_IF_OLD_PACKLIST) \
-		"$(SITEARCHEXP)/auto/$(FULLEXT)"
+		$(SITEARCHEXP)/auto/$(FULLEXT)
 
 
 pure_site_install :: all
-	$(NOECHO) $(MOD_INSTALL) \
-		read "$(SITEARCHEXP)/auto/$(FULLEXT)/.packlist" \
-		write "$(DESTINSTALLSITEARCH)/auto/$(FULLEXT)/.packlist" \
-		"$(INST_LIB)" "$(DESTINSTALLSITELIB)" \
-		"$(INST_ARCHLIB)" "$(DESTINSTALLSITEARCH)" \
-		"$(INST_BIN)" "$(DESTINSTALLSITEBIN)" \
-		"$(INST_SCRIPT)" "$(DESTINSTALLSITESCRIPT)" \
-		"$(INST_MAN1DIR)" "$(DESTINSTALLSITEMAN1DIR)" \
-		"$(INST_MAN3DIR)" "$(DESTINSTALLSITEMAN3DIR)"
+	$(NOECHO) umask 02; $(MOD_INSTALL) \
+		read $(SITEARCHEXP)/auto/$(FULLEXT)/.packlist \
+		write $(DESTINSTALLSITEARCH)/auto/$(FULLEXT)/.packlist \
+		$(INST_LIB) $(DESTINSTALLSITELIB) \
+		$(INST_ARCHLIB) $(DESTINSTALLSITEARCH) \
+		$(INST_BIN) $(DESTINSTALLSITEBIN) \
+		$(INST_SCRIPT) $(DESTINSTALLSITESCRIPT) \
+		$(INST_MAN1DIR) $(DESTINSTALLSITEMAN1DIR) \
+		$(INST_MAN3DIR) $(DESTINSTALLSITEMAN3DIR)
 	$(NOECHO) $(WARN_IF_OLD_PACKLIST) \
-		"$(PERL_ARCHLIB)/auto/$(FULLEXT)"
+		$(PERL_ARCHLIB)/auto/$(FULLEXT)
 
 pure_vendor_install :: all
-	$(NOECHO) $(MOD_INSTALL) \
-		read "$(VENDORARCHEXP)/auto/$(FULLEXT)/.packlist" \
-		write "$(DESTINSTALLVENDORARCH)/auto/$(FULLEXT)/.packlist" \
-		"$(INST_LIB)" "$(DESTINSTALLVENDORLIB)" \
-		"$(INST_ARCHLIB)" "$(DESTINSTALLVENDORARCH)" \
-		"$(INST_BIN)" "$(DESTINSTALLVENDORBIN)" \
-		"$(INST_SCRIPT)" "$(DESTINSTALLVENDORSCRIPT)" \
-		"$(INST_MAN1DIR)" "$(DESTINSTALLVENDORMAN1DIR)" \
-		"$(INST_MAN3DIR)" "$(DESTINSTALLVENDORMAN3DIR)"
+	$(NOECHO) umask 022; $(MOD_INSTALL) \
+		$(INST_LIB) $(DESTINSTALLVENDORLIB) \
+		$(INST_ARCHLIB) $(DESTINSTALLVENDORARCH) \
+		$(INST_BIN) $(DESTINSTALLVENDORBIN) \
+		$(INST_SCRIPT) $(DESTINSTALLVENDORSCRIPT) \
+		$(INST_MAN1DIR) $(DESTINSTALLVENDORMAN1DIR) \
+		$(INST_MAN3DIR) $(DESTINSTALLVENDORMAN3DIR)
 
 
 doc_perl_install :: all
-	$(NOECHO) $(ECHO) Appending installation info to "$(DESTINSTALLARCHLIB)/perllocal.pod"
-	-$(NOECHO) $(MKPATH) "$(DESTINSTALLARCHLIB)"
-	-$(NOECHO) $(DOC_INSTALL) \
-		"Module" "$(NAME)" \
-		"installed into" "$(INSTALLPRIVLIB)" \
-		LINKTYPE "$(LINKTYPE)" \
-		VERSION "$(VERSION)" \
-		EXE_FILES "$(EXE_FILES)" \
-		>> "$(DESTINSTALLARCHLIB)/perllocal.pod"
 
 doc_site_install :: all
-	$(NOECHO) $(ECHO) Appending installation info to "$(DESTINSTALLARCHLIB)/perllocal.pod"
-	-$(NOECHO) $(MKPATH) "$(DESTINSTALLARCHLIB)"
-	-$(NOECHO) $(DOC_INSTALL) \
+	$(NOECHO) $(ECHO) Appending installation info to $(DESTINSTALLSITEARCH)/perllocal.pod
+	-$(NOECHO) umask 02; $(MKPATH) $(DESTINSTALLSITEARCH)
+	-$(NOECHO) umask 02; $(DOC_INSTALL) \
 		"Module" "$(NAME)" \
 		"installed into" "$(INSTALLSITELIB)" \
 		LINKTYPE "$(LINKTYPE)" \
 		VERSION "$(VERSION)" \
 		EXE_FILES "$(EXE_FILES)" \
-		>> "$(DESTINSTALLARCHLIB)/perllocal.pod"
+		>> $(DESTINSTALLSITEARCH)/perllocal.pod
 
 doc_vendor_install :: all
-	$(NOECHO) $(ECHO) Appending installation info to "$(DESTINSTALLARCHLIB)/perllocal.pod"
-	-$(NOECHO) $(MKPATH) "$(DESTINSTALLARCHLIB)"
-	-$(NOECHO) $(DOC_INSTALL) \
-		"Module" "$(NAME)" \
-		"installed into" "$(INSTALLVENDORLIB)" \
-		LINKTYPE "$(LINKTYPE)" \
-		VERSION "$(VERSION)" \
-		EXE_FILES "$(EXE_FILES)" \
-		>> "$(DESTINSTALLARCHLIB)/perllocal.pod"
 
 
 uninstall :: uninstall_from_$(INSTALLDIRS)dirs
 	$(NOECHO) $(NOOP)
 
 uninstall_from_perldirs ::
-	$(NOECHO) $(UNINSTALL) "$(PERL_ARCHLIB)/auto/$(FULLEXT)/.packlist"
 
 uninstall_from_sitedirs ::
-	$(NOECHO) $(UNINSTALL) "$(SITEARCHEXP)/auto/$(FULLEXT)/.packlist"
+	$(NOECHO) $(UNINSTALL) $(SITEARCHEXP)/auto/$(FULLEXT)/.packlist
 
 uninstall_from_vendordirs ::
-	$(NOECHO) $(UNINSTALL) "$(VENDORARCHEXP)/auto/$(FULLEXT)/.packlist"
+
 
 
 # --- MakeMaker force section:
@@ -987,7 +1067,7 @@ $(FIRST_MAKEFILE) : Makefile.PL $(CONFIGDEP)
 	-$(NOECHO) $(RM_F) $(MAKEFILE_OLD)
 	-$(NOECHO) $(MV)   $(FIRST_MAKEFILE) $(MAKEFILE_OLD)
 	- $(MAKE) $(USEMAKEFILE) $(MAKEFILE_OLD) clean $(DEV_NULL)
-	$(PERLRUN) Makefile.PL "PREFIX=/home/fabricio/Downloads/sas/modules" "LIB=/home/fabricio/Downloads/sas/modules/lib"
+	$(PERLRUN) Makefile.PL "PREFIX=/home/fabricio/sas/modules" "LIB=/home/fabricio/sas/modules/lib"
 	$(NOECHO) $(ECHO) "==> Your Makefile has been rebuilt. <=="
 	$(NOECHO) $(ECHO) "==> Please rerun the $(MAKE) command.  <=="
 	$(FALSE)
@@ -998,20 +1078,19 @@ $(FIRST_MAKEFILE) : Makefile.PL $(CONFIGDEP)
 
 # --- MakeMaker makeaperl section ---
 MAP_TARGET    = perl
-FULLPERL      = "/usr/bin/perl"
-MAP_PERLINC   = "-Iblib/arch" "-Iblib/lib" "-I/usr/lib/x86_64-linux-gnu/perl/5.22" "-I/usr/share/perl/5.22"
+FULLPERL      = /usr/bin/perl
 
-$(MAP_TARGET) :: $(MAKE_APERL_FILE)
+$(MAP_TARGET) :: static $(MAKE_APERL_FILE)
 	$(MAKE) $(USEMAKEFILE) $(MAKE_APERL_FILE) $@
 
-$(MAKE_APERL_FILE) : static $(FIRST_MAKEFILE) pm_to_blib
+$(MAKE_APERL_FILE) : $(FIRST_MAKEFILE) pm_to_blib
 	$(NOECHO) $(ECHO) Writing \"$(MAKE_APERL_FILE)\" for this $(MAP_TARGET)
 	$(NOECHO) $(PERLRUNINST) \
-		Makefile.PL DIR="" \
+		Makefile.PL DIR= \
 		MAKEFILE=$(MAKE_APERL_FILE) LINKTYPE=static \
 		MAKEAPERL=1 NORECURS=1 CCCDLFLAGS= \
-		PREFIX=/home/fabricio/Downloads/sas/modules \
-		LIB=/home/fabricio/Downloads/sas/modules/lib
+		PREFIX=/home/fabricio/sas/modules \
+		LIB=/home/fabricio/sas/modules/lib
 
 
 # --- MakeMaker test section:
@@ -1026,105 +1105,93 @@ test : pure_all
 # --- MakeMaker ppd section:
 # Creates a PPD (Perl Package Description) for a binary distribution.
 ppd :
-	$(NOECHO) $(ECHO) '<SOFTPKG NAME="libwww-perl" VERSION="5.834">' > libwww-perl.ppd
-	$(NOECHO) $(ECHO) '    <ABSTRACT>The World-Wide Web library for Perl</ABSTRACT>' >> libwww-perl.ppd
-	$(NOECHO) $(ECHO) '    <AUTHOR>Gisle Aas &lt;gisle@activestate.com&gt;</AUTHOR>' >> libwww-perl.ppd
-	$(NOECHO) $(ECHO) '    <IMPLEMENTATION>' >> libwww-perl.ppd
-	$(NOECHO) $(ECHO) '        <PERLCORE VERSION="5,006,0,0" />' >> libwww-perl.ppd
-	$(NOECHO) $(ECHO) '        <REQUIRE NAME="Compress::Raw::Zlib" />' >> libwww-perl.ppd
-	$(NOECHO) $(ECHO) '        <REQUIRE NAME="Digest::MD5" />' >> libwww-perl.ppd
-	$(NOECHO) $(ECHO) '        <REQUIRE NAME="HTML::Parser" VERSION="3.33" />' >> libwww-perl.ppd
-	$(NOECHO) $(ECHO) '        <REQUIRE NAME="HTML::Tagset" />' >> libwww-perl.ppd
-	$(NOECHO) $(ECHO) '        <REQUIRE NAME="IO::Compress::Deflate" />' >> libwww-perl.ppd
-	$(NOECHO) $(ECHO) '        <REQUIRE NAME="IO::Compress::Gzip" />' >> libwww-perl.ppd
-	$(NOECHO) $(ECHO) '        <REQUIRE NAME="IO::Uncompress::Gunzip" />' >> libwww-perl.ppd
-	$(NOECHO) $(ECHO) '        <REQUIRE NAME="IO::Uncompress::Inflate" />' >> libwww-perl.ppd
-	$(NOECHO) $(ECHO) '        <REQUIRE NAME="IO::Uncompress::RawInflate" />' >> libwww-perl.ppd
-	$(NOECHO) $(ECHO) '        <REQUIRE NAME="MIME::Base64" VERSION="2.1" />' >> libwww-perl.ppd
-	$(NOECHO) $(ECHO) '        <REQUIRE NAME="Net::FTP" VERSION="2.58" />' >> libwww-perl.ppd
-	$(NOECHO) $(ECHO) '        <REQUIRE NAME="URI::" VERSION="1.10" />' >> libwww-perl.ppd
-	$(NOECHO) $(ECHO) '        <ARCHITECTURE NAME="x86_64-linux-gnu-thread-multi-5.22" />' >> libwww-perl.ppd
-	$(NOECHO) $(ECHO) '        <CODEBASE HREF="" />' >> libwww-perl.ppd
-	$(NOECHO) $(ECHO) '    </IMPLEMENTATION>' >> libwww-perl.ppd
-	$(NOECHO) $(ECHO) '</SOFTPKG>' >> libwww-perl.ppd
+	$(NOECHO) $(ECHO) '<SOFTPKG NAME="$(DISTNAME)" VERSION="$(VERSION)">' > $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '    <ABSTRACT>The World-Wide Web library for Perl</ABSTRACT>' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '    <AUTHOR>Gisle Aas &lt;gisle@activestate.com&gt;</AUTHOR>' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '    <IMPLEMENTATION>' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <PERLCORE VERSION="5,006,0,0" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <REQUIRE NAME="Compress::Raw::Zlib" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <REQUIRE NAME="Digest::MD5" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <REQUIRE VERSION="3.33" NAME="HTML::Parser" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <REQUIRE NAME="HTML::Tagset" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <REQUIRE NAME="IO::Compress::Deflate" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <REQUIRE NAME="IO::Compress::Gzip" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <REQUIRE NAME="IO::Uncompress::Gunzip" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <REQUIRE NAME="IO::Uncompress::Inflate" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <REQUIRE NAME="IO::Uncompress::RawInflate" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <REQUIRE NAME="MIME::Base64" VERSION="2.1" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <REQUIRE VERSION="2.58" NAME="Net::FTP" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <REQUIRE VERSION="1.1" NAME="URI::" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <ARCHITECTURE NAME="x86_64-linux-gnu-thread-multi-5.20" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <CODEBASE HREF="" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '    </IMPLEMENTATION>' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '</SOFTPKG>' >> $(DISTNAME).ppd
 
 
 # --- MakeMaker pm_to_blib section:
 
 pm_to_blib : $(FIRST_MAKEFILE) $(TO_INST_PM)
 	$(NOECHO) $(ABSPERLRUN) -MExtUtils::Install -e 'pm_to_blib({@ARGV}, '\''$(INST_LIB)/auto'\'', q[$(PM_FILTER)], '\''$(PERM_DIR)'\'')' -- \
-	  'lib/Bundle/LWP.pm' 'blib/lib/Bundle/LWP.pm' \
-	  'lib/File/Listing.pm' 'blib/lib/File/Listing.pm' \
-	  'lib/HTML/Form.pm' 'blib/lib/HTML/Form.pm' \
-	  'lib/HTTP/Config.pm' 'blib/lib/HTTP/Config.pm' \
-	  'lib/HTTP/Cookies.pm' 'blib/lib/HTTP/Cookies.pm' \
-	  'lib/HTTP/Cookies/Microsoft.pm' 'blib/lib/HTTP/Cookies/Microsoft.pm' \
-	  'lib/HTTP/Cookies/Netscape.pm' 'blib/lib/HTTP/Cookies/Netscape.pm' \
-	  'lib/HTTP/Daemon.pm' 'blib/lib/HTTP/Daemon.pm' \
-	  'lib/HTTP/Date.pm' 'blib/lib/HTTP/Date.pm' \
-	  'lib/HTTP/Headers.pm' 'blib/lib/HTTP/Headers.pm' \
-	  'lib/HTTP/Headers/Auth.pm' 'blib/lib/HTTP/Headers/Auth.pm' \
-	  'lib/HTTP/Headers/ETag.pm' 'blib/lib/HTTP/Headers/ETag.pm' \
-	  'lib/HTTP/Headers/Util.pm' 'blib/lib/HTTP/Headers/Util.pm' \
-	  'lib/HTTP/Message.pm' 'blib/lib/HTTP/Message.pm' \
-	  'lib/HTTP/Negotiate.pm' 'blib/lib/HTTP/Negotiate.pm' \
-	  'lib/HTTP/Request.pm' 'blib/lib/HTTP/Request.pm' \
-	  'lib/HTTP/Request/Common.pm' 'blib/lib/HTTP/Request/Common.pm' \
-	  'lib/HTTP/Response.pm' 'blib/lib/HTTP/Response.pm' \
-	  'lib/HTTP/Status.pm' 'blib/lib/HTTP/Status.pm' \
-	  'lib/LWP.pm' 'blib/lib/LWP.pm' \
-	  'lib/LWP/Authen/Basic.pm' 'blib/lib/LWP/Authen/Basic.pm' \
-	  'lib/LWP/Authen/Digest.pm' 'blib/lib/LWP/Authen/Digest.pm' \
-	  'lib/LWP/Authen/Ntlm.pm' 'blib/lib/LWP/Authen/Ntlm.pm' \
-	  'lib/LWP/ConnCache.pm' 'blib/lib/LWP/ConnCache.pm' \
-	  'lib/LWP/Debug.pm' 'blib/lib/LWP/Debug.pm' \
-	  'lib/LWP/DebugFile.pm' 'blib/lib/LWP/DebugFile.pm' \
-	  'lib/LWP/MediaTypes.pm' 'blib/lib/LWP/MediaTypes.pm' \
-	  'lib/LWP/MemberMixin.pm' 'blib/lib/LWP/MemberMixin.pm' \
-	  'lib/LWP/Protocol.pm' 'blib/lib/LWP/Protocol.pm' \
-	  'lib/LWP/Protocol/GHTTP.pm' 'blib/lib/LWP/Protocol/GHTTP.pm' \
-	  'lib/LWP/Protocol/cpan.pm' 'blib/lib/LWP/Protocol/cpan.pm' \
-	  'lib/LWP/Protocol/data.pm' 'blib/lib/LWP/Protocol/data.pm' \
-	  'lib/LWP/Protocol/file.pm' 'blib/lib/LWP/Protocol/file.pm' \
-	  'lib/LWP/Protocol/ftp.pm' 'blib/lib/LWP/Protocol/ftp.pm' \
-	  'lib/LWP/Protocol/gopher.pm' 'blib/lib/LWP/Protocol/gopher.pm' \
-	  'lib/LWP/Protocol/http.pm' 'blib/lib/LWP/Protocol/http.pm' \
-	  'lib/LWP/Protocol/http10.pm' 'blib/lib/LWP/Protocol/http10.pm' \
-	  'lib/LWP/Protocol/https.pm' 'blib/lib/LWP/Protocol/https.pm' \
-	  'lib/LWP/Protocol/https10.pm' 'blib/lib/LWP/Protocol/https10.pm' \
-	  'lib/LWP/Protocol/loopback.pm' 'blib/lib/LWP/Protocol/loopback.pm' \
-	  'lib/LWP/Protocol/mailto.pm' 'blib/lib/LWP/Protocol/mailto.pm' \
-	  'lib/LWP/Protocol/nntp.pm' 'blib/lib/LWP/Protocol/nntp.pm' \
-	  'lib/LWP/Protocol/nogo.pm' 'blib/lib/LWP/Protocol/nogo.pm' \
-	  'lib/LWP/RobotUA.pm' 'blib/lib/LWP/RobotUA.pm' \
-	  'lib/LWP/Simple.pm' 'blib/lib/LWP/Simple.pm' \
-	  'lib/LWP/UserAgent.pm' 'blib/lib/LWP/UserAgent.pm' \
-	  'lib/LWP/media.types' 'blib/lib/LWP/media.types' 
+	  lib/Bundle/LWP.pm blib/lib/Bundle/LWP.pm \
+	  lib/File/Listing.pm blib/lib/File/Listing.pm \
+	  lib/HTML/Form.pm blib/lib/HTML/Form.pm \
+	  lib/HTTP/Config.pm blib/lib/HTTP/Config.pm \
+	  lib/HTTP/Cookies.pm blib/lib/HTTP/Cookies.pm \
+	  lib/HTTP/Cookies/Microsoft.pm blib/lib/HTTP/Cookies/Microsoft.pm \
+	  lib/HTTP/Cookies/Netscape.pm blib/lib/HTTP/Cookies/Netscape.pm \
+	  lib/HTTP/Daemon.pm blib/lib/HTTP/Daemon.pm \
+	  lib/HTTP/Date.pm blib/lib/HTTP/Date.pm \
+	  lib/HTTP/Headers.pm blib/lib/HTTP/Headers.pm \
+	  lib/HTTP/Headers/Auth.pm blib/lib/HTTP/Headers/Auth.pm \
+	  lib/HTTP/Headers/ETag.pm blib/lib/HTTP/Headers/ETag.pm \
+	  lib/HTTP/Headers/Util.pm blib/lib/HTTP/Headers/Util.pm \
+	  lib/HTTP/Message.pm blib/lib/HTTP/Message.pm \
+	  lib/HTTP/Negotiate.pm blib/lib/HTTP/Negotiate.pm \
+	  lib/HTTP/Request.pm blib/lib/HTTP/Request.pm \
+	  lib/HTTP/Request/Common.pm blib/lib/HTTP/Request/Common.pm \
+	  lib/HTTP/Response.pm blib/lib/HTTP/Response.pm \
+	  lib/HTTP/Status.pm blib/lib/HTTP/Status.pm \
+	  lib/LWP.pm blib/lib/LWP.pm \
+	  lib/LWP/Authen/Basic.pm blib/lib/LWP/Authen/Basic.pm \
+	  lib/LWP/Authen/Digest.pm blib/lib/LWP/Authen/Digest.pm \
+	  lib/LWP/Authen/Ntlm.pm blib/lib/LWP/Authen/Ntlm.pm \
+	  lib/LWP/ConnCache.pm blib/lib/LWP/ConnCache.pm \
+	  lib/LWP/Debug.pm blib/lib/LWP/Debug.pm \
+	  lib/LWP/DebugFile.pm blib/lib/LWP/DebugFile.pm \
+	  lib/LWP/MediaTypes.pm blib/lib/LWP/MediaTypes.pm \
+	  lib/LWP/MemberMixin.pm blib/lib/LWP/MemberMixin.pm \
+	  lib/LWP/Protocol.pm blib/lib/LWP/Protocol.pm \
+	  lib/LWP/Protocol/GHTTP.pm blib/lib/LWP/Protocol/GHTTP.pm \
+	  lib/LWP/Protocol/cpan.pm blib/lib/LWP/Protocol/cpan.pm \
+	  lib/LWP/Protocol/data.pm blib/lib/LWP/Protocol/data.pm \
+	  lib/LWP/Protocol/file.pm blib/lib/LWP/Protocol/file.pm \
+	  lib/LWP/Protocol/ftp.pm blib/lib/LWP/Protocol/ftp.pm \
+	  lib/LWP/Protocol/gopher.pm blib/lib/LWP/Protocol/gopher.pm \
+	  lib/LWP/Protocol/http.pm blib/lib/LWP/Protocol/http.pm \
+	  lib/LWP/Protocol/http10.pm blib/lib/LWP/Protocol/http10.pm \
+	  lib/LWP/Protocol/https.pm blib/lib/LWP/Protocol/https.pm \
+	  lib/LWP/Protocol/https10.pm blib/lib/LWP/Protocol/https10.pm \
+	  lib/LWP/Protocol/loopback.pm blib/lib/LWP/Protocol/loopback.pm \
+	  lib/LWP/Protocol/mailto.pm blib/lib/LWP/Protocol/mailto.pm \
+	  lib/LWP/Protocol/nntp.pm blib/lib/LWP/Protocol/nntp.pm \
+	  lib/LWP/Protocol/nogo.pm blib/lib/LWP/Protocol/nogo.pm \
+	  lib/LWP/RobotUA.pm blib/lib/LWP/RobotUA.pm \
+	  lib/LWP/Simple.pm blib/lib/LWP/Simple.pm \
+	  lib/LWP/UserAgent.pm blib/lib/LWP/UserAgent.pm \
+	  lib/LWP/media.types blib/lib/LWP/media.types \
+	  lib/Net/HTTP.pm blib/lib/Net/HTTP.pm \
+	  lib/Net/HTTP/Methods.pm blib/lib/Net/HTTP/Methods.pm \
+	  lib/Net/HTTP/NB.pm blib/lib/Net/HTTP/NB.pm \
+	  lib/Net/HTTPS.pm blib/lib/Net/HTTPS.pm 
 	$(NOECHO) $(ABSPERLRUN) -MExtUtils::Install -e 'pm_to_blib({@ARGV}, '\''$(INST_LIB)/auto'\'', q[$(PM_FILTER)], '\''$(PERM_DIR)'\'')' -- \
-	  'lib/Net/HTTP.pm' 'blib/lib/Net/HTTP.pm' \
-	  'lib/Net/HTTP/Methods.pm' 'blib/lib/Net/HTTP/Methods.pm' \
-	  'lib/Net/HTTP/NB.pm' 'blib/lib/Net/HTTP/NB.pm' \
-	  'lib/Net/HTTPS.pm' 'blib/lib/Net/HTTPS.pm' \
-	  'lib/WWW/RobotRules.pm' 'blib/lib/WWW/RobotRules.pm' \
-	  'lib/WWW/RobotRules/AnyDBM_File.pm' 'blib/lib/WWW/RobotRules/AnyDBM_File.pm' \
-	  'lwpcook.pod' '$(INST_LIB)/lwpcook.pod' \
-	  'lwptut.pod' '$(INST_LIB)/lwptut.pod' 
+	  lib/WWW/RobotRules.pm blib/lib/WWW/RobotRules.pm \
+	  lib/WWW/RobotRules/AnyDBM_File.pm blib/lib/WWW/RobotRules/AnyDBM_File.pm \
+	  lwpcook.pod $(INST_LIB)/lwpcook.pod \
+	  lwptut.pod $(INST_LIB)/lwptut.pod 
 	$(NOECHO) $(TOUCH) pm_to_blib
 
 
 # --- MakeMaker selfdocument section:
-
-# here so even if top_targets is overridden, these will still be defined
-# gmake will silently still work if any are .PHONY-ed but nmake won't
-
-static ::
-	$(NOECHO) $(NOOP)
-
-dynamic ::
-	$(NOECHO) $(NOOP)
-
-config ::
-	$(NOECHO) $(NOOP)
 
 
 # --- MakeMaker postamble section:

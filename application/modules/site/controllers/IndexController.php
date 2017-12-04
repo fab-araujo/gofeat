@@ -3,7 +3,7 @@
 class IndexController extends Zend_Controller_Action
 {
     protected $_data;
-
+    protected $_config;
 
     public function init()
     {
@@ -12,6 +12,9 @@ class IndexController extends Zend_Controller_Action
 
         $this->_imagem = new Plugin_Imagem();
         $this->_auth = new Plugin_Auth();
+
+        $this->_config = new Zend_Config_Ini($_SERVER['DOCUMENT_ROOT'] . Zend_Registry::get('baseurl').'/application/configs/application.ini', 'staging');
+
     }
 
     public function indexAction()
@@ -74,12 +77,13 @@ class IndexController extends Zend_Controller_Action
                 }
 
                 $this->_data['id_status'] = 1;
+                $this->_data['evalue'] = $this->_data['evalue'];
 
                 $id_pro = $db->save($this->_data);
 
                 if ($this->_data['file']) {
-                    $server = "http://computationalbiology.ufpa.br";
-                    $command = 'curl ' . $server . '/gofeat/index/procfile/id/' . $id_pro . '/evalue/'.$this->_data['evalue'].' > /dev/null 2>&1 & echo $!';
+                    $server = "http://$_SERVER[HTTP_HOST]";
+                    $command = 'curl ' . $server . Zend_Registry::get('baseurl') . '/index/procfile/id/' . $id_pro . '/evalue/'.$this->_data['evalue'].' > /dev/null 2>&1 & echo $!';
                     $pid = exec($command, $output);
 
 
@@ -133,8 +137,11 @@ class IndexController extends Zend_Controller_Action
                     $dbSeq = new Db_ProjSeq();
                     $voSeq = $dbSeq->fetchAll('id_proj = ' . $oPro->id);
                     foreach ($voSeq as $oSeq) {
-                        $oSeq->id_status = 1;
-                        $dbSeq->save($oSeq->toArray());
+                        if(!$oSeq->id_status){
+                            $oSeq->id_status = 1;
+                            $dbSeq->save($oSeq->toArray());
+                        }
+
                     }
 
                     $oPro->id_status = 1;
@@ -145,7 +152,8 @@ class IndexController extends Zend_Controller_Action
                 }
 
 
-            } else {
+            }
+            else {
                 unlink($_SERVER['DOCUMENT_ROOT'] . Zend_Registry::get('baseurl') . '/data/' . $this->_data['file']);
                 $this->_helper->FlashMessenger(array('erro', 'You must fill all options.'));
                 $this->_redirect('/index');
@@ -154,6 +162,7 @@ class IndexController extends Zend_Controller_Action
     }
 
     public function procfileAction(){
+
         ini_set('memory_limit', '4096M');
         ini_set('max_execution_time', 0);
         set_time_limit(0);
@@ -191,15 +200,29 @@ class IndexController extends Zend_Controller_Action
                 $command = 'perl ' . $_SERVER['DOCUMENT_ROOT'] . Zend_Registry::get('baseurl') . '/file_type.pl ' . $_SERVER['DOCUMENT_ROOT'] . Zend_Registry::get('baseurl') . '/data/' . $tmp;
 
                 exec($command, $output);
+
                 unlink($_SERVER['DOCUMENT_ROOT'] . Zend_Registry::get('baseurl') . '/data/' . $tmp);
                 $type = $output[0];
+
+
 
                 $title = utf8_encode($title);
                 $vSeq = array('id_proj' => $id_pro, 'title' => $title, 'seq' => trim($seq), 'evalue' => $this->_data['evalue'], 'type' => $type);
                 $dbSeq->save($vSeq);
             }
 
-            $dbSeq->update(array('id_status' => '1'), array('id_proj = '.$id_pro));
+            if($this->_config->diamond->useDiamond == "true"){
+                if(count($vLine)>=$this->_config->diamond->nSeqs){
+                    $dbSeq->update(array('id_status' => '5'), array('id_proj = '.$id_pro));
+                }else{
+                    $dbSeq->update(array('id_status' => '1'), array('id_proj = '.$id_pro));
+                }
+            }else{
+                $dbSeq->update(array('id_status' => '1'), array('id_proj = '.$id_pro));
+            }
+
+
+
 
             /*$voSeq = $dbSeq->fetchAll('id_proj = ' . $oProj->id);
             foreach ($voSeq as $oSeq) {
@@ -361,12 +384,12 @@ class IndexController extends Zend_Controller_Action
                 $mail = new Zend_Mail('UTF-8');
                 $html = '<p>Greetings, ' . $this->_data['name'] . '!</p>';
                 $html .= '<p>' . Plugin_Auth::getInstance()->getIdentity()->fname . " " . Plugin_Auth::getInstance()->getIdentity()->lname . ' shared the "' . $oProject->name . '" project with you on GO FEAT.</p>';
-                $html .= '<p>Please <a href="http://computationalbiology.ufpa.br/gofeat/index/">log in</a> to you account to check out the results.</p>';
+                $html .= '<p>Please <a href="http://'.$_SERVER[HTTP_HOST].Zend_Registry::get('baseurl').'/index/">log in</a> to you account to check out the results.</p>';
                 if ($this->_data['message']) {
                     $html .= '<p>"' . $this->_data['message'] . '"</p>';
                 }
                 $html .= '<p>Best regards,</p>';
-                $html .= '<p><a href="http://computationalbiology.ufpa.br/gofeat/index/">http://computationalbiology.ufpa.br/gofeat/index/</a></p>';
+                $html .= '<p><a href="http://'.$_SERVER[HTTP_HOST].Zend_Registry::get('baseurl').'/index/">http://'.$_SERVER[HTTP_HOST]. Zend_Registry::get('baseurl') . '/index/</a></p>';
                 $mail->setBodyHtml($html);
                 $mail->setFrom('lpdnabioinfor@gmail.com', 'GO FEAT');
                 $mail->addTo($this->_data['email'], $this->_data['name']);
@@ -886,7 +909,7 @@ class IndexController extends Zend_Controller_Action
         $nMax = 30;
         $nMin = 3;
         $sleep = 60;
-        $server = "http://computationalbiology.ufpa.br";
+        $server = "http://$_SERVER[HTTP_HOST]";
 
 
         while (true) {
@@ -950,7 +973,7 @@ class IndexController extends Zend_Controller_Action
                                                     $oSeqPid = $dbPid->fetchRow('id_seq = ' . $oSeq->id);
                                                     if (!$oSeqPid->id) {
                                                         $id = $oSeq->id;
-                                                        $command = 'curl ' . $server . '/gofeat/index/doblast/id/' . $id . ' > /dev/null 2>&1 & echo $!';
+                                                        $command = 'curl ' . $server . Zend_Registry::get('baseurl') . '/index/doblast/id/' . $id . ' > /dev/null 2>&1 & echo $!';
 
                                                         $pid = exec($command, $output);
                                                         $this->echopausedbot("Running blast of seq " . $oSeq->id . " (" . $pid . ") running now. \n");
@@ -991,14 +1014,146 @@ class IndexController extends Zend_Controller_Action
 
     }
 
+    public function botdiamondAction()
+    {
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(TRUE);
+
+        $dbSeq = new Db_ProjSeq();
+        $server = "http://$_SERVER[HTTP_HOST]";
+
+
+        while (true) {
+            $select = $dbSeq->select();
+            $select->where('id_status = 5');
+            $select->group(array('type','evalue'));
+            $voTypeSeq = $dbSeq->fetchAll($select);
+            $this->echopauseddiamond("Starting bot\n");
+            if(count($voTypeSeq)>0){
+                foreach ($voTypeSeq as $oSeqType){
+                    $tmp = md5(date('Y-m-d H:i:s'));
+                    $localfasta = $_SERVER['DOCUMENT_ROOT'] . Zend_Registry::get('baseurl') . '/'.$tmp.'.fasta';
+                    $diamondUniprot = $this->_config->diamond->uniprotkb;
+
+                    if($this->_config->diamond->remoteDiamond == 'true'){
+                        $remotefasta = $this->_config->diamond->workDir.$tmp.'.fasta';
+                        $remotexml = $this->_config->diamond->workDir.$tmp.'.xml';
+
+                    }else{
+                        $remotefasta = $_SERVER['DOCUMENT_ROOT'] . Zend_Registry::get('baseurl').$tmp.'.fasta';
+                        $remotexml = $_SERVER['DOCUMENT_ROOT'] . Zend_Registry::get('baseurl').$tmp.'.xml';
+                    }
+
+                    $localxml = $_SERVER['DOCUMENT_ROOT'] . Zend_Registry::get('baseurl') . '/'.$tmp.'.xml';
+
+                    $this->echopauseddiamond("Getting sequences for '".$oSeqType->type."' and evalue '".$oSeqType->evalue."' \n");
+
+                    $voSeq = $dbSeq->fetchAll('id_status = 5 and type = "'.$oSeqType->type.'" and evalue = "'.$oSeqType->evalue.'"', 'id asc', 500);
+                    @unlink($localfasta);
+
+                    if(count($voSeq)>0){
+                        $seqs = '';
+                        $this->echopauseddiamond("Generating sequences file\n");
+                        foreach ($voSeq as $oSeq){
+                            $vTitle = explode(">",$oSeq->title);
+                            $title = ">{".$oSeq->id."}".$vTitle[1];
+                            $seqs .= $title."\n";
+                            $seqs .= $oSeq->seq."\n";
+                            $oSeq->blast_start = date('Y-m-d H:i:s');
+                            $oSeq->id_status = 6;
+                            $dbSeq->save($oSeq->toArray());
+                        }
+
+                        file_put_contents($localfasta, $seqs);
+
+                        //ssh diamond
+                        if($this->_config->diamond->remoteDiamond == 'true'){
+                            $this->echopauseddiamond("Sending to remote server\n");
+                            $connection = ssh2_connect($this->_config->diamond->remoteHost, $this->_config->diamond->remotePort);
+                            ssh2_auth_password($connection, $this->_config->diamond->remoteUser, $this->_config->diamond->remotePwd);
+                            ssh2_scp_send($connection, $localfasta, $remotefasta, 0777);
+                        }
+
+                        @unlink($localfasta);
+
+                        $this->echopauseddiamond("Running diamond\n");
+
+                        $command = 'diamond ';
+                        if ($oSeqType->type == 'protein') {
+                            $command .= 'blastp ';
+                        } else {
+                            $command .= 'blastx ';
+                        }
+
+                        $command .= '-d '.$diamondUniprot.' -q '.$remotefasta.' -o '.$remotexml.' --max-hsps 1 --gapopen 11 --gapextend 1 --comp-based-stats 0 -f 5 -k 1 -p '.$this->_config->diamond->nCore.' -e '.$oSeqType->evalue;
+                        $this->echopauseddiamond($command."\n");
+                        if($this->_config->diamond->remoteDiamond == 'true'){
+                            $stream = ssh2_exec($connection, $command);
+                            $errorStream = ssh2_fetch_stream($stream, SSH2_STREAM_STDERR);
+
+                            // Enable blocking for both streams
+                            stream_set_blocking($errorStream, true);
+                            stream_set_blocking($stream, true);
+
+                            stream_get_contents($stream);
+                            stream_get_contents($errorStream);
+
+                            // Close the streams
+                            fclose($errorStream);
+                            fclose($stream);
+                        }else{
+                            $pid = exec($command, $output);
+                        }
+
+
+                        $this->echopauseddiamond("Diamond finished\n");
+                        $this->echopauseddiamond("Copying to local server\n");
+
+                        if($this->_config->diamond->remoteDiamond == 'true'){
+                            ssh2_scp_recv($connection, $remotexml, $localxml);
+                            $stream = ssh2_exec($connection, 'rm '.$remotefasta);
+                            $stream = ssh2_exec($connection, 'rm '.$remotexml);
+                        }else{
+                            exec('rm '.$remotefasta);
+                            exec('rm '.$remotexml);
+                        }
+
+
+                        $this->echopauseddiamond("Running annotation\n");
+
+                        $command = 'curl ' . $server . Zend_Registry::get('baseurl').'/index/readblast/file/'.$tmp . ' > /dev/null 2>&1 & echo $!';
+                        $pid = exec($command, $output);
+
+
+                    }
+
+                }
+            }else{
+                $this->echopauseddiamond("-----------Nothing to run\n");
+            }
+
+            sleep(60);
+
+        }
+
+    }
+
     public function echopausedbot($string)
     {
-        $string = str_replace("<br>", "\n", $string);
-        $string = "[" . date('Y-m-d H:i:s') . "] " . $string;
-        $size = file_put_contents($_SERVER['DOCUMENT_ROOT'] . Zend_Registry::get('baseurl') . '/log_bot.txt', $string, FILE_APPEND);
-        @ob_flush();
-        flush();
-        sleep(1);
+        //$string = str_replace("<br>", "\n", $string);
+        //$string = "[" . date('Y-m-d H:i:s') . "] " . $string;
+        //$size = file_put_contents($_SERVER['DOCUMENT_ROOT'] . Zend_Registry::get('baseurl') . '/log_bot.txt', $string, FILE_APPEND);
+        //@ob_flush();
+        //flush();
+    }
+
+    public function echopauseddiamond($string)
+    {
+        //$string = str_replace("<br>", "\n", $string);
+        //$string = "[" . date('Y-m-d H:i:s') . "] " . $string;
+        //$size = file_put_contents($_SERVER['DOCUMENT_ROOT'] . Zend_Registry::get('baseurl') . '/log_diamond.txt', $string, FILE_APPEND);
+        //@ob_flush();
+        //flush();
     }
 
     public function checkfinished($msg = "")
@@ -1070,6 +1225,7 @@ class IndexController extends Zend_Controller_Action
                 }
                 //$rid = "ncbiblast-R20170317-191136-0897-52124633-oy";
 
+                //$this->echopausedbot("RID: " . $oSeq->id . "\n");
 
                 if (strpos($rid, 'ncbiblast-') === false) {
                     $this->echopausedbot("Error on sending blast SEQ: " . $oSeq->id . "\n");
@@ -1106,7 +1262,7 @@ class IndexController extends Zend_Controller_Action
                     if (!$status) {
                         $this->echopausedbot("Empty status on " . $oSeq->id . "\n");
                         $this->echopausedbot("Trying again!\n");
-                        sleep(300);
+                        sleep(60);
                         $oSeq->id_status = 1;
                         $oSeq->blast_rid = '';
                         $dbSeq->save($oSeq->toArray());
@@ -1125,17 +1281,17 @@ class IndexController extends Zend_Controller_Action
                                 //break;
                                 $this->echopausedbot("FAILURE error!\n");
                                 $nErro++;
-                                sleep(300);
+                                sleep(60);
                             }
                             if ($status == 'ERROR') {
                                 //$bFailure = true;
                                 //break;
                                 $this->echopausedbot("ERROR error!\n");
                                 $nErro++;
-                                sleep(300);
+                                sleep(60);
                             }
 
-                            if($nErro>=5){
+                            if($nErro>=10){
                                 $bFailure = true;
                                 break;
                             }
@@ -1174,7 +1330,7 @@ class IndexController extends Zend_Controller_Action
                                 $vId = explode(':', $Hit_id);
                                 $idUniprot = $vId[1];
 
-
+                                unset($oBlast);
                                 if (!$idUniprot) {
                                     $this->echopausedbot("NO UNIPROT!!! \n");
                                 } else {
@@ -1457,7 +1613,7 @@ class IndexController extends Zend_Controller_Action
 
     public function sendBlastEBI($vParam)
     {
-        $command = 'perl ' . $_SERVER['DOCUMENT_ROOT'] . Zend_Registry::get('baseurl') . '/ncbiblast_lwp.pl --async --email araujopa@gmail.com ';
+        $command = 'perl ' . $_SERVER['DOCUMENT_ROOT'] . Zend_Registry::get('baseurl') . '/ncbiblast_lwp.pl --async --email '.$this->_config->diamond->emailEbi.' ';
         if ($vParam['type'] == 'protein') {
             $command .= '-p blastp ';
         } else {
@@ -1467,7 +1623,7 @@ class IndexController extends Zend_Controller_Action
         if ($vParam['evalue']) {
             $command .= '-E ' . $vParam['evalue'] . ' ';
         }
-        $command .= '--stype ' . $vParam['type'] . ' ';
+        $command .= '--stype ' . $vParam['type'] . ' -n 5 ';
 
 
         $command .= $vParam['seq'];
@@ -1475,6 +1631,11 @@ class IndexController extends Zend_Controller_Action
         //$this->echopausedbot("COMMAND FOR BLAST: " . $command . "!\n");
 
         $output = shell_exec($command);
+
+        if (strpos(trim($output), 'ncbiblast-') === false) {
+            $this->echopausedbot($output . "\n");
+        }
+
         return trim($output);
     }
 
@@ -1505,7 +1666,7 @@ class IndexController extends Zend_Controller_Action
             $voSeq = $oProj->findDependentRowset('Db_ProjSeq');
             if(count($voSeq)>0){
                 foreach ($voSeq as $oSeqAux) {
-                    if ($oSeqAux->id_status < 3) {
+                    if (!($oSeqAux->id_status == 3 || $oSeqAux->id_status == 4)) {
                         $isBlastOver = false;
                     }
                 }
@@ -1522,14 +1683,14 @@ class IndexController extends Zend_Controller_Action
             $html = '<p>Greetings!</p>';
             $html .= '<p>Your GO FEAT job (#' . $oProj->id . ') is finished.</p>';
             if ($oProj->email) {
-                $html .= '<p>Click <a href="http://computationalbiology.ufpa.br/gofeat/index/viewprojectp/key/' . Plugin_Util::encrypt($oProj->id) . '">here</a> to view the results.</p>';
+                $html .= '<p>Click <a href="http://'.$_SERVER[HTTP_HOST].Zend_Registry::get('baseurl').'/index/viewprojectp/key/' . Plugin_Util::encrypt($oProj->id) . '">here</a> to view the results.</p>';
 
             } else {
-                $html .= '<p>Please <a href="http://computationalbiology.ufpa.br/gofeat/index/">log in</a> to you account to check out the results.</p>';
+                $html .= '<p>Please <a href="http://'.$_SERVER[HTTP_HOST].Zend_Registry::get('baseurl').'/index/">log in</a> to you account to check out the results.</p>';
 
             }
             $html .= '<p>Best regards,</p>';
-            $html .= '<p><a href="http://computationalbiology.ufpa.br/gofeat/index/">http://computationalbiology.ufpa.br/gofeat/index/</a></p>';
+            $html .= '<p><a href="http://'.$_SERVER[HTTP_HOST].Zend_Registry::get('baseurl').'/index/">http://'.$_SERVER[HTTP_HOST].Zend_Registry::get('baseurl').'/index/</a></p>';
             $mail->setBodyHtml($html);
             $mail->setFrom('lpdnabioinfor@gmail.com', 'GO FEAT');
             if ($oProj->email) {
@@ -1623,9 +1784,9 @@ class IndexController extends Zend_Controller_Action
                 $mail = new Zend_Mail('UTF-8');
                 $html = '<p>Greetings!</p>';
                 $html .= '<p>You requested a new password in our system.</p>';
-                $html .= '<p>Please <a href="http://computationalbiology.ufpa.br/gofeat/index/newpassword?token=' . $token . '">click here</a> to reset your password.</p>';
+                $html .= '<p>Please <a href="http://'.$_SERVER[HTTP_HOST].Zend_Registry::get('baseurl').'/index/newpassword?token=' . $token . '">click here</a> to reset your password.</p>';
                 $html .= '<p>Best regards,</p>';
-                $html .= '<p><a href="http://computationalbiology.ufpa.br/gofeat/index/">http://computationalbiology.ufpa.br/gofeat/index/</a></p>';
+                $html .= '<p><a href="http://'.$_SERVER[HTTP_HOST].Zend_Registry::get('baseurl').'/index/">http://'.$_SERVER[HTTP_HOST].Zend_Registry::get('baseurl').'/index/</a></p>';
                 $mail->setBodyHtml($html);
                 $mail->setFrom('lpdnabioinfor@gmail.com', 'GO FEAT');
                 $mail->addTo($email);
@@ -1759,32 +1920,295 @@ class IndexController extends Zend_Controller_Action
 
     function object2array($object) { return @json_decode(@json_encode($object),1); }
 
-    public function sshAction(){
-        $connection = ssh2_connect('200.239.92.130', 23);
-        ssh2_auth_password($connection, 'fabricio', 'rommellindo');
-        ssh2_scp_send($connection, '/home/fabricio/Dropbox/b4d/www/gofeat/tmp.fasta', '/work/fabricio/tmp.fasta', 0777);
-        //$stream = ssh2_exec($connection, 'diamond blastp -d /work/uniprot/uniprotdb -q tmp.fasta -o tmp.xml -f 5 -k 1 -p 4');
-        $stream = ssh2_exec($connection, 'diamond blastp -d /work/fabricio/uniprot_sprot -q /work/fabricio/tmp.fasta -o /work/fabricio/tmp.xml -f 5 -k 1 -p 4');
-        $errorStream = ssh2_fetch_stream($stream, SSH2_STREAM_STDERR);
+    public function readblastAction(){
+        ini_set('memory_limit', '4096M');
+        ini_set('max_execution_time', 0);
+        $xml = simplexml_load_file($_SERVER['DOCUMENT_ROOT'] . Zend_Registry::get('baseurl').'/'.$this->_data['file'].'.xml');
+        $json = json_encode($xml);
+        $vSeq = json_decode($json, TRUE);
 
-        // Enable blocking for both streams
-        stream_set_blocking($errorStream, true);
-        stream_set_blocking($stream, true);
+        $dbSeq = new Db_ProjSeq();
+        $dbBlast = new Db_BlastResult();
+        $dbGo = new Db_GoLevel();
+        $dbBlastGo = new Db_BlastGo();
+        $dbInterpro = new Db_BlastInterpro();
+        $dbPfam = new Db_BlastPfam();
+        $dbSeed = new Db_BlastSeed();
 
-        stream_get_contents($stream);
-        stream_get_contents($errorStream);
+        foreach ($vSeq['BlastOutput_iterations']['Iteration'] as $vInteration){
 
-        // Close the streams
-        fclose($errorStream);
-        fclose($stream);
+            $def = $vInteration['Iteration_query-def'];
 
-        ssh2_scp_recv($connection, '/work/fabricio/tmp.xml', '/home/fabricio/Dropbox/b4d/www/gofeat/tmp.xml');
+            $vDef1 = explode("}", $def);
+            $vDef2 = explode("{", $vDef1[0]);
+            $id_seq = $vDef2[1];
+            //$title = ">".$vDef1[1];
 
-        $stream = ssh2_exec($connection, 'rm /work/fabricio/tmp.fasta');
-        $stream = ssh2_exec($connection, 'rm /work/fabricio/tmp.xml');
+            $oSeq = $dbSeq->find($id_seq)->current();
+            //$oSeq->title = $title;
+
+            if($oSeq->id){
+                $oSeq->blast_end = date('Y-m-d H:i:s');
+                $oSeq->id_status = 3;
+                $this->echopauseddiamond("Updating blast record...\n");
+                $dbSeq->save($oSeq->toArray());
+
+                $this->echopauseddiamond("Getting detailed info...\n");
+
+                $vHits = $vInteration['Iteration_hits']['Hit'];
+
+                $Hit_id = $vHits['Hit_def'];
+                $vId = explode('|', $Hit_id);
+                $idUniprot = $vId[1];
+
+                unset($oBlast);
+
+                if (!$idUniprot) {
+                    $this->echopauseddiamond("NO UNIPROT!!! \n");
+                } else {
+                    $this->echopauseddiamond("ID Uniprot: " . $idUniprot . "\n");
+                    $oBlast = $dbBlast->fetchRow('uniprot_id = "' . $idUniprot . '" and id_seq = ' . $oSeq->id);
+                }
+
+
+                if ($oBlast->id) {
+                    $dbBlast->delete('id = ' . $oBlast->id);
+                    unset($oBlast);
+                }
+                //check if blast has been detailed
+                if (!$oBlast->id) {
+
+                    $vFinal['id_seq'] = $oSeq->id;
+                    $vFinal['Hit_def'] = $vHits['Hit_def'];
+                    $vFinal['Hit_len'] = $vHits['Hit_len'];
+                    $vFinal['Hsp_bit_score'] = $vHits['Hit_hsps']['Hsp']['Hsp_bit-score'];
+                    $vFinal['Hsp_score'] = $vHits['Hit_hsps']['Hsp']['Hsp_score'];
+                    $vFinal['Hsp_evalue'] = $vHits['Hit_hsps']['Hsp']['Hsp_evalue'];
+                    $vFinal['Hsp_query_from'] = $vHits['Hit_hsps']['Hsp']['Hsp_query-from'];
+                    $vFinal['Hsp_query_to'] = $vHits['Hit_hsps']['Hsp']['Hsp_query-to'];
+                    $vFinal['Hsp_hit_from'] = $vHits['Hit_hsps']['Hsp']['Hsp_hit-from'];
+                    $vFinal['Hsp_hit_to'] = $vHits['Hit_hsps']['Hsp']['Hsp_hit-to'];
+                    $vFinal['Hsp_identity'] = $vHits['Hit_hsps']['Hsp']['Hsp_identity'];
+                    $vFinal['Hsp_positive'] = $vHits['Hit_hsps']['Hsp']['Hsp_positive'];
+                    $vFinal['Hsp_align_len'] = $vHits['Hit_hsps']['Hsp']['Hsp_align-len'];
+                    $vFinal['json_hit'] = json_encode($vHits);
+
+
+
+                    $id_blast = $dbBlast->save($vFinal);
+
+                    if ($idUniprot) {
+                        $gi = "";
+                        $idKegg = "";
+                        $idKeggEc = "";
+                        $idEmbl = "";
+                        $defUniprot = "";
+
+                        //get ncbi id
+                        $command = 'perl ' . $_SERVER['DOCUMENT_ROOT'] . Zend_Registry::get('baseurl') . '/uniprot.pl ACC P_GI  ' . $idUniprot . ' 2>&1';
+
+                        $output = shell_exec($command);
+
+
+
+                        if (($output)) {
+                            $sResultado = ($output);
+
+                            $vResultado = explode("\n", $sResultado);
+                            unset($vResultado[0]);
+                            unset($vResultado[count($vResultado)]);
+
+                            $gi = "";
+                            foreach ($vResultado as $sResultado) {
+                                $vResultadoT = explode("\t", $sResultado);
+                                if ($vResultadoT[1] > $gi) {
+                                    $gi = $vResultadoT[1];
+                                }
+                            }
+                            $this->echopauseddiamond("ID NCBI: " . $gi . "\n");
+                        }
+
+
+
+                        //EXTRAS
+                        //////////////////////////////////////////////////////////////
+                        $ch = curl_init();
+                        curl_setopt($ch, CURLOPT_URL, "http://www.uniprot.org/uniprot/" . $idUniprot . "&format=xml");
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                        $output = curl_exec($ch);
+
+                        curl_close($ch);
+                        $xmluniprot = simplexml_load_string($output);
+
+                        $jsonuniprot = json_encode($xmluniprot);
+                        $vSeqUniprot = json_decode($jsonuniprot, TRUE);
+
+
+                        if($vSeqUniprot['entry']['protein']['recommendedName']['fullName']){
+                            $defUniprot = $vSeqUniprot['entry']['protein']['recommendedName']['fullName'];
+                        }else{
+                            $defUniprot = $vSeqUniprot['entry']['protein']['submittedName']['fullName'];
+                        }
+
+                        $oBlast = $dbBlast->find($id_blast)->current();
+                        $vBlast = $oBlast->toArray();
+
+                        if(is_array($vSeqUniprot['entry']['dbReference'])){
+                            foreach ($vSeqUniprot['entry']['dbReference'] as $vRef) {
+                                //KEGG
+                                if ($vRef['@attributes']['type'] == 'KEGG') {
+                                    $idKegg = $vRef['@attributes']['id'];
+                                    $this->echopauseddiamond("ID KEGG: " . $idKegg . "\n");
+                                    $pKegg = file_get_contents("http://www.kegg.jp/dbget-bin/www_bget?" . $idKegg);
+                                    $vPKegg = explode("[EC:", $pKegg);
+                                    $idKeggEc = "";
+                                    if ($vPKegg[1]) {
+                                        $sKegg = $vPKegg[1];
+                                        $vPKegg = explode("</a>]", $sKegg);
+                                        $sKegg = $vPKegg[0];
+                                        $vPKegg = explode(">", $sKegg);
+                                        $sKegg = $vPKegg[1];
+                                        $idKeggEc = $sKegg;
+                                        $this->echopauseddiamond("ID KEGG EC: " . $idKeggEc . "\n");
+                                    }
+                                }
+                                //EMBL
+                                if ($vRef['@attributes']['type'] == 'EMBL') {
+                                    $idEmbl = $vRef['@attributes']['id'];
+                                    $this->echopauseddiamond("ID EMBL: " . $idEmbl . "\n");
+
+                                }
+                                //INTERPRO
+                                if ($vRef['@attributes']['type'] == 'InterPro') {
+                                    $idinterproAux = $vRef['@attributes']['id'];
+                                    $this->echopauseddiamond("ID InterPro: " . $idinterproAux . "\n");
+                                    $dbInterpro->save(array('id_blast'=>$id_blast,'id_interpro'=>$idinterproAux));
+
+
+                                }
+                                //PFAM
+                                if ($vRef['@attributes']['type'] == 'Pfam') {
+                                    $idpfamAux = $vRef['@attributes']['id'];
+                                    $this->echopauseddiamond("ID Pfam: " . $idpfamAux . "\n");
+                                    $dbPfam->save(array('id_blast'=>$id_blast,'id_pfam'=>$idpfamAux));
+
+
+                                }
+                                //GO
+                                if ($vRef['@attributes']['type'] == 'GO') {
+
+                                    $go = $vRef['@attributes']['id'];
+                                    $this->echopauseddiamond("ID GO: " . $go . "\n");
+
+                                    if (trim($go)) {
+                                        $term = trim($go);
+                                        $url = "http://www.ebi.ac.uk/QuickGO/services/ontology/go/terms/" . $term;
+                                        $client = new Zend_Http_Client($url);
+                                        //$client->getHttpClient()->setConfig(array('timeout'=>300));
+                                        $client->setConfig(array('timeout'=>300));
+                                        $response = $client->request();
+                                        $output = ($response->getBody());
+                                        $output = trim($output);
+                                        $vOutput = json_decode($output, true);
+
+
+
+                                        $synonym = array();
+
+                                        $sName = $vOutput['results'][0]['name'];
+                                        $sDef = $vOutput['results'][0]['definition']['text'];
+                                        if(is_array($vOutput['results'][0]['synonyms'])){
+                                            foreach($vOutput['results'][0]['synonyms'] as $vSym){
+                                                $sSym = $vSym['name'];
+                                                $synonym[] = $sSym;
+                                            }
+                                        }
+
+
+                                        $vTree = array();
+                                        $oGo = $dbGo->fetchRow('acc = "' . trim($go) . '"');
+                                        if ($oGo->id) {
+                                            $id_go = $oGo->id;
+                                            $last_parent_name = $oGo->term_type;
+                                            if ($last_parent_name == 'biological_process') {
+                                                $last_parent_id = "GO:0008150";
+                                            } else if ($last_parent_name == 'cellular_component') {
+                                                $last_parent_id = "GO:0005575";
+                                            } else if ($last_parent_name == 'molecular_function') {
+                                                $last_parent_id = "GO:0003674";
+                                            }
+                                        }
+
+                                        $vGoTerm = array(
+                                            'id_blast' => $id_blast,
+                                            'id_go' => $id_go,
+                                            'term' => trim($go),
+                                            'text' => trim($sName),
+                                            'name' => $sName,
+                                            'def' => $sDef,
+                                            'synonym' => implode(",", $synonym),
+                                            'tree_top' => json_encode($vTree),
+                                            'last_parent_name' => $last_parent_name,
+                                            'last_parent_id' => $last_parent_id
+                                        );
+                                        $dbBlastGo->save($vGoTerm);
+                                    }
+
+                                }
+
+                            }
+                        }
+
+
+
+                        $vBlast['gi_id'] = $gi;
+                        $vBlast['kegg_id'] = $idKegg;
+                        $vBlast['kegg_ec'] = $idKeggEc;
+                        $vBlast['uniprot_id'] = $idUniprot;
+                        $vBlast['embl_id'] = $idEmbl;
+                        $vBlast['uniprot_def'] = $defUniprot;
+
+                        //SEED
+                        $this->echopauseddiamond("Checking SEED!\n");
+                        $command = 'perl ' . $_SERVER['DOCUMENT_ROOT'] . Zend_Registry::get('baseurl') . '/seed_subsystem.pl ' . $idUniprot . ' 2>&1';
+                        $output = shell_exec($command);
+                        $vSeed = json_decode($output, true);
+
+                        if(is_array($vSeed)){
+                            $this->echopauseddiamond("SEED exist!\n");
+                            foreach($vSeed as $subsystem=>$vTreeSubsystem){
+                                $vSeed = array();
+                                $vSeed['id_blast'] = $id_blast;
+                                $vSeed['lvl3'] = $subsystem;
+                                $vSeed['lvl1'] = $vTreeSubsystem[0];
+                                if($vTreeSubsystem[1]){
+                                    $vSeed['lvl2'] = $vTreeSubsystem[1];
+                                }else{
+                                    $vSeed['lvl2'] = $vTreeSubsystem[0];
+                                }
+                                $this->echopauseddiamond("Saving SEED!\n");
+                                $dbSeed->save($vSeed);
+
+                            }
+                        }else{
+                            $this->echopauseddiamond("SEED not exist!\n");
+                        }
+
+                        $dbBlast->save($vBlast);
+
+                    }
+
+                    $this->echopauseddiamond("Data saved!\n");
+                }
+
+                //check if all seq from project are done
+                $this->checkprojectfinished($oSeq);
+            }
+
+
+        }
         exit;
-
-
     }
 }
 

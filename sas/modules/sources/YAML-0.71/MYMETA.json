@@ -4,13 +4,13 @@
       "Ingy d\\xF6t Net <ingy@cpan.org>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Module::Install version 0.91, CPAN::Meta::Converter version 2.150010",
+   "generated_by" : "Module::Install version 0.91, CPAN::Meta::Converter version 2.142690",
    "license" : [
       "perl_5"
    ],
    "meta-spec" : {
       "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
-      "version" : 2
+      "version" : "2"
    },
    "name" : "YAML",
    "no_index" : {
@@ -47,6 +47,5 @@
       },
       "x_ChangeLog" : "http://fisheye2.atlassian.com/changelog/cpan/trunk/YAML"
    },
-   "version" : "0.71",
-   "x_serialization_backend" : "JSON::PP version 2.94"
+   "version" : "0.71"
 }

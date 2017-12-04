@@ -34,7 +34,7 @@ $paginator = $this->paginator;
                 </a>
 
                 <h3>Results for project "<?= $this->oProject->name ?>" - <?=$paginator->getTotalItemCount();?> result(s)</h3>
-                <form class="form-inline" method="get" action="/gofeat/index/viewprojectp/key/<?= Plugin_Util::encrypt($this->oProject->id) ?>">
+                <form class="form-inline" method="get" action="<?=Zend_Registry::get('baseurl')?>/index/viewprojectp/key/<?= Plugin_Util::encrypt($this->oProject->id) ?>">
                     <div class="well well-sm ">
                         <input type="hidden" name="key" value="<?= Plugin_Util::encrypt($this->oProject->id) ?>">
                         <div class="form-group" style="width: calc(100% - 80px);">

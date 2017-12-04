@@ -22,7 +22,7 @@
             $dbShare = new Db_ProjShared();
             foreach ($this->vo as $oProject) {
                 $nReads = count($dbSeq->fetchAll('id_proj = ' . $oProject->id));
-                $nReadsDone = count($dbSeq->fetchAll('id_proj = ' . $oProject->id . ' and id_status >= 3'));
+                $nReadsDone = count($dbSeq->fetchAll('id_proj = ' . $oProject->id . ' and id_status in (3,4)'));
                 if ($nReads) {
                     $nP = round(($nReadsDone * 100) / $nReads);
                 }
@@ -75,9 +75,9 @@
                     <td>
                         <?
                         if($oProject->id_status == 3){
-                            echo $nReadsDone ? 'Blast finished' . ' (' . $nReadsDone . '/' . $nReads . ')' : 'Not started';
+                            echo $nReadsDone ? 'Blast finished' . ' (' . $nReadsDone . '/' . $nReads . ')' : 'Processing';
                         }else{
-                            echo $nReadsDone ? 'Blast started' . ' (' . $nReadsDone . '/' . $nReads . ')' : 'Not started';
+                            echo $nReadsDone ? 'Blast started' . ' (' . $nReadsDone . '/' . $nReads . ')' : 'Processing';
                         } ?>
                         <?
                         if ($oProject->id_status) {

@@ -4,13 +4,13 @@
       "Gisle Aas <gisle@activestate.com>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "ExtUtils::MakeMaker version 6.55_02, CPAN::Meta::Converter version 2.150010",
+   "generated_by" : "ExtUtils::MakeMaker version 6.55_02, CPAN::Meta::Converter version 2.142690",
    "license" : [
       "perl_5"
    ],
    "meta-spec" : {
       "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
-      "version" : 2
+      "version" : "2"
    },
    "name" : "HTML-Parser",
    "no_index" : {
@@ -48,6 +48,5 @@
       },
       "x_MailingList" : "mailto:libwww@perl.org"
    },
-   "version" : "3.64",
-   "x_serialization_backend" : "JSON::PP version 2.94"
+   "version" : "3.64"
 }

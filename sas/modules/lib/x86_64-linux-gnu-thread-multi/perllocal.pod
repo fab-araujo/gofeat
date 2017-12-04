@@ -1,10 +1,10 @@
-=head2 Tue Nov 14 19:31:59 2017: C<Module> L<YAML|YAML>
+=head2 Tue Nov 14 15:17:18 2017: C<Module> L<YAML|YAML>
 
 =over 4
 
 =item *
 
-C<installed into: /home/fabricio/Downloads/sas/modules/lib>
+C<installed into: /home/fabricio/sas/modules/lib>
 
 =item *
 
@@ -20,13 +20,13 @@ C<EXE_FILES: >
 
 =back
 
-=head2 Tue Nov 14 19:32:00 2017: C<Module> L<URI|URI>
+=head2 Tue Nov 14 15:17:19 2017: C<Module> L<URI|URI>
 
 =over 4
 
 =item *
 
-C<installed into: /home/fabricio/Downloads/sas/modules/lib>
+C<installed into: /home/fabricio/sas/modules/lib>
 
 =item *
 
@@ -42,13 +42,13 @@ C<EXE_FILES: >
 
 =back
 
-=head2 Tue Nov 14 19:32:01 2017: C<Module> L<HTML::Tagset|HTML::Tagset>
+=head2 Tue Nov 14 15:17:20 2017: C<Module> L<HTML::Tagset|HTML::Tagset>
 
 =over 4
 
 =item *
 
-C<installed into: /home/fabricio/Downloads/sas/modules/lib>
+C<installed into: /home/fabricio/sas/modules/lib>
 
 =item *
 
@@ -64,13 +64,13 @@ C<EXE_FILES: >
 
 =back
 
-=head2 Tue Nov 14 19:32:03 2017: C<Module> L<HTML::Parser|HTML::Parser>
+=head2 Tue Nov 14 15:17:24 2017: C<Module> L<HTML::Parser|HTML::Parser>
 
 =over 4
 
 =item *
 
-C<installed into: /home/fabricio/Downloads/sas/modules/lib>
+C<installed into: /home/fabricio/sas/modules/lib>
 
 =item *
 
@@ -86,13 +86,13 @@ C<EXE_FILES: >
 
 =back
 
-=head2 Tue Nov 14 19:32:04 2017: C<Module> L<LWP|LWP>
+=head2 Tue Nov 14 15:17:31 2017: C<Module> L<LWP|LWP>
 
 =over 4
 
 =item *
 
-C<installed into: /home/fabricio/Downloads/sas/modules/lib>
+C<installed into: /home/fabricio/sas/modules/lib>
 
 =item *
 
@@ -108,13 +108,145 @@ C<EXE_FILES: >
 
 =back
 
-=head2 Tue Nov 14 19:32:05 2017: C<Module> L<Task::Weaken|Task::Weaken>
+=head2 Tue Nov 14 15:17:32 2017: C<Module> L<Task::Weaken|Task::Weaken>
 
 =over 4
 
 =item *
 
-C<installed into: /home/fabricio/Downloads/sas/modules/lib>
+C<installed into: /home/fabricio/sas/modules/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.02>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Tue Nov 14 16:36:01 2017: C<Module> L<YAML|YAML>
+
+=over 4
+
+=item *
+
+C<installed into: /home/fabricio/sas/modules/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.71>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Tue Nov 14 16:36:02 2017: C<Module> L<URI|URI>
+
+=over 4
+
+=item *
+
+C<installed into: /home/fabricio/sas/modules/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.53>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Tue Nov 14 16:36:02 2017: C<Module> L<HTML::Tagset|HTML::Tagset>
+
+=over 4
+
+=item *
+
+C<installed into: /home/fabricio/sas/modules/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 3.03>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Tue Nov 14 16:36:04 2017: C<Module> L<HTML::Parser|HTML::Parser>
+
+=over 4
+
+=item *
+
+C<installed into: /home/fabricio/sas/modules/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 3.64>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Tue Nov 14 16:36:11 2017: C<Module> L<LWP|LWP>
+
+=over 4
+
+=item *
+
+C<installed into: /home/fabricio/sas/modules/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 5.834>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Tue Nov 14 16:36:11 2017: C<Module> L<Task::Weaken|Task::Weaken>
+
+=over 4
+
+=item *
+
+C<installed into: /home/fabricio/sas/modules/lib>
 
 =item *
 
