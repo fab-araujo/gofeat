@@ -1,7 +1,7 @@
 # GO FEAT
 
 GO FEAT is a free, online, user friendly platform for functional annotation and enrichment of genomic and transcriptomic data based on homology search analysis. GO FEAT overcomes the limitations of current tools by allowing users to generate reports, tables, GO charts and graphs that help the user with downstream analysis of data. In addition, GO FEAT allow users to export the results with different output formats.
-[PurpleBooth](http://computationalbiology.ufpa.br/gofeat/)
+[GO FEAT](http://computationalbiology.ufpa.br/gofeat/)
 
 ### Instalation
 
