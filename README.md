@@ -1,7 +1,6 @@
 # GO FEAT
 
-GO FEAT is a free, online, user friendly platform for functional annotation and enrichment of genomic and transcriptomic data based on homology search analysis. GO FEAT overcomes the limitations of current tools by allowing users to generate reports, tables, GO charts and graphs that help the user with downstream analysis of data. In addition, GO FEAT allow users to export the results with different output formats.
-[GO FEAT](http://computationalbiology.ufpa.br/gofeat/)
+[GO FEAT](http://computationalbiology.ufpa.br/gofeat/) is a free, online, user friendly platform for functional annotation and enrichment of genomic and transcriptomic data based on homology search analysis. GO FEAT overcomes the limitations of current tools by allowing users to generate reports, tables, GO charts and graphs that help the user with downstream analysis of data. In addition, GO FEAT allow users to export the results with different output formats.
 
 ### Instalation
 
@@ -50,7 +49,8 @@ nohup wget -O bot http://YOUR_WEB_SERVER/gofeat/index/botdiamond &
 * **Artur Silva** - *Universidade Federal do Pará, Instituto de Ciências Biológicas*
 * **Luis Guimarães** - *Universidade Federal do Pará, Instituto de Ciências Biológicas*
 * **Rommel Thiago Jucá Ramos** - *Universidade Federal do Pará, Instituto de Ciências Biológicas*
+
 Use araujopa@gmail.com or rommelthiago@gmail.com for comments and questions.
 
 ## License
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License.
