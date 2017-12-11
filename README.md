@@ -13,6 +13,7 @@ git clone https://github.com/fabriciopa/gofeat
 2. Create a MYSQL database and import the gofeat.sql file to it.
 
 3. Configure the 'gofeat/application/configs/application.ini' file for the database (lines 13-19) and DIAMOND (lines 22-32) usage;
+
 Database parameters you need to change:
 ```
 resources.multidb.name1.dbname = YOUR_DATABASE_NAME
