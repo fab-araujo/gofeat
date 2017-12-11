@@ -102,6 +102,9 @@ $paginator = $this->paginator;
                                 Completeness
                             </th>
                             <th class="">
+                                SEED
+                            </th>
+                            <th class="">
                                 Gene onthology
                             </th>
                             <th class="">
@@ -274,6 +277,35 @@ $paginator = $this->paginator;
                                         </td>
                                         <td>
                                             <?
+                                            $voSeed = $oBlast->findDependentRowset('Db_BlastSeed');
+                                            if (count($voSeed) > 0) {
+                                                foreach ($voSeed as $index => $oSeed) {
+                                                    //$text = explode('[', $oGo->text);
+                                                    //$text = trim($text[0]);
+                                                    if ($index > 0) {
+                                                        ?>
+                                                        <hr style="margin-top: 5px; margin-bottom: 5px;">
+                                                        <?
+                                                    }
+                                                    ?>
+                                                    <?= $oSeed->lvl3 ?>
+                                                    <a href="<?= $this->baseUrl('/index/viewgraph/id/' . $oGo->term . '/key/' . Plugin_Util::encrypt($this->oProject->id)) ?>">
+
+                                                    </a>
+                                                    <!--<a href="http://www.ebi.ac.uk/QuickGO-Old/GTerm?id=<?/*= $oGo->term */ ?>"
+                                                       target='_blank'>[<?/*= $oGo->term */ ?>] <?/*= $text */ ?></a>-->
+
+                                                    <?
+                                                }
+                                            } else {
+                                                ?>
+                                                -
+                                                <?
+                                            }
+                                            ?>
+                                        </td>
+                                        <td>
+                                            <?
                                             $voGo = $oBlast->findDependentRowset('Db_BlastGo');
                                             if (count($voGo) > 0) {
                                                 foreach ($voGo as $index => $oGo) {
@@ -413,7 +445,7 @@ $paginator = $this->paginator;
                                         <?
                                     } else if ($oSeq->id_status == 4) {
                                         ?>
-                                        <td colspan="5">
+                                        <td colspan="6">
                                             Blast error<?=strlen($oSeq->seq)>=130957?" [sequence is too long]":''?>.
                                         </td>
 
@@ -421,7 +453,7 @@ $paginator = $this->paginator;
 
                                     } else {
                                         ?>
-                                        <td colspan="5">
+                                        <td colspan="6">
                                             Blast still running.
                                         </td>
 

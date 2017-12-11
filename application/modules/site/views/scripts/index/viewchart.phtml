@@ -1,46 +1,5 @@
 <?
-//$dbB = new Db_BlastResult();
-//$dbS = new Db_ProjSeq();
-//$dbLevel = new Db_GoLevel();
 
-//$oGo = $this->voSeq_molecular_function[0];
-//$tree = $oGo->tree_top;
-//$vTree = json_decode($tree);
-
-
-/*$vMF = array();
-$vMFF = array();
-if (count($this->voSeq_molecular_function) > 0) {
-    foreach ($this->voSeq_molecular_function as $oMF) {
-        $vMF[$oMF->term] += 1;
-        $vMFF[$oMF->term." - ".$oMF->name] += 1;
-    }
-}
-
-$vCC = array();
-$vCCF = array();
-if (count($this->voSeq_cellular_component) > 0) {
-    foreach ($this->voSeq_cellular_component as $oCC) {
-        $vCC[$oCC->term] += 1;
-        $vCCF[$oCC->term." - ".$oCC->name] += 1;
-    }
-}
-
-$vBP = array();
-$vBPF = array();
-if (count($this->voSeq_biological_process) > 0) {
-    foreach ($this->voSeq_biological_process as $oBP) {
-        $vBP[$oBP->term] += 1;
-        $vBPF[$oBP->term." - ".$oBP->name] += 1;
-    }
-}*/
-
-/*asort($vMF);
-asort($vMFF);
-asort($vCC);
-asort($vCCF);
-asort($vBP);
-asort($vBPF);*/
 
 ?>
 <!-- Chart code -->
@@ -75,6 +34,41 @@ asort($vBPF);*/
             "balloon": {
                 "fixedPosition": true
             },
+            "export": {
+                "enabled": true
+            }
+        });
+
+        var chartBySeed = AmCharts.makeChart("byseed", {
+            "type": "pie",
+            "theme": "light",
+            "legend": {
+                "position": "bottom",
+                "marginRight": 100,
+                "autoMargins": false
+            },
+            "dataProvider": [
+                <?
+                foreach($this->voSeq_all_seed as $index=>$oSeq){
+                if($index>0){
+                ?>
+                ,
+                <?
+                }
+                ?>
+                {
+                    "subsystem": "<?=$oSeq->lvl1?>",
+                    "seqs": <?=$oSeq->hits?>
+                }
+                <?
+                }
+                ?>],
+            "valueField": "seqs",
+            "titleField": "subsystem",
+            "balloon": {
+                "fixedPosition": true
+            },
+            "labelsEnabled": false,
             "export": {
                 "enabled": true
             }
@@ -528,34 +522,75 @@ asort($vBPF);*/
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="home">
-                        <table class="table table-bordered table-striped dataTableFull" id="chartByOntologies">
-                            <thead>
-                            <tr>
-                                <th class="col-xs-11">Ontology</th>
-                                <th class="col-xs-1">Hits</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?
-                            foreach ($this->voSeq_all as $oSeq){
-                                ?>
-                                <tr>
-                                    <td>
-                                        <a href="<?= $this->baseUrl('/index/viewgraph/id/'.$oSeq->last_parent_id.'/type/parent/key/' . Plugin_Util::encrypt($this->oProject->id)) ?>">
-                                            <?=$oSeq->last_parent_name?>
-                                        </a>
-
-                                    </td>
-                                    <td>
-                                        <?= $oSeq->hits ?>
-                                    </td>
-                                </tr>
-                                <?
-                            }
+                        <?
+                        if(count($this->voSeq_all)>0){
                             ?>
-                            </tbody>
-                        </table>
-                        <div id="byontologies" class="chart"></div>
+                            <div class="well well-sm">Gene Ontology [<?=count($this->voSeq_all_n)?>/<?=count($this->voAllSeq)?>] <?=number_format((count($this->voSeq_all_n)/count($this->voAllSeq))*100,2)?>% of sequences covered</div>
+                            <table class="table table-bordered table-striped dataTableFull" id="chartByOntologies">
+                                <thead>
+                                <tr>
+                                    <th class="col-xs-11">Ontology</th>
+                                    <th class="col-xs-1">Hits</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?
+                                foreach ($this->voSeq_all as $oSeq){
+                                    ?>
+                                    <tr>
+                                        <td>
+                                            <a href="<?= $this->baseUrl('/index/viewgraph/id/'.$oSeq->last_parent_id.'/type/parent/key/' . Plugin_Util::encrypt($this->oProject->id)) ?>">
+                                                <?=$oSeq->last_parent_name?>
+                                            </a>
+
+                                        </td>
+                                        <td>
+                                            <?= $oSeq->hits ?>
+                                        </td>
+                                    </tr>
+                                    <?
+                                }
+                                ?>
+                                </tbody>
+                            </table>
+                            <div id="byontologies" class="chart"></div>
+                            <?
+                        }
+                        ?>
+
+                        <?
+                        if(count($this->voSeq_all_seed)>0){
+                            ?>
+                            <div class="well well-sm">SEED [<?=count($this->voSeq_all_seed_n)?>/<?=count($this->voAllSeq)?>] <?=number_format((count($this->voSeq_all_seed_n)/count($this->voAllSeq))*100,2)?>% of sequences covered</div>
+                            <table class="table table-bordered table-striped dataTableFull" id="chartBySeed">
+                                <thead>
+                                <tr>
+                                    <th class="col-xs-11">Subsystem</th>
+                                    <th class="col-xs-1">Hits</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?
+                                foreach ($this->voSeq_all_seed as $oSeq){
+                                    ?>
+                                    <tr>
+                                        <td>
+                                            <?=$oSeq->lvl1?>
+                                        </td>
+                                        <td>
+                                            <?= $oSeq->hits ?>
+                                        </td>
+                                    </tr>
+                                    <?
+                                }
+                                ?>
+                                </tbody>
+                            </table>
+                            <div id="byseed" class="chart" style="height: 1000px"></div>
+                            <?
+                        }
+                        ?>
+
                     </div>
                     <div role="tabpanel" class="tab-pane" id="profile">
                         <div id="content-molecular_function" style="">
