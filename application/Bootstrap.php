@@ -16,6 +16,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
             //use files
         }
         var_dump($link);*/
+    
         return $multidb->getDb();
     }
 
@@ -34,7 +35,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $front->setDefaultModule('site');
 
         //If set to 'true', the ErrorController won't be activated
-        $front->throwExceptions(true);
+        $front->throwExceptions(false);
 
 
     }

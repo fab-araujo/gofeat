@@ -33,6 +33,16 @@ class IndexController extends Zend_Controller_Action
                 unset($this->_data['file']);
             }
 
+            $mail = new Zend_Mail('UTF-8');
+            $html = '<p>Novo projeto cadastrado!</p>';
+            $mail->setBodyHtml($html);
+            $mail->setFrom('lpdnabioinfor@gmail.com', 'GO FEAT');
+            $mail->addTo('araujopa@gmail.com');
+            $mail->addBcc('araujopa@gmail.com');
+            $mail->setSubject("Novo projeto");
+            $mail->send();
+
+
             if (($this->_data['file'] || $this->_data['sequences']) && $this->_data['name']) {
                 //se enviou um arquivo
                 if ($this->_data['file']) {
@@ -471,7 +481,8 @@ class IndexController extends Zend_Controller_Action
 
     public function viewprojectpAction()
     {
-
+        ini_set('memory_limit', '4096M');
+        ini_set('max_execution_time', 0);
         $this->_data['id'] = Plugin_Util::decrypt($this->_data['key']);
 
         //var_dump($this->_data['key']);exit;
@@ -493,7 +504,7 @@ class IndexController extends Zend_Controller_Action
                 $vQuery = explode(';', $query);
 
                 $select = $dbS->select();
-
+                $select->where('id_proj = ' . $this->_data['id']);
                 $query = "(";
                 foreach ($vQuery as $index => $sQuery) {
                     if ($index > 0) {
@@ -514,8 +525,17 @@ class IndexController extends Zend_Controller_Action
                 }
                 $query .= ")";
 
+                $query .= " or (";
+                foreach ($vQuery as $index => $sQuery) {
+                    if ($index > 0) {
+                        $query .= ' or ';
+                    }
+                    $query .= 'r.uniprot_def like "%' . $sQuery . '%"';
+                }
+                $query .= ")";
 
-                $sQueryF .= " id in (select r.id_seq from blast_result as r join blast_go as g on r.id = g.id_blast where " . $query;
+
+                $sQueryF .= " id in (select r.id_seq from blast_result as r left join blast_go as g on r.id = g.id_blast where " . $query;
 
                 $query = "(";
                 foreach ($vQuery as $index => $sQuery) {
@@ -543,67 +563,70 @@ class IndexController extends Zend_Controller_Action
 
 
                 $select->where($sQueryF);
-                $select->where('id_proj = ' . $this->_data['id']);
 
                 $voSeq = $dbS->fetchAll($select);
                 $pageRange = '99999999';
 
             }
 
-
-            if($this->_data['blast_result'] == "hit_only"){
-                $voSeqN = array();
-                foreach($voSeq as $index=>$oSeq){
-                    if($oSeq->id_status == 3){
-                        $voSeqN[] = $oSeq->id;
+            if(count($voSeq)>0){
+                if($this->_data['blast_result'] == "hit_only"){
+                    $voSeqN = array();
+                    foreach($voSeq as $index=>$oSeq){
+                        if($oSeq->id_status == 3){
+                            $voSeqN[] = $oSeq->id;
+                        }
                     }
+                    $voSeq = $dbS->fetchAll('id in ('.implode(',',$voSeqN).')');
                 }
-                $voSeq = $dbS->fetchAll('id in ('.implode(',',$voSeqN).')');
-            }
 
-            if($this->_data['blast_result'] == "error_only"){
-                $voSeqN = array();
-                foreach($voSeq as $index=>$oSeq){
-                    if($oSeq->id_status == 4){
-                        $voSeqN[] = $oSeq;
+                if($this->_data['blast_result'] == "error_only"){
+                    $voSeqN = array();
+                    foreach($voSeq as $index=>$oSeq){
+                        if($oSeq->id_status == 4){
+                            $voSeqN[] = $oSeq;
+                        }
                     }
-                }
-                $voSeq = $voSeqN;
-            }
-
-            if($this->_data['go_result'] == "hit_only"){
-                $vId = array();
-
-                foreach($voSeq as $oSeq){
-                    $vId[] = $oSeq->id;
+                    $voSeq = $voSeqN;
                 }
 
-                $select = $dbS->select();
-                $select->where("id_proj = " . $this->_data['id']);
-                $select->where("id in (select r.id_seq from blast_result as r join blast_go as g on r.id = g.id_blast)");
-                $select->where("id in (".implode(',',$vId).")");
+                if($this->_data['go_result'] == "hit_only"){
+                    $vId = array();
 
-                $voSeqN = $dbS->fetchAll($select);
+                    foreach($voSeq as $oSeq){
+                        $vId[] = $oSeq->id;
+                    }
 
-                $voSeq = $voSeqN;
-            }
+                    $select = $dbS->select();
+                    $select->where("id_proj = " . $this->_data['id']);
+                    $select->where("id in (select r.id_seq from blast_result as r join blast_go as g on r.id = g.id_blast)");
+                    $select->where("id in (".implode(',',$vId).")");
 
-            if($this->_data['go_result'] == "null_results"){
-                $vId = array();
+                    $voSeqN = $dbS->fetchAll($select);
 
-                foreach($voSeq as $oSeq){
-                    $vId[] = $oSeq->id;
+                    $voSeq = $voSeqN;
                 }
 
-                $select = $dbS->select();
-                $select->where("id_proj = " . $this->_data['id']);
-                $select->where("id not in (select r.id_seq from blast_result as r join blast_go as g on r.id = g.id_blast)");
-                $select->where("id in (".implode(',',$vId).")");
+                if($this->_data['go_result'] == "null_results"){
+                    $vId = array();
 
-                $voSeqN = $dbS->fetchAll($select);
+                    foreach($voSeq as $oSeq){
+                        $vId[] = $oSeq->id;
+                    }
 
-                $voSeq = $voSeqN;
+                    $select = $dbS->select();
+                    $select->where("id_proj = " . $this->_data['id']);
+                    $select->where("id not in (select r.id_seq from blast_result as r join blast_go as g on r.id = g.id_blast)");
+                    $select->where("id in (".implode(',',$vId).")");
+
+                    $voSeqN = $dbS->fetchAll($select);
+
+                    $voSeq = $voSeqN;
+                }
             }
+
+
+
 
 
             if ($this->_data['export']) {
@@ -964,6 +987,9 @@ class IndexController extends Zend_Controller_Action
         //$sleep = 1;
         $server = "http://$_SERVER[HTTP_HOST]";
 
+        $dbC = Zend_Db_Table::getDefaultAdapter(); //Or how ever you store your DBs...
+        $dbC->getConnection()->query('SET sql_mode=""');
+
 
         while (true) {
             $voJobs = $db->fetchAll();
@@ -1077,6 +1103,9 @@ class IndexController extends Zend_Controller_Action
         $dbSeq = new Db_ProjSeq();
         $server = "http://$_SERVER[HTTP_HOST]";
 
+        $dbC = Zend_Db_Table::getDefaultAdapter(); //Or how ever you store your DBs...
+        $dbC->getConnection()->query('SET sql_mode=""');
+
 
         while (true) {
             $select = $dbSeq->select();
@@ -1103,7 +1132,7 @@ class IndexController extends Zend_Controller_Action
 
                     $this->echopauseddiamond("Getting sequences for '".$oSeqType->type."' and evalue '".$oSeqType->evalue."' \n");
 
-                    $voSeq = $dbSeq->fetchAll('id_status = 5 and type = "'.$oSeqType->type.'" and evalue = "'.$oSeqType->evalue.'"', 'id asc', 500);
+                    $voSeq = $dbSeq->fetchAll('id_status = 5 and type = "'.$oSeqType->type.'" and evalue = "'.$oSeqType->evalue.'"', 'id asc', 200);
                     @unlink($localfasta);
 
                     if(count($voSeq)>0){
@@ -1767,7 +1796,7 @@ class IndexController extends Zend_Controller_Action
         $root = str_replace(' ', '\ ', $root);
         $command = 'perl ' . $root . Zend_Registry::get('baseurl') . '/ncbiblast_lwp.pl --status --jobid ' . $id;
         $output = shell_exec($command);
-        sleep(30);
+        sleep(90);
         return trim($output);
     }
 

@@ -7,6 +7,8 @@ class ErrorController extends Zend_Controller_Action
     {
         $this->_helper->layout->disableLayout();
     	$errors = $this->_getParam('error_handler');
+    	
+    	echo "Under maintenance. We'll be back soon!";exit;
         
         switch ($errors->type) { 
             case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_CONTROLLER:
