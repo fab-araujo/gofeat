@@ -48,6 +48,9 @@ If you are using DIAMOND, also start the DIAMOND bot:
 ```
 nohup wget -O bot http://YOUR_WEB_SERVER/gofeat/index/botdiamond &
 ```
+By default, all tests published in our paper are registered for the user:
+Email: admin@admin.com
+Password: 123456
 
 ## Authors
 * **Fabricio Araujo** - *Universidade Federal do Pará, Instituto de Ciências Biológicas* - [GOFEAT](http://computationalbiology.ufpa.br/gofeat/)
