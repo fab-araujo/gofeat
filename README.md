@@ -5,8 +5,9 @@
 ### Instalation
 
 In order to run GO FEAT in your local web server, you need to perform these steps:
-1. Clone GO FEAT project into your web server's document root directory:
+1. Create the "gofeat" directory in your web server's root directory and clone GO FEAT project into it:
 ```
+cd gofeat
 git clone https://github.com/fabriciopa/gofeat
 ```
 
@@ -24,8 +25,8 @@ resources.multidb.name1.host = "YOUR_DATABASE_SERVER"
 DIAMOND parameters you need to change:
 ```
 diamond.emailEbi = "YOUR_EMAIL"
-diamond.useDiamond = "true_or_false"
-diamond.nSeqs = "number_of_seqs_before_use_diamond (integer)"
+diamond.useDiamond = "false"
+diamond.nSeqs = "999999999"
 diamond.remoteDiamond = "true (in case you want to run the diamond in another server)"
 diamond.nCore =  "number_of_cores_for_diamond (integer)"
 diamond.remoteHost = "remote_ip_diamond_server"
