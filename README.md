@@ -5,14 +5,15 @@
 ### Instalation
 
 In order to run GO FEAT in your local web server, you need to perform these steps:
-1. Clone GO FEAT project into your web server's document root directory:
+1. Create the "gofeat" directory in your web server's root directory and clone GO FEAT project into it:
 ```
+cd gofeat
 git clone https://github.com/fabriciopa/gofeat
 ```
 
 2. Create a MYSQL database and import the [gofeat.sql](http://computationalbiology.ufpa.br/gofeat/gofeat.sql.tar.gz) file to it.
 
-3. Configure the 'gofeat/application/configs/application.ini' file for the database (lines 13-19) and DIAMOND (lines 22-32) usage;
+3. Configure the 'gofeat/application/configs/application.ini' file for the database (lines 13-19), your email for UNIPROT usage (line 22) and DIAMOND (lines 25-35) usage;
 
 Database parameters you need to change:
 ```
@@ -21,11 +22,15 @@ resources.multidb.name1.username = YOUR_DATABASE_USERNAME
 resources.multidb.name1.password = "YOUR_DATABASE_PASSWORD"
 resources.multidb.name1.host = "YOUR_DATABASE_SERVER"
 ```
+UNIPROT parameters you need to change:
+```
+diamond.emailEbi = "YOUR_EMAIL [REQUIRED]"
+```
 DIAMOND parameters you need to change:
 ```
-diamond.emailEbi = "YOUR_EMAIL"
-diamond.useDiamond = "true_or_false"
-diamond.nSeqs = "number_of_seqs_before_use_diamond (integer)"
+diamond.useDiamond = "false"
+;number of sequences before start using DIAMOND
+diamond.nSeqs = "999999999"
 diamond.remoteDiamond = "true (in case you want to run the diamond in another server)"
 diamond.nCore =  "number_of_cores_for_diamond (integer)"
 diamond.remoteHost = "remote_ip_diamond_server"
@@ -43,6 +48,9 @@ If you are using DIAMOND, also start the DIAMOND bot:
 ```
 nohup wget -O bot http://YOUR_WEB_SERVER/gofeat/index/botdiamond &
 ```
+By default, all tests published in our paper are registered for the user:
+Email: admin@admin.com
+Password: 123456
 
 ## Authors
 * **Fabricio Araujo** - *Universidade Federal do Pará, Instituto de Ciências Biológicas* - [GOFEAT](http://computationalbiology.ufpa.br/gofeat/)
