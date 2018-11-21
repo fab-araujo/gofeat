@@ -13,7 +13,7 @@ git clone https://github.com/fabriciopa/gofeat
 
 2. Create a MYSQL database and import the [gofeat.sql](http://computationalbiology.ufpa.br/gofeat/gofeat.sql.tar.gz) file to it.
 
-3. Configure the 'gofeat/application/configs/application.ini' file for the database (lines 13-19) and DIAMOND (lines 22-32) usage;
+3. Configure the 'gofeat/application/configs/application.ini' file for the database (lines 13-19), your email for UNIPROT usage (line 22) and DIAMOND (lines 23-32) usage;
 
 Database parameters you need to change:
 ```
@@ -22,10 +22,12 @@ resources.multidb.name1.username = YOUR_DATABASE_USERNAME
 resources.multidb.name1.password = "YOUR_DATABASE_PASSWORD"
 resources.multidb.name1.host = "YOUR_DATABASE_SERVER"
 ```
+UNIPROT parameters you need to change:
+```
+diamond.emailEbi = "YOUR_EMAIL [REQUIRED]"
+```
 DIAMOND parameters you need to change:
 ```
-diamond.emailEbi = "YOUR_EMAIL"
-;set to true if you want to use DIAMOND
 diamond.useDiamond = "false"
 ;number of sequences before start using DIAMOND
 diamond.nSeqs = "999999999"
