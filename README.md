@@ -25,8 +25,10 @@ resources.multidb.name1.host = "YOUR_DATABASE_SERVER"
 DIAMOND parameters you need to change:
 ```
 diamond.emailEbi = "YOUR_EMAIL"
-diamond.useDiamond = "false" #set to true if you want to use DIAMOND
-diamond.nSeqs = "999999999" #number of sequences before start using DIAMOND
+;set to true if you want to use DIAMOND
+diamond.useDiamond = "false"
+;number of sequences before start using DIAMOND
+diamond.nSeqs = "999999999"
 diamond.remoteDiamond = "true (in case you want to run the diamond in another server)"
 diamond.nCore =  "number_of_cores_for_diamond (integer)"
 diamond.remoteHost = "remote_ip_diamond_server"
