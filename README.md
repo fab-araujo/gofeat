@@ -13,7 +13,7 @@ git clone https://github.com/fabriciopa/gofeat
 
 2. Create a MYSQL database and import the [gofeat.sql](http://computationalbiology.ufpa.br/gofeat/gofeat.sql.gz) file to it.
 
-3. Configure the 'gofeat/application/configs/application.ini' file for the database (lines 13-19), your email for UNIPROT usage (line 22) and DIAMOND (lines 25-35) usage;
+3. Configure the 'gofeat/application/configs/application.ini' file for the database (lines 13-16), your email for UNIPROT usage (line 21) and DIAMOND (lines 24-34) usage;
 
 Database parameters you need to change:
 ```
