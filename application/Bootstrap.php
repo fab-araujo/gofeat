@@ -52,17 +52,4 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $front->registerPlugin(new Plugin_Permissao());
     }
 
-    protected function _initMail() {
-         $config = array(
-          'auth' => 'login',
-          'username' => 'lpdnabioinfor@gmail.com',
-          'password' => '@biotec100',
-          'ssl' => 'ssl',
-          'port' => '465'
-          );
-          $mailTransport = new Zend_Mail_Transport_Smtp('smtp.gmail.com', $config);
-          Zend_Mail::setDefaultTransport($mailTransport);
-
-    }
-
 }

@@ -60,10 +60,15 @@ $vOnt = explode(" - ", $this->sOnt);
                         <div class="panel-body" id="">
 
                             <div id="byontologies" class="text-center" style="padding: 15px">
+
+
                                 <?
 
-                                $url = "http://www.ebi.ac.uk/QuickGO-Old/GMultiTerm?embed=html&format=chart&id=" . $vOnt[0] . "&chart_key=true&chart_ids=true&chart_slim=true&chart_showChildren=false";
+                                $url = "https://www.ebi.ac.uk/QuickGO/services/ontology/go/terms/%7Bids%7D/chart?ids=".$vOnt[0]."&showKey=true&showIds=true&showChildren=true";
 
+                                ?>
+                                <img src="<?=$url?>" class="img-responsive">
+                                <?
                                 //$img = file_get_contents();
 
 
@@ -71,7 +76,7 @@ $vOnt = explode(" - ", $this->sOnt);
                                 $response = $client->request();
                                 $output = ($response->getBody());
 
-                                echo $output;
+                                //echo $output;
 
                                 /*$xml = simplexml_load_string($img);
 
@@ -84,22 +89,22 @@ $vOnt = explode(" - ", $this->sOnt);
                         </div>
                     </div>
 
-                    <div class="panel panel-default">
+                    <!--<div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Child terms - <?= $this->sOnt ?></h3>
+                            <h3 class="panel-title">Child terms - <?/*= $this->sOnt */?></h3>
                         </div>
                         <div class="panel-body" id="child-terms">
                             <div id="" class="" style="padding: 15px">
-                                <?
-                                $vOnt = explode(" - ", $this->sOnt);
-                                $img = file_get_contents("http://www.ebi.ac.uk/QuickGO-Old/GTerm?id=" . $vOnt[0] . "&format=mini");
-                                $xml = simplexml_load_string($img);
-                                $body = $xml->body;
-                                echo($body->asXML());
-                                ?>
+                                <?/*
+                                //$vOnt = explode(" - ", $this->sOnt);
+                                //$img = file_get_contents("http://www.ebi.ac.uk/QuickGO/GTerm?id=" . $vOnt[0] . "&format=mini");
+                                //$xml = simplexml_load_string($img);
+                                //$body = $xml->body;
+                                //echo($body->asXML());
+                                */?>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
 
                     <div class="panel panel-default">
                         <div class="panel-heading">
