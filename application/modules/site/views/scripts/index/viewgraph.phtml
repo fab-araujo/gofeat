@@ -1,4 +1,4 @@
-<?
+<?php
 $vOnt = explode(" - ", $this->sOnt);
 ?>
 <script>
@@ -7,8 +7,8 @@ $vOnt = explode(" - ", $this->sOnt);
 
         $.ajax({
             method: "POST",
-            url: "<?=$this->baseUrl('/index/ajaxchart')?>",
-            data: {term: "<?=$vOnt[0]?>"}
+            url: "<?php echo $this->baseUrl('/index/ajaxchart')?>",
+            data: {term: "<?php echo $vOnt[0]?>"}
         }).done(function (msg) {
             $('#results').find('img').attr('src', msg);
             //$('#results').find('img').addClass('img-responsive');
@@ -47,28 +47,28 @@ $vOnt = explode(" - ", $this->sOnt);
                 <a href="#" onclick="window.history.back()" class="btn btn-warning">
                     <span class="glyphicon glyphicon-chevron-left"></span> Back
                 </a>
-                <h3>Graphs for project "<?= $this->oProject->name ?>"</h3>
-                <?
+                <h3>Graphs for project "<?php echo  $this->oProject->name ?>"</h3>
+                <?php
                 if (count($this->voSeq) > 0) {
 
                     ?>
 
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Ancestor chart - <?= $this->sOnt ?></h3>
+                            <h3 class="panel-title">Ancestor chart - <?php echo  $this->sOnt ?></h3>
                         </div>
                         <div class="panel-body" id="">
 
                             <div id="byontologies" class="text-center" style="padding: 15px">
 
 
-                                <?
+                                <?php
 
                                 $url = "https://www.ebi.ac.uk/QuickGO/services/ontology/go/terms/%7Bids%7D/chart?ids=".$vOnt[0]."&showKey=true&showIds=true&showChildren=true";
 
                                 ?>
-                                <img src="<?=$url?>" class="img-responsive">
-                                <?
+                                <img src="<?php echo $url?>" class="img-responsive">
+                                <?php
                                 //$img = file_get_contents();
 
 
@@ -91,11 +91,11 @@ $vOnt = explode(" - ", $this->sOnt);
 
                     <!--<div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Child terms - <?/*= $this->sOnt */?></h3>
+                            <h3 class="panel-title">Child terms - <?php /*= $this->sOnt */?></h3>
                         </div>
                         <div class="panel-body" id="child-terms">
                             <div id="" class="" style="padding: 15px">
-                                <?/*
+                                <?php /*
                                 //$vOnt = explode(" - ", $this->sOnt);
                                 //$img = file_get_contents("http://www.ebi.ac.uk/QuickGO/GTerm?id=" . $vOnt[0] . "&format=mini");
                                 //$xml = simplexml_load_string($img);
@@ -108,7 +108,7 @@ $vOnt = explode(" - ", $this->sOnt);
 
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title"><?= count($this->voSeq) ?> result(s) - <?= $this->sOnt ?></h3>
+                            <h3 class="panel-title"><?php echo  count($this->voSeq) ?> result(s) - <?php echo  $this->sOnt ?></h3>
                         </div>
                         <div class="panel-body" id="">
                             <table class="table table-bordered table-striped dataTable">
@@ -119,16 +119,16 @@ $vOnt = explode(" - ", $this->sOnt);
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <?
+                                <?php
                                 $dbBlast = new Db_BlastResult();
                                 foreach ($this->voSeq as $oSeq) {
                                     ?>
                                     <tr>
                                         <td>
-                                            <?= str_replace(">", "", $oSeq->title) ?>
+                                            <?php echo  str_replace(">", "", $oSeq->title) ?>
                                         </td>
                                         <td>
-                                            <?
+                                            <?php
                                             $oBlast = $dbBlast->fetchRow('id_seq = '.$oSeq->id_seq);
                                             $voGo = $oBlast->findDependentRowset('Db_BlastGo');
                                             if (count($voGo) > 0) {
@@ -138,19 +138,19 @@ $vOnt = explode(" - ", $this->sOnt);
                                                     if ($index > 0) {
                                                         ?>
                                                         <hr style="margin-top: 5px; margin-bottom: 5px;">
-                                                        <?
+                                                        <?php
                                                     }
                                                     ?>
-                                                    <a href="<?= $this->baseUrl('/index/viewgraph/id/' . $oGo->term . '/key/' . Plugin_Util::encrypt($this->oProject->id)) ?>">
-                                                        <?= $oGo->term ?> - <?= $text ?>
+                                                    <a href="<?php echo  $this->baseUrl('/index/viewgraph/id/' . $oGo->term . '/key/' . Plugin_Util::encrypt($this->oProject->id)) ?>">
+                                                        <?php echo  $oGo->term ?> - <?php echo  $text ?>
                                                     </a>
 
-                                                    <?
+                                                    <?php
                                                 }
                                             } else {
                                                 ?>
                                                 -
-                                                <?
+                                                <?php
                                             }
                                             ?>
 
@@ -158,7 +158,7 @@ $vOnt = explode(" - ", $this->sOnt);
 
                                         </td>
                                     </tr>
-                                <? } ?>
+                                <?php  } ?>
 
                                 </tbody>
 
@@ -166,7 +166,7 @@ $vOnt = explode(" - ", $this->sOnt);
 
                         </div>
                     </div>
-                    <?
+                    <?php
 
                 }
                 ?>

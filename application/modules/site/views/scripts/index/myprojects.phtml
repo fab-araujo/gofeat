@@ -1,6 +1,6 @@
 <div class="">
     <h3>My Projects</h3>
-    <?
+    <?php
     if (count($this->vo)) {
         $dbProj = new Db_ProjProject();
         $oLast = $dbProj->fetchRow(NULL, 'id desc');
@@ -17,7 +17,7 @@
             </tr>
             </thead>
             <tbody>
-            <?
+            <?php
             $dbSeq = new Db_ProjSeq();
             $dbShare = new Db_ProjShared();
             foreach ($this->vo as $oProject) {
@@ -30,91 +30,91 @@
                 ?>
                 <tr>
                     <th scope="row">
-                        <?= str_pad($oProject->id, $n, "0", STR_PAD_LEFT); ?>
+                        <?php echo  str_pad($oProject->id, $n, "0", STR_PAD_LEFT); ?>
                     </th>
                     <td>
-                        <?= $oProject->name ?>
-                        <?
+                        <?php echo  $oProject->name ?>
+                        <?php
                         if ($oProject->id_user == Plugin_Auth::getInstance()->getIdentity()->id) {
                             $voSharings = $dbShare->fetchAll('id_project = ' . $oProject->id);
                             if (count($voSharings) > 0) {
                                 ?>
                                 <p>
-                                    <?
+                                    <?php
                                     foreach ($voSharings as $oSharing) {
                                         ?>
-                                        <span class="label label-info"> Shared with <?= $oSharing->name ?>
-                                            (<?= $oSharing->email ?>)
-                            <a href="<?= $this->baseUrl('/index/deletesharing/id/') ?><?= $oSharing->id_project ?>/email/<?= $oSharing->email ?>"
+                                        <span class="label label-info"> Shared with <?php echo  $oSharing->name ?>
+                                            (<?php echo  $oSharing->email ?>)
+                            <a href="<?php echo  $this->baseUrl('/index/deletesharing/id/') ?><?php echo  $oSharing->id_project ?>/email/<?php echo  $oSharing->email ?>"
                                class="deletesharing" data-toggle="tooltip" title="Remove sharing.">
                                 <span class="glyphicon glyphicon-remove"></span>
                             </a></span><br>
-                                        <?
+                                        <?php
                                     }
                                     ?>
                                 </p>
-                                <?
+                                <?php
                             }
                             ?>
 
-                            <?
+                            <?php
                         } else {
                             ?>
                             <p>
-                                <span class="label label-info"> Owned by <?= $oProject->findParentRow('Db_ProjUser')->fname ?> <?= $oProject->findParentRow('Db_ProjUser')->lname ?>
-                                    (<?= $oProject->findParentRow('Db_ProjUser')->email ?>)
+                                <span class="label label-info"> Owned by <?php echo  $oProject->findParentRow('Db_ProjUser')->fname ?> <?php echo  $oProject->findParentRow('Db_ProjUser')->lname ?>
+                                    (<?php echo  $oProject->findParentRow('Db_ProjUser')->email ?>)
                             </span>
                             </p>
 
-                            <?
+                            <?php
                         }
                         ?>
 
                     </td>
-                    <td><?= $oProject->file_real ?></td>
+                    <td><?php echo  $oProject->file_real ?></td>
                     <td>
-                        <?
+                        <?php
                         if($oProject->id_status == 3){
                             echo $nReadsDone ? 'Blast finished' . ' (' . $nReadsDone . '/' . $nReads . ')' : 'Processing';
                         }else{
                             echo $nReadsDone ? 'Blast started' . ' (' . $nReadsDone . '/' . $nReads . ')' : 'Processing';
                         } ?>
-                        <?
+                        <?php
                         if ($oProject->id_status) {
                             ?>
                             <div class="clearfix"></div>
                             <hr>
                             <div class="progress">
                                 <div class="progress-bar progress-bar-info" role="progressbar"
-                                     aria-valuenow="<?= $nP ?>" aria-valuemin="0" aria-valuemax="100"
-                                     style="width: <?= $nP ?>%" data-toggle="tooltip"
-                                     title="<?= $nReadsDone ?>/<?= $nReads ?>">
-                                    <span class="sr-only"><?= $nP ?>% Complete</span>
+                                     aria-valuenow="<?php echo  $nP ?>" aria-valuemin="0" aria-valuemax="100"
+                                     style="width: <?php echo  $nP ?>%" data-toggle="tooltip"
+                                     title="<?php echo  $nReadsDone ?>/<?php echo  $nReads ?>">
+                                    <span class="sr-only"><?php echo  $nP ?>% Complete</span>
                                 </div>
                             </div>
-                            <?
+                            <?php
                         }
                         ?>
                     </td>
                     <td class="text-center">
 
-                        <?
+                        <?php
                         if(Plugin_Auth::getInstance()->getIdentity()){
                             if ($oProject->id_user == Plugin_Auth::getInstance()->getIdentity()->id) {
                                 ?>
-                                <a href="#" data-toggle="modal" data-target="#modalShare<?= $oProject->id ?>"
+                                <a href="#" data-toggle="modal" data-target="#modalShare<?php echo  $oProject->id ?>"
                                    class="btn btn-info btn-sm" data-toggle="tooltip" title="Share project.">
                                     <span class="glyphicon glyphicon glyphicon-share-alt"></span>
                                 </a>
-                                <?
+                                <?php
                             } else {
                                 ?>
-                                <a href="<?= $this->baseUrl('/index/deletesharing/id/') ?><?= $oProject->id ?>"
+                                <a href="<?php echo  $this->baseUrl('/index/deletesharing/id/') ?><?php echo  $oProject->id ?>"
                                    class="btn btn-danger btn-sm deletesharing" data-toggle="tooltip"
                                    title="Remove sharing.">
                                     <span class="glyphicon glyphicon-remove"></span>
                                 </a>
-                                <?
+                                <?php
                             }
                         }
 
@@ -122,8 +122,8 @@
 
 
                         <!-- Modal -->
-                        <div class="modal fade" id="modalShare<?= $oProject->id ?>" tabindex="-1" role="dialog"
-                             aria-labelledby="modalShare<?= $oProject->id ?>">
+                        <div class="modal fade" id="modalShare<?php echo  $oProject->id ?>" tabindex="-1" role="dialog"
+                             aria-labelledby="modalShare<?php echo  $oProject->id ?>">
                             <div class="modal-dialog" role="document">
                                 <form class="form-validate" method="post">
                                     <div class="modal-content">
@@ -131,7 +131,7 @@
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span></button>
                                             <h4 class="modal-title" id="myModalLabel">Share project
-                                                "<?= $oProject->name ?>"</h4>
+                                                "<?php echo  $oProject->name ?>"</h4>
                                         </div>
                                         <div class="modal-body">
                                             <div class="form-group text-left">
@@ -151,7 +151,7 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <input type="hidden" name="id_project" value="<?= $oProject->id ?>">
+                                            <input type="hidden" name="id_project" value="<?php echo  $oProject->id ?>">
                                             <button type="button" class="btn btn-default" data-dismiss="modal">Close
                                             </button>
                                             <button type="submit" class="btn btn-primary">Send invitation</button>
@@ -162,51 +162,51 @@
                         </div>
 
 
-                        <?
+                        <?php
                         if (!$oProject->id_status) {
                             ?>
-                            <a href="<?= $this->baseUrl('/index/executeproject/id/') ?><?= $oProject->id ?>"
+                            <a href="<?php echo  $this->baseUrl('/index/executeproject/id/') ?><?php echo  $oProject->id ?>"
                                class="btn btn-primary btn-sm loading" data-toggle="tooltip" title="Execute project.">
                                 <span class="glyphicon glyphicon-play-circle"></span>
                             </a>
-                            <?
+                            <?php
                             //}else if($oProject->id_status==3){
                         } else if ($oProject->id_status) {
                             ?>
-                            <a href="<?= $this->baseUrl('/index/viewprojectp/key/'.Plugin_Util::encrypt($oProject->id)) ?>"
+                            <a href="<?php echo  $this->baseUrl('/index/viewprojectp/key/'.Plugin_Util::encrypt($oProject->id)) ?>"
                                class="btn btn-success btn-sm" data-toggle="tooltip" title="View results.">
                                 <span class="glyphicon glyphicon-th-list"></span>
                             </a>
-                            <?
+                            <?php
                         }
                         ?>
 
-                        <?
+                        <?php
                         if ($oProject->id_user == Plugin_Auth::getInstance()->getIdentity()->id) {
                             ?>
-                            <a href="<?= $this->baseUrl('/index/deleteproject/id/') ?><?= $oProject->id ?>"
+                            <a href="<?php echo  $this->baseUrl('/index/deleteproject/id/') ?><?php echo  $oProject->id ?>"
                                class="btn btn-danger btn-sm delete" data-toggle="tooltip" title="Delete project.">
                                 <span class="glyphicon glyphicon-minus"></span>
                             </a>
-                            <?
+                            <?php
                         }
                         ?>
 
 
                     </td>
                 </tr>
-                <?
+                <?php
 
             }
             ?>
 
             </tbody>
         </table>
-        <?
+        <?php
     } else {
         ?>
         <h6>You have no projects.</h6>
-        <?
+        <?php
     }
     ?>
 

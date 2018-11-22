@@ -1,22 +1,22 @@
-<?php if ($this->mensagem): ?>
-    <?php foreach ($this->mensagem as $tipo => $vMensagem) {
+<?php  if ($this->mensagem): ?>
+    <?php  foreach ($this->mensagem as $tipo => $vMensagem) {
         ?>
         <?php
         switch ($vMensagem[0]) {
 
             case "sucesso":
             ?>
-            <div class="alert alert-success" role="alert"><?= $vMensagem[1] ?></div>
-            <?php break; ?>
-            <?php case "alerta": ?>
-            <div class="alert alert-info" role="alert"><?= $vMensagem[1] ?></div>
-            <?php break; ?>
-            <?php case "erro": ?>
-            <div class="alert alert-danger" role="alert"><?= $vMensagem[1] ?></div>
-            <?php break; ?>
-            <?php default: ?>
-            <div class="alert alert-danger" role="alert"><?= $vMensagem[1] ?></div>
-            <?php break; ?>
-            <?php } ?>
-            <?php } ?>
-        <?php endif; ?>
+            <div class="alert alert-success" role="alert"><?php echo  $vMensagem[1] ?></div>
+            <?php  break; ?>
+            <?php  case "alerta": ?>
+            <div class="alert alert-info" role="alert"><?php echo  $vMensagem[1] ?></div>
+            <?php  break; ?>
+            <?php  case "erro": ?>
+            <div class="alert alert-danger" role="alert"><?php echo  $vMensagem[1] ?></div>
+            <?php  break; ?>
+            <?php  default: ?>
+            <div class="alert alert-danger" role="alert"><?php echo  $vMensagem[1] ?></div>
+            <?php  break; ?>
+            <?php  } ?>
+            <?php  } ?>
+        <?php  endif; ?>

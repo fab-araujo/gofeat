@@ -1,13 +1,13 @@
-<?
+<?php
 $dbB = new Db_BlastResult();
 $dbS = new Db_ProjSeq();
 ?>
-<?
+<?php
 $paginator = $this->voSeq;
 if (count($paginator) > 0) {
     echo "#;Locus tag;Length;Product;Completeness;Gene onthology;Protein databases;Genome annotation databases;Family and domain databases;Crossreferences;\n";
     ?>
-    <?
+    <?php
     if (count($paginator) > 0) {
         foreach ($paginator as $index => $oSeq) {
             if (1) {

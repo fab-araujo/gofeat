@@ -7,18 +7,18 @@
     </p>
 </div>-->
 <link rel="stylesheet"
-      href="<?= $this->baseUrl('/site/assets/js/bootzard-bootstrap-wizard-template/assets/font-awesome/css/font-awesome.min.css') ?>">
+      href="<?php echo  $this->baseUrl('/site/assets/js/bootzard-bootstrap-wizard-template/assets/font-awesome/css/font-awesome.min.css') ?>">
 <link rel="stylesheet"
-      href="<?= $this->baseUrl('/site/assets/js/bootzard-bootstrap-wizard-template/assets/css/form-elements.css') ?>">
+      href="<?php echo  $this->baseUrl('/site/assets/js/bootzard-bootstrap-wizard-template/assets/css/form-elements.css') ?>">
 <link rel="stylesheet"
-      href="<?= $this->baseUrl('/site/assets/js/bootzard-bootstrap-wizard-template/assets/css/style.css') ?>">
+      href="<?php echo  $this->baseUrl('/site/assets/js/bootzard-bootstrap-wizard-template/assets/css/style.css') ?>">
 <div class="row">
     <div class="col-xs-12">
         <div class="well">
             <h4 class="text-center">
                 <b>
                         Click <a
-                                href="<?= $this->baseUrl('/index/gotoproject/key/a3FvYUhsRmNONm5nNjk5S3RWRENIZz09') ?>">here</a>
+                                href="<?php echo  $this->baseUrl('/index/gotoproject/key/a3FvYUhsRmNONm5nNjk5S3RWRENIZz09') ?>">here</a>
                         to view a test result for <i>Escherichia coli</i> str. K-12 substr. MG1655.
                     </b>
             </h4>
@@ -70,7 +70,7 @@
                     <input type="text" name="name" placeholder="Project name" class="f1-first-name form-control"
                            id="name">
                 </div>
-                <?
+                <?php
                 if (!Plugin_Auth::getInstance()->getIdentity()) {
                     ?>
                     <h6>
@@ -82,7 +82,7 @@
                         <input type="text" name="email" placeholder="Email" class="skip-validation form-control"
                                id="name">
                     </div>
-                    <?
+                    <?php
                 }
                 ?>
 
@@ -145,7 +145,7 @@
 
 
             </fieldset>
-            <?
+            <?php
             if (!Plugin_Auth::getInstance()->getIdentity()) {
                 ?>
                 <div class="well well-sm">
@@ -155,13 +155,13 @@
                                 You are not logged in. You can still create a project but you will not be able to share
                                 it or
                                 save it to your personnal account. Click <a
-                                        href="<?= $this->baseUrl('/index/login') ?>">here</a> and create an account.
+                                        href="<?php echo  $this->baseUrl('/index/login') ?>">here</a> and create an account.
                             </b>
                         </i>
                     </p>
 
                 </div>
-                <?
+                <?php
             }
             ?>
 
@@ -178,7 +178,7 @@
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Project status</h4>
             </div>
-            <form method="get" action="<?= $this->baseUrl('/index/gotoproject/') ?>">
+            <form method="get" action="<?php echo  $this->baseUrl('/index/gotoproject/') ?>">
                 <div class="modal-body">
 
                     <div class="form-group">
