@@ -13,7 +13,7 @@ git clone https://github.com/fabriciopa/gofeat
 
 2. Create a MYSQL database and import the [gofeat.sql](http://computationalbiology.ufpa.br/gofeat/gofeat.sql.gz) file to it.
 
-3. Configure the 'gofeat/application/configs/application.ini' file for the database (lines 13-16), your email for UNIPROT usage (line 21) and DIAMOND (lines 24-34) usage;
+3. Configure the 'gofeat/application/configs/application.ini' file for the database (lines 13-16), your email for UNIPROT usage (line 21) and DIAMOND (lines 24-35) usage;
 
 Database parameters you need to change:
 ```
@@ -39,6 +39,7 @@ diamond.remoteUser = "remote_user_diamond_server"
 diamond.remotePwd = "remote_password_diamond_server"
 diamond.workDir = "diamond_work_directory (remote or local)"
 diamond.uniprotkb = "diamond_uniprotkb_database_directory (remote or local)"
+diamond.diamondbin = "path_to_your_diamond"
 ```
 3. Start the bots to check if any new sequence needs to be annotated:
 ```
