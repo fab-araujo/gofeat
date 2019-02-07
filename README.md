@@ -2,6 +2,10 @@
 
 [GO FEAT](http://computationalbiology.ufpa.br/gofeat/) is a free, online, user friendly platform for functional annotation and enrichment of genomic and transcriptomic data based on homology search analysis. GO FEAT overcomes the limitations of current tools by allowing users to generate reports, tables, GO charts and graphs that help the user with downstream analysis of data. In addition, GO FEAT allow users to export the results with different output formats.
 
+### Requisites
+You will to have a webserver already configured using Apache, PHP and MySQL. The same principle is valid if you want to use DIAMOND.
+
+
 ### Instalation
 
 In order to run GO FEAT in your local web server, you need to perform these steps:
