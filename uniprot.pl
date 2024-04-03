@@ -2,8 +2,8 @@ use strict;
 use warnings;
 use LWP::UserAgent;
 
-my $base = 'http://www.uniprot.org';
-my $tool = 'uploadlists';
+my $base = 'https://rest.uniprot.org/idmapping';
+my $tool = 'run';
 
 my $from = $ARGV[0];
 my $to = $ARGV[1];

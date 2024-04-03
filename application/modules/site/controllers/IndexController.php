@@ -962,8 +962,8 @@ class IndexController extends Zend_Controller_Action
         $dbPid = new Db_BlastPid();
 
         $this->echopausedbot("Starting bot... \n");
-        $nMax = 30;
-        $nMin = 3;
+        $nMax = 100;
+        $nMin = 1;
         //$sleep = 1;
         $server = "http://$_SERVER[HTTP_HOST]";
 
@@ -1027,7 +1027,7 @@ class IndexController extends Zend_Controller_Action
                                             $oSeq = $dbSeq->fetchRow('id_status = 1 and id_proj = ' . $idProj . ' and id not in (select id_seq from blast_pid where deletado = 0)', 'id asc');
                                             $voJobs = $db->fetchAll();
                                             $nNow = count($voJobs);
-                                            if ($nNow <= 30) {
+                                            if ($nNow <= $nMax) {
                                                 if ($oSeq->id) {
                                                     $oSeqPid = $dbPid->fetchRow('id_seq = ' . $oSeq->id);
                                                     if (!$oSeqPid->id) {
@@ -1435,31 +1435,41 @@ class IndexController extends Zend_Controller_Action
                                         $defUniprot = "";
 
                                         //get ncbi id
-                                        $command = 'perl ' . $_SERVER['DOCUMENT_ROOT'] . Zend_Registry::get('baseurl') . '/uniprot.pl ACC P_GI  ' . $idUniprot . ' 2>&1';
+                                        //$command = 'perl ' . $_SERVER['DOCUMENT_ROOT'] . Zend_Registry::get('baseurl') . '/uniprot.pl ACC P_GI  ' . $idUniprot . ' 2>&1';
 
-                                        $output = shell_exec($command);
-
-                                        if (($output)) {
-                                            $sResultado = ($output);
-
-                                            $vResultado = explode("\n", $sResultado);
-                                            unset($vResultado[0]);
-                                            unset($vResultado[count($vResultado)]);
-
-                                            $gi = "";
-                                            foreach ($vResultado as $sResultado) {
-                                                $vResultadoT = explode("\t", $sResultado);
-                                                if ($vResultadoT[1] > $gi) {
-                                                    $gi = $vResultadoT[1];
-                                                }
+                                        //NEW NCBI MAPPING
+                                        $command = "curl --request POST 'https://rest.uniprot.org/idmapping/run' --form 'ids=\"".$idUniprot."\"' --form 'from=\"UniProtKB_AC-ID\"' --form 'to=\"GI_number\"'" . ' 2>&1';
+                                        $this->echopausedbot("Sending id mapping from uniprot to ncbi gi \n");
+                                        $output = exec($command);
+                                        $array = json_decode($output, true);
+                                        $jobId = $array['jobId'];
+                                        $this->echopausedbot("JOB id: ". $jobId ." \n");
+                                        $jobStatus = "";
+                                        while($jobStatus != "FINISHED"){
+                                            sleep(10);
+                                            $command = "curl -i 'https://rest.uniprot.org/idmapping/status/".$jobId."'" . ' 2>&1';
+                                            $output = exec($command);
+                                            $array = json_decode($output, true);
+                                            $jobStatus = $array['jobStatus'];
+                                        }
+                                        $command = "curl -s 'https://rest.uniprot.org/idmapping/results/".$jobId."'" . ' 2>&1';
+                                        $output = exec($command);
+                                        $array = json_decode($output, true);
+                                        
+                                        if (count($array['results'])>0) {
+                                            foreach ($array['results'] as $vResultado) {
+                                                $gi = $vResultado["to"];
                                             }
                                             $this->echopausedbot("ID NCBI: " . $gi . "\n");
                                         }
+                                        //END NEW NCBI
 
                                         //EXTRAS
                                         //////////////////////////////////////////////////////////////
                                         $ch = curl_init();
-                                        curl_setopt($ch, CURLOPT_URL, "http://www.uniprot.org/uniprot/" . $idUniprot . "&format=xml");
+                                        $this->echopausedbot("Getting detailed info: \n");
+                                        $this->echopausedbot("Acessing: "."https://rest.uniprot.org/uniprotkb/" . $idUniprot . ".xml"."\n");
+                                        curl_setopt($ch, CURLOPT_URL, "https://rest.uniprot.org/uniprotkb/" . $idUniprot . ".xml");
                                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                                         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
                                         $output = curl_exec($ch);
@@ -1543,28 +1553,6 @@ class IndexController extends Zend_Controller_Action
                                                         }
                                                     }
 
-                                                    /*var_dump($sName);
-                                                    var_dump($sDef);
-                                                    var_dump($synonym);
-                                                    exit;
-
-                                                    foreach ($vOutput as $linha) {
-                                                        if (substr($linha, 0, 4) == "name") {
-                                                            $vName = explode(":", $linha);
-                                                            $sName = trim($vName[1]);
-                                                        }
-                                                        if (substr($linha, 0, 3) == "def") {
-                                                            $vDef = explode(":", $linha);
-                                                            $sDef = trim($vDef[1]);
-                                                        }
-                                                        if (substr($linha, 0, 7) == "synonym") {
-                                                            $vSym = explode(":", $linha);
-                                                            $sSym = trim($vSym[1]);
-                                                            $synonym[] = $sSym;
-                                                        }
-                                                    }*/
-
-                                                    //$vTree = $this->getTreeTop($term);
                                                     $vTree = array();
                                                     $oGo = $dbGo->fetchRow('acc = "' . trim($go) . '"');
                                                     if ($oGo->id) {
